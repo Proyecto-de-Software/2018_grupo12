@@ -51,7 +51,7 @@ footer {
   border-radius: 4px;
   box-sizing: border-box;
   height:  27px;
-  background-color: #90c3d400;
+  background-color: rgba(0,0,0,0);
   color: white;
 }
 .estiloInput:focus {
@@ -230,7 +230,6 @@ footer {
     border-color: #599EB5;
   }
   .derecha {
-    position:none;
     margin-right: 0;
   }
   .cuerpo{
