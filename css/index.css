@@ -50,7 +50,7 @@ footer {
   border: 1px solid #fff;
   border-radius: 4px;
   box-sizing: border-box;
-  height:  25px;
+  height:  27px;
   background-color: rgba(0,0,0,0);
   color: white;
 }
@@ -174,7 +174,7 @@ footer {
   border-width: 1px;
   border-radius: 5px;
   padding: 4px;
-  height: 25px;
+  height: 27px;
   cursor: pointer;
 }
 .botonBuscar:hover{
@@ -216,7 +216,7 @@ footer {
 #loginSm{
   display: none;
 }
-.loginForm ~label,input{
+.loginForm>label,.loginForm>input{
   display:block;
   text-align: center;
 }
@@ -299,9 +299,13 @@ footer {
   }
   #buscador {
     background-color:#90C3D4;
+
     border:solid;
     border-color:#599EB5;
     width: 274px;
+  }
+  #buscador>input{
+    display:inline-block;
   }
   #encabezadoSm{
     display: block;
