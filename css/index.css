@@ -23,8 +23,6 @@ footer {
   left: 0;
   padding: 1rem;
   background-color: #efefef;
-  float: inline-end;
-  width: 100%
 }
 .listanav li {
   list-style-type:none;
@@ -90,21 +88,33 @@ footer {
 }
 .footerInstitucion{
   left: 0px;
-  margin-left: 30px;
 }
 .footerVersion{
   right: 0px;
   float:right;
 }
 .articulo{
-  padding: 0px 50px 25px 50px;
-  align-self:center;
+  width: 27%;
+  display: inline-block;
+  padding: 20px;
 }
 .cuerpo{
-  display: flex;
   text-align:center;
   padding-top:54px;
   height: 100vh;
+}
+.botonLink{
+  background-color: white;
+  color: #008bff;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  font-size: large;
+  padding: 5px;
+}
+.botonLink:hover{
+  background-color: #008bff;
+  color: white;
 }
 #nombre {
   margin-top: 16px;
@@ -133,6 +143,12 @@ footer {
   background-color:#599EB5;
 }
 #nav-check {
+  display: none;
+}
+#encabezadoSm{
+  display: none;
+}
+#loginSm{
   display: none;
 }
 
@@ -192,14 +208,15 @@ footer {
     position:none;
     margin-right: 0;
   }
-  .menu {
-    width:100%;
+  .cuerpo{
+    display: block;
+    height: 100%;
   }
-  .menu-opciones {
-    width: 280px;
+  #nombre{
+    display: none;
   }
-  #nombre {
-    display:none;
+  #loginSm {
+    display:flex;
   }
   #ab {
     background-color: #90C3D4;
@@ -211,5 +228,28 @@ footer {
     border:solid;
     border-color:#599EB5;
     width: 274px;
+  }
+  #encabezadoSm{
+    display: block;
+  }
+  #encabezado{
+    display: none;
+  }
+
+  .page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -50px;
+  }
+  .page-wrap:after {
+    content: "";
+    display: block;
+  }
+  .site-footer, .page-wrap:after {
+    height: 25px;
+  }
+  .articulo{
+    width: auto;
+    display: block;
   }
 }

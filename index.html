@@ -12,6 +12,9 @@
 <body>
   <nav>
     <img src="" id="logo" class="logo izquierda" alt="Logo">
+    <li class="izquierda" id="encabezadoSm">
+      <p><strong>Hospital Dr. Alejandro Korn</strong></p>
+    </li>
     <div>
       <input type="checkbox" class="botoncheck" id="nav-check">
       <label class="label1"for="nav-check">
@@ -22,12 +25,16 @@
       <ul class="listanav">
 
 
-        <li class="izquierda">
+        <li class="izquierda" id="encabezado">
           <p><strong>Hospital Dr. Alejandro Korn</strong></p>
         </li>
 
         <li class="derecha" id="nombre">
-          <a href="#" class="botonnav">Login</a>
+          <a href="login.html" class="botonnav">Login</a>
+        </li>
+
+        <li class="derecha" id="loginSm">
+          <a href="login.html" class="botonnav">Login</a>
         </li>
 
         <li class="derecha" id="buscador">
@@ -41,7 +48,7 @@
     </div>
 
   </nav>
-  <div class="cuerpo">
+  <div class="cuerpo pagewrap">
       <div class="articulo">
         <h1><strong>Heading</strong></h1>
         <p>
@@ -54,6 +61,7 @@
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
+        <a href="#" class="botonLink">Ver detalles >>></a>
       </div>
       <div class="articulo">
         <h1><strong>Heading</strong></h1>
@@ -67,6 +75,7 @@
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
+        <a href="#" class="botonLink">Ver detalles >>></a>
       </div>
       <div class="articulo">
         <h1><strong>Heading</strong></h1>
@@ -80,9 +89,10 @@
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
+        <a href="#" class="botonLink">Ver detalles >>></a>
       </div>
   </div>
-  <footer>
+  <footer class="site-footer">
     <span class="footerInstitucion">Proyecto de Software 2018 - Hospital Dr. Alejandro Kron</span>
     <span class="footerVersion">v 0.1.0</span>
   </footer>
