@@ -47,9 +47,20 @@ footer {
 }
 .estiloInput {
   padding: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #fff;
   border-radius: 4px;
   box-sizing: border-box;
+  height:  27px;
+  background-color: #90c3d400;
+  color: white;
+}
+.estiloInput:focus {
+  border: 2px solid #fff;
+  outline: -webkit-focus-ring-color auto 0px;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 0.7; /* Firefox */
 }
 .logo {
   padding: 16px;
@@ -115,6 +126,20 @@ footer {
 .botonLink:hover{
   background-color: #008bff;
   color: white;
+}
+.botonBuscar{
+  background-color: rgba(89, 158, 181, 0);
+  color: #ffffff;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 4px;
+  height: 27px;
+  cursor: pointer;
+}
+.botonBuscar:hover{
+  background-color: rgb(89, 158, 181);
+  color: #ffffff;
 }
 #nombre {
   margin-top: 16px;
