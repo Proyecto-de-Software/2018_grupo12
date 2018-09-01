@@ -50,9 +50,42 @@ footer {
   border: 1px solid #fff;
   border-radius: 4px;
   box-sizing: border-box;
-  height:  27px;
+  height:  25px;
   background-color: rgba(0,0,0,0);
   color: white;
+}
+.estiloInput2{
+  padding: 4px;
+  font-size: 20px;
+  border: 1px solid;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height:  40px;
+  width:300px;
+  text-align: left;
+}
+.estiloLabel{
+  padding:16px;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.botonLogin{
+  margin-top: 20px;
+  background-color: #90C3D4;
+  font-size: 25px;
+  color: #ffffff;
+  border:solid black;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 4px;
+  height: 50px;
+  width: 120px;
+  cursor: pointer;
+  margin-left:auto;
+  margin-right:auto;
+}
+.botonLogin:hover{
+  background-color: #599EB5;
 }
 .estiloInput:focus {
   border: 2px solid #fff;
@@ -109,6 +142,13 @@ footer {
   display: inline-block;
   padding: 20px;
 }
+.divLog{
+  margin:auto;
+  display: inline-block;
+  padding: 20px;
+  text-align: center;
+
+}
 .cuerpo{
   text-align:center;
   padding-top:54px;
@@ -134,7 +174,7 @@ footer {
   border-width: 1px;
   border-radius: 5px;
   padding: 4px;
-  height: 27px;
+  height: 25px;
   cursor: pointer;
 }
 .botonBuscar:hover{
@@ -176,6 +216,16 @@ footer {
 #loginSm{
   display: none;
 }
+.loginForm ~label,input{
+  display:block;
+  text-align: center;
+}
+.loginForm{
+  margin-top:100px;
+  position:relative;
+  text-align: center;
+}
+
 
 @media screen and (max-width : 920px) {
   nav > div > ul {
