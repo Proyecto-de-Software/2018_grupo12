@@ -152,7 +152,8 @@ footer {
 .cuerpo{
   text-align:center;
   padding-top:54px;
-  height: 100vh;
+  padding-bottom: 100px;
+  height: 100%;
 }
 .botonLink{
   background-color: white;
@@ -329,5 +330,8 @@ footer {
   .articulo{
     width: auto;
     display: block;
+  }
+  .estiloInput2{
+    width:200px;
   }
 }
