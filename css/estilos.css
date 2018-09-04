@@ -248,8 +248,16 @@ footer {
 .textAlignCenter{
   text-align: center;
 }
+@media screen and (max-width : 1050px) {
+  #bus{
+    width:100px;
+  }
+}
 
 @media screen and (max-width : 920px) {
+  #bus{
+    width:160px;
+  }
   nav > div > ul {
     position: absolute;
     display: none;
