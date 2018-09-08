@@ -248,23 +248,99 @@ footer {
 .textAlignCenter{
   text-align: center;
 }
+.botoncheck{
+  display: none;
+}
 @media screen and (max-width : 1050px) {
   #bus{
     width:100px;
   }
 }
 
+.dropbtn {
+  background-color: #90C3D4;
+  color: white;
+  
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+.dropbtn2 {
+  background-color: #90C3D4;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+
+.menu-opciones {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+
+.menu-opciones a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+
+.menu-opciones a:hover {background-color: #ddd;}
+
+
+.menu:hover .menu-opciones {display: block;}
+
+
+.menu:hover .dropbtn {background-color: #599EB5;}
+
+
 @media screen and (max-width : 920px) {
   #bus{
     width:160px;
   }
-  nav > div > ul {
+  .menunav{
+    display: inline;
     position: absolute;
+    right: 0;
+  }
+  
+  .menunav:hover .dropbtn2 {
+    background-color: #599EB5;
+  }
+  .dropbtn{
+    width:100%;
+    border:solid;
+    border-color: #599EB5;
+  }
+  .menunav:hover .listanav{
+    display: block;
+    
+  }
+  .menunav{
+    width: 100%;
+  }
+  nav > div > ul {
+    
+    
+    position:absolute;
     display: none;
     width: 280px;
     min-width: 160px;
-    right:0;
-    top: 50px;
+    right:0px;
+    top:50px;
     z-index:1;
 
   }
