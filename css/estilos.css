@@ -215,6 +215,9 @@ footer {
 #nav-check {
   display: none;
 }
+#nav-check2 {
+  display: none;
+}
 #encabezadoSm{
   display: none;
 }
@@ -315,6 +318,9 @@ footer {
     display: inline;
     position: absolute;
     right: 0;
+  }
+  #nav-check2{
+    display: inline;
   }
   
   .menunav:hover .dropbtn2 {
