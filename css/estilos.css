@@ -186,47 +186,15 @@ footer {
   background-color: rgb(89, 158, 181);
   color: #ffffff;
 }
-#nombre {
-  margin-top: 16px;
-}
-#aa:checked ~ .menu-opciones {
-  display: block;
-}
-#aa:checked ~#ab {
-  background-color:#599EB5;
-
-}
-#aa {
-  display: none;
-}
-#ab {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 100%;
-  background-color: #90C3D4;
-  padding: 16px 20px;
-  cursor: pointer;
-  text-align: center;
-  color:white;
-}
-#ab:hover {
-  background-color:#599EB5;
-}
 #nav-check {
   display: none;
 }
 #nav-check2 {
   display: none;
 }
-#encabezadoSm{
-  display: none;
-}
-#loginSm{
-  display: none;
-}
 .loginForm>label,.loginForm>input{
   display:block;
-  
+
 }
 .loginForm{
   margin-top:100px;
@@ -248,11 +216,11 @@ footer {
   right: 0px;
   position: absolute;
 }
-.textAlignCenter{
-  text-align: center;
-}
 .botoncheck{
   display: none;
+}
+.botonLogin2{
+  margin-top: 1em
 }
 @media screen and (max-width : 1050px) {
   #bus{
@@ -263,7 +231,7 @@ footer {
 .dropbtn {
   background-color: #90C3D4;
   color: white;
-  
+
   padding: 16px;
   font-size: 16px;
   border: none;
@@ -322,7 +290,7 @@ footer {
   #nav-check2{
     display: inline;
   }
-  
+
   .menunav:hover .dropbtn2 {
     background-color: #599EB5;
   }
@@ -333,14 +301,14 @@ footer {
   }
   .menunav:hover .listanav{
     display: block;
-    
+
   }
   .menunav{
     width: 100%;
   }
   nav > div > ul {
-    
-    
+
+
     position:absolute;
     display: none;
     width: 280px;
@@ -376,12 +344,6 @@ footer {
   .label1:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
-  .botoncheck:checked  ~ .listanav {
-    display:block
-  }
-  .botoncheck:checked ~ .label1 {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
   .menu-opciones {
     position:absolute;
   }
@@ -401,14 +363,6 @@ footer {
   #nombre,#nombre2{
     display: none;
   }
-  #loginSm {
-    display:flex;
-  }
-  #ab {
-    background-color: #90C3D4;
-    border: solid;
-    border-color: #599EB5;
-  }
   #buscador {
     background-color:#90C3D4;
 
@@ -418,12 +372,6 @@ footer {
   }
   #buscador>input{
     display:inline-block;
-  }
-  #encabezadoSm{
-    display: block;
-  }
-  #encabezado{
-    display: none;
   }
 
   .page-wrap {
@@ -451,4 +399,8 @@ footer {
   .menu-opciones {
     width: 280px;
 }
+  .botonLogin2{
+    margin-top: 0em;
+    display: flex;
+  }
 }
