@@ -10,6 +10,7 @@
 </head>
 
 <body>
+ <header>
   <nav>
     <img src="logo.png" id="logo" class="logo izquierda" alt="Logo de la pagina">
     <p class="izquierda">
@@ -18,9 +19,10 @@
       </a>
     </p>
   </nav>
-  <div class="cuerpo">
+  </header>
+  <section class="cuerpo">
       <div class="divLog">
-        <form class="loginForm">
+        <form class="loginForm" action="admin.html">
            <label class="estiloLabel" for="inputUsuario">Usuario</label><br><br>
                <!-- cambiar el  type="email"  en caso de validar por email-->
            <input id="inputUsuario" title="introduccion usuario" class="estiloInput2" type="text" name="usuario" placeholder="Usuario" required>
@@ -29,8 +31,9 @@
            <input class="botonLogin" type="submit" value="Aceptar">
         </form>
       </div>
-  </div>
-  <footer class="site-footer">
+  </section>
+  
+  <footer class="site-footer acomodar" >
     <span class="footerInstitucion">Proyecto de Software 2018 - Hospital Dr. Alejandro Kron</span>
     <span class="footerVersion">v 0.1.0</span>
   </footer>

@@ -60,7 +60,7 @@ footer {
 }
 .estiloInput2{
   padding: 0.250em;
-  font-size: 20px;
+  font-size: 1.250em;
   border: 0.063em solid;
   border-radius: 0.250em;
   box-sizing: border-box;
@@ -114,24 +114,7 @@ footer {
   font-size: 1em;
   border: none;
 }
-.menu {
-  position: relative;
-  display: inline-block;
-}
-.menu-opciones {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 10.000em;
-  box-shadow: 0em 0.5em 1em 0em rgba(0,0,0,0.2);
-  z-index: 1;
-}
-.menu-opciones a {
-  color: black;
-  padding: 0.75em 1em;
-  text-decoration: none;
-  display: block;
-}
+
 .botoninicio:hover,
 .botonnav:hover {
   background-color: #599EB5;
@@ -274,6 +257,7 @@ footer {
 }
 
 
+
 .menu-opciones a:hover {background-color: #ddd;}
 
 
@@ -282,10 +266,26 @@ footer {
 
 .menu:hover .dropbtn {background-color: #599EB5;}
 
+.aboton{
+	margin-top:1em;
+	margin-bottom:1em;
+	
+}
+
 
 @media screen and (max-width : 920px) {
   #bus{
     width:10em;
+  }
+  .acomodar{
+	  position: absolute;
+  }
+  .aboton{
+	  display:flex;
+	 width: 100%;
+	 margin-top:0em;
+	margin-bottom:0em;
+	 
   }
   .menunav{
     width:1.250em;
