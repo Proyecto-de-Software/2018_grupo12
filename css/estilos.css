@@ -1,6 +1,6 @@
 html{
   height: 100%;
-  
+
 }
 
 body {
@@ -26,6 +26,7 @@ footer {
   left: 0;
   padding: 1rem;
   background-color: #efefef;
+  vertical-align: baseline!important;
 }
 .titulo{
   font-size: 2em;
@@ -148,12 +149,12 @@ footer {
   text-align:center;
   padding-top:3.375em;
   padding-bottom: 3.125em;
-  height: 100vh;
 }
 .botonLink{
   background-color: white;
   color: #008bff;
   border-style: solid;
+  border-color: #008bff;
   border-width: 0.063em;
   border-radius: 0.313em;
   font-size: large;
@@ -272,7 +273,7 @@ footer {
 .aboton{
 	margin-top:1em;
 	margin-bottom:1em;
-	
+
 }
 
 
@@ -291,7 +292,7 @@ footer {
 	 width: 100%;
 	 margin-top:0em;
 	margin-bottom:0em;
-	 
+
   }
   .menunav{
     width:1.250em;
@@ -314,7 +315,7 @@ footer {
     display: block;
 
   }
-  
+
   nav > div > ul {
 
 
