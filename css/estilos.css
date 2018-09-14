@@ -208,9 +208,7 @@ footer {
   right: 0em;
   position: absolute;
 }
-.botoncheck{
-  display: none;
-}
+
 .botonLogin2{
   margin-top: 1em
 }
@@ -262,13 +260,19 @@ footer {
 
 
 
-.menu-opciones a:hover {background-color: #ddd;}
+.menu-opciones a:hover {
+  background-color: #ddd;
+}
 
 
-.menu:hover .menu-opciones {display: block;}
+.menu:hover .menu-opciones {
+  display: block;
+}
 
 
-.menu:hover .dropbtn {background-color: #599EB5;}
+.menu:hover .dropbtn {
+  background-color: #599EB5;
+}
 
 .aboton{
 	margin-top:1em;
