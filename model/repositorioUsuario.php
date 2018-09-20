@@ -2,8 +2,10 @@
 
 include_once "usuario.php";
 include_once "conexion.php";
+class RepositorioUsuario{ /*instanciar como una clase normal y llamar a los metodos con la forma:  $repositorioUsuario -> funcion();
+                          ....ejecutar consultas dentro de un try para obtener excepciones en el catch en caso de error */
 
-function obtener_numero_usuarios()
+public function obtener_numero_usuarios()
 {
     $total_usuarios = null;
     $conexion = abrir_conexion();
@@ -22,7 +24,7 @@ function obtener_numero_usuarios()
     }
     return $total_usuarios;
 }
-function insertar_usuario($usuario) /*recibe objeto usuario -retorna booleano*/
+public function insertar_usuario($usuario) /*recibe objeto usuario -retorna booleano*/
 {
     $usuario_insertado = false;
     $conexion = abrir_conexion();
@@ -50,7 +52,7 @@ function insertar_usuario($usuario) /*recibe objeto usuario -retorna booleano*/
     }
     return $usuario_insertado;
 }
-function username_existe($username) /* recibe el username que se decea saber si existe -retorna booleano*/
+public function username_existe($username) /* recibe el username que se decea saber si existe -retorna booleano*/
 {
     $conexion = abrir_conexion();
     $email_existe = false;
@@ -72,7 +74,7 @@ function username_existe($username) /* recibe el username que se decea saber si 
     return $email_existe;
 }
 
-function actualizar_informacion_usuario($usuario) /*objeto usuario con info para el cambio */
+public function actualizar_informacion_usuario($usuario) /*objeto usuario con info para el cambio */
 {
     $actualizado=false;
     $conexion=abrir_conexion();
@@ -99,7 +101,7 @@ function actualizar_informacion_usuario($usuario) /*objeto usuario con info para
     return $actualizado;
 } 
 
-function obtener_usuario_por_username($username)
+public function obtener_usuario_por_username($username)
 { /*retorna objeto usuario correspondiente al username pasado como parametro */
     $usuario = null;
     $conexion = abrir_conexion();
@@ -121,7 +123,7 @@ function obtener_usuario_por_username($username)
     return $usuario;
 
 }
-function obtener_activos($limite)
+public function obtener_activos($limite)
 { /* $limite(string o int) elegido en la configuracion ,devuelve arreglo de usuarios activos, ¡¡controlar que arreglo no este vacio!! */
     $usuarios = array();
     $conexion = abrir_conexion();
@@ -146,7 +148,7 @@ function obtener_activos($limite)
     }
     return $usuarios;
 }
-function obtener_bloqueados($limite)
+public function obtener_bloqueados($limite)
 { /*devuelve arreglo de usuarios bloqueados, ¡¡controlar,arreglo puede estar vacio!! */
     $usuarios = array();
     $conexion = abrir_conexion();
@@ -171,7 +173,7 @@ function obtener_bloqueados($limite)
     }
     return $usuarios;
 }
-function bloquear_username($username) /*bloquea usuario... ¿se debe actualizar updated_at???? */
+public function bloquear_username($username) /*bloquea usuario... ¿se debe actualizar updated_at???? */
 {
     $ok = false;
     $conexion = abrir_conexion();
@@ -188,7 +190,7 @@ function bloquear_username($username) /*bloquea usuario... ¿se debe actualizar 
     }
     return $ok;
 }
-function activar_username($username)/*desbloquea/activa usuario... ¿se debe actualizar updated_at???? */
+public function activar_username($username)/*desbloquea/activa usuario... ¿se debe actualizar updated_at???? */
 {
     $ok = false;
     $conexion = abrir_conexion();
@@ -205,7 +207,7 @@ function activar_username($username)/*desbloquea/activa usuario... ¿se debe act
     }
     return $ok;
 }
-function eliminar_username($username)/*eliminar logicamente usuario */
+public function eliminar_username($username)/*eliminar logicamente usuario */
 {
     $ok = false;
     $conexion = abrir_conexion();
@@ -221,4 +223,5 @@ function eliminar_username($username)/*eliminar logicamente usuario */
         }
     }
     return $ok;
+}
 }
