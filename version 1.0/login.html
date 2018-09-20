@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width= divice-width, initial-scale=1">
+  <title>Login | Hospital Dr. Alejandro Korn</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+ <header>
+  <nav>
+    <img src="logo.png" id="logo" class="logo izquierda" alt="Logo de la pagina">
+    <p class="izquierda">
+      <a href="index.html" class="botoninicio">
+        <strong>Hospital Dr. Alejandro Korn</strong>
+      </a>
+    </p>
+  </nav>
+  </header>
+  <section class="cuerpo">
+      <div class="divLog">
+        <form class="loginForm" action="admin.html">
+           <label class="estiloLabel" for="inputUsuario">Usuario</label><br><br>
+               <!-- cambiar el  type="email"  en caso de validar por email-->
+           <input id="inputUsuario" title="introduccion usuario" class="estiloInput2" type="text" name="usuario" placeholder="Usuario" required>
+           <label class="estiloLabel" for="inputPassword">Contraseña</label><br>
+           <input id="inputPassword" title=" introduccion contraseña" class="estiloInput2" type="password" name="password" placeholder="******" required>
+           <input class="botonLogin" type="submit" value="Aceptar">
+        </form>
+      </div>
+  </section>
+  
+  <footer class="site-footer acomodar" >
+    <span class="footerInstitucion">Proyecto de Software 2018 - Hospital Dr. Alejandro Kron</span>
+    <span class="footerVersion">v 0.1.0</span>
+  </footer>
+</body>
+
+</html>

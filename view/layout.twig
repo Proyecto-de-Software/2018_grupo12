@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../estilos.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>{% block titulo %}{% endblock %} | Hospital Dr. Alejandro Korn</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+      <a href="inicio.php"><img src="logo.jpg" alt="Logo de la pagina"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        {% block panel_izquierdo %}
+        <p class="mb-lg-0 ml-lg-4"> Hospital Dr. Alejandro Korn</p>
+        {% endblock %}
+
+        {% block panel_central %}
+        
+        {% endblock %}
+
+        {% block buscador %}
+        <form class="form-inline my-2 ml-auto">
+          <input class="inputBuscador form-control mr-2 mt-2 mt-sm-0" type="search" placeholder="Buscar..." aria-label="Search">
+          <button class="btn btn-outline-success mt-2 mt-sm-0" type="submit">Buscar</button>
+        </form>
+        {% endblock %}
+
+        {% block panel_derecho %}
+
+        {% endblock %}
+
+      </div>
+    </nav>
+
+    {% block cuerpo %}
+    <div class="container">
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+    {% endblock %}
+
+    <footer class="pieDePagina align-bottom">
+      <div class="container-flex bg-light pl-3 pr-3">
+          <span>Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
+          <span class="d-block float-sm-right">v 0.0.1</span>
+      </div>
+    </footer>
+    <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  </body>
+</html>
