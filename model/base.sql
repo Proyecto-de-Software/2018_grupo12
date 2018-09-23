@@ -275,6 +275,7 @@ CREATE TABLE `rol_tiene_permiso` (
 CREATE TABLE `usuario_tiene_rol` (
   `usuario_id` int(11) NOT NULL,
   `rol_id` int(11) NOT NULL,
+  `eliminado` tinyint(1) not null,
   PRIMARY KEY (usuario_id, rol_id),
   CONSTRAINT FK_usuario_utp_id FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   CONSTRAINT FK_rol_utp_id FOREIGN KEY (rol_id) REFERENCES rol(id)

@@ -107,7 +107,7 @@ public function obtener_usuario_por_username($username)
     $conexion = abrir_conexion();
     if ($conexion !== null) {
         try {
-            $sql = "SELECT * FROM usuario WHERE username = :username";
+            $sql = "SELECT * FROM usuario WHERE username = :username AND borrado=0";
             $sentencia = $conexion->prepare($sql);
             $sentencia->bindParam(":username", $username);
             $sentencia->execute();
@@ -129,7 +129,7 @@ public function obtener_activos($limite)
     $conexion = abrir_conexion();
     if ($conexion !== null) {
         try {
-            $sql = $sql = "SELECT * FROM usuario WHERE activo=1 LIMIT :limite";
+            $sql = $sql = "SELECT * FROM usuario WHERE activo=1 AND borrado=0 LIMIT :limite";
             $sentencia = $conexion->prepare($sql);
             $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
             $sentencia->execute();
@@ -154,7 +154,7 @@ public function obtener_bloqueados($limite)
     $conexion = abrir_conexion();
     if ($conexion !== null) {
         try {
-            $sql = "SELECT * FROM usuario WHERE activo=0 LIMIT :limite";
+            $sql = "SELECT * FROM usuario WHERE activo=0 AND borrados=0 LIMIT :limite";
             $sentencia = $conexion->prepare($sql);
             $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
             $sentencia->execute();
