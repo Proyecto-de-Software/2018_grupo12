@@ -306,11 +306,11 @@ CREATE TABLE `configuracion` (
 -- revisar campos que pueden ser nulos (NO obligatorios)
 -- armar tabla para mantener la historia de derivaciones de los pacientes
 
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"Titulo","");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (2,"Descripcion","");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"Email","");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"Limite","");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (5,"Habilitado","1");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"titulo","titulo inicial");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (2,"descripcion","descripcion inicial");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"email","email@inicial");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"limite","1000");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (5,"habilitado","1");
 
 INSERT INTO `obra_social` (`id`, `nombre`) VALUES (1, 'IOMA');
 INSERT INTO `obra_social` (`id`, `nombre`) VALUES (2, 'OSDE');

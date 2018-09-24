@@ -7,7 +7,7 @@ class RepositorioConfiguracion
   id 2=descripcion
   id 3=email
   id 4=limite
-  id 5= habilidato */
+  id 5= habilitado */
 {
 
     public function setTitulo($titulo)
@@ -166,7 +166,7 @@ class RepositorioConfiguracion
         }
         return $valor;
      }
-     public function getHabilidato(){
+     public function getHabilitado(){
         $valor=null;
         $conexion=abrir_conexion();
         if($conexion!==null){
@@ -176,10 +176,31 @@ class RepositorioConfiguracion
                 $sentencia->execute();
                 $valor=$sentencia->fetchColumn();
             }catch(PDOException $ex){
-                throw new Exception ("error consulta getHabilidato ".$ex->getMessage());
+                throw new Exception ("error consulta getHabilitado ".$ex->getMessage());
             }
         }
         return $valor;
+     }
+     public function obtener_configuracion(){
+
+        /*titulo,descripcion,email,limite,hiabilitado */
+         $arreglo=array();
+         $conexion=abrir_conexion();
+         if($conexion!==null){
+             try{
+                 $sql="SELECT variable,valor from configuracion";
+                 $sentencia=$conexion->prepare($sql);
+                 $sentencia->execute();
+                 $resultado=$sentencia->fetchAll();
+                 if(count($resultado)){
+                     foreach($resultado as $re){
+                         $arreglo[$re["variable"]]=$re["valor"];
+                     }
+                 }
+             }catch(PDOException $ex){
+                 throw new Exception("errpr consulta obtener_configuracion ".$ex->getMessage());
+             }
+         }return $arreglo;
      }
 
 }
