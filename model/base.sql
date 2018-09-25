@@ -161,7 +161,7 @@ CREATE TABLE `paciente` (
   `apellido` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `fecha_nac` date NOT NULL,
-  `lugar_nac` date DEFAULT NULL,
+  `lugar_nac` varchar(255) DEFAULT NULL,
   `localidad_id` int(11) NOT NULL,
   `region_sanitaria_id` int(11) NOT NULL,
   `domicilio` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -173,6 +173,7 @@ CREATE TABLE `paciente` (
   `nro_historia_clinica` int(11) DEFAULT NULL,
   `nro_carpeta` int(11) DEFAULT NULL,
   `obra_social_id` int(11) NOT NULL,
+  `borrado` tinyint(1) not null,
   PRIMARY KEY (id),
   CONSTRAINT FK_region_sanitaria_id FOREIGN KEY (region_sanitaria_id) REFERENCES region_sanitaria(id),
   CONSTRAINT FK_obra_social_id FOREIGN KEY (obra_social_id) REFERENCES obra_social(id),
@@ -305,6 +306,28 @@ CREATE TABLE `configuracion` (
 
 -- revisar campos que pueden ser nulos (NO obligatorios)
 -- armar tabla para mantener la historia de derivaciones de los pacientes
+INSERT INTO `obra_social` (`id`,`nombre`) values (1,"OSDE");
+INSERT INTO `obra_social` (`id`,`nombre`) values (2,"Sancor Salud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (3,"Medicus");
+INSERT INTO `obra_social` (`id`,`nombre`) values (4,"Medif\u00e9");
+INSERT INTO `obra_social` (`id`,`nombre`) values (5,"Galeno");
+INSERT INTO `obra_social` (`id`,`nombre`) values (6,"Accord Salud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (7,"OMINT");
+INSERT INTO `obra_social` (`id`,`nombre`) values (8,"Swiss Medical");
+INSERT INTO `obra_social` (`id`,`nombre`) values (9,"AcaSalud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (10,"Bristol Medicine");
+INSERT INTO `obra_social` (`id`,`nombre`) values (11,"OSECAC");
+INSERT INTO `obra_social` (`id`,`nombre`) values (12,"Uni\u00f3n Personal");
+INSERT INTO `obra_social` (`id`,`nombre`) values (13,"OSPACP");
+INSERT INTO `obra_social` (`id`,`nombre`) values (14,"OSDEPYM");
+INSERT INTO `obra_social` (`id`,`nombre`) values (15,"Luis Pasteur");
+INSERT INTO `obra_social` (`id`,`nombre`) values (16,"OSMEDICA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (17,"IOMA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (18,"OSPJN");
+INSERT INTO `obra_social` (`id`,`nombre`) values (19,"OSSSB");
+INSERT INTO `obra_social` (`id`,`nombre`) values (20,"OSPEPBA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (21,"OSPE");
+
 
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"titulo","titulo inicial");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (2,"descripcion","descripcion inicial");
@@ -312,9 +335,6 @@ INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"email","email@i
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"limite","1000");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (5,"habilitado","1");
 
-INSERT INTO `obra_social` (`id`, `nombre`) VALUES (1, 'IOMA');
-INSERT INTO `obra_social` (`id`, `nombre`) VALUES (2, 'OSDE');
-INSERT INTO `obra_social` (`id`, `nombre`) VALUES (3, 'OSECAC');
 
 INSERT INTO `genero` (`id`, `nombre`) VALUES (1, 'Masculino');
 INSERT INTO `genero` (`id`, `nombre`) VALUES (2, 'Femenino');
@@ -324,6 +344,7 @@ INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (1, 'DNI');
 INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (2, 'LC');
 INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (3, 'CI');
 INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (4, 'LE');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (5, 'Pasaporte');
 
 INSERT INTO `tipo_institucion` (`id`, `nombre`) VALUES (1, 'Hospital');
 INSERT INTO `tipo_institucion` (`id`, `nombre`) VALUES (2, 'Comisaría');
@@ -340,6 +361,11 @@ INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (9, 'IX');
 INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (10, 'X');
 INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (11, 'XI');
 INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (12, 'XII');
+
+INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (1,"partido pruebas",1);
+
+INSERT INTO `localidad`(`id`,`nombre`,`partido_id`) VALUES (1,"localidad prueba",1);
+
 
 INSERT INTO `motivo_consulta` (`id`, `nombre`) VALUES (1, 'Receta Médica');
 INSERT INTO `motivo_consulta` (`id`, `nombre`) VALUES (2, 'Control por Guardia');
