@@ -1,0 +1,11 @@
+.inputBuscador{
+  width: 14em !important;
+}
+
+.pieDePagina{
+  line-height: 60px;
+}
+
+.barraNavegacion{
+  display: contents;
+}
