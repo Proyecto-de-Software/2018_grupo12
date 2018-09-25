@@ -224,4 +224,5 @@ public function eliminar_username($username)/*eliminar logicamente usuario */
     }
     return $ok;
 }
+
 }
