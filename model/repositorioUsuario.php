@@ -158,53 +158,53 @@ class RepositorioUsuario
     }
 
    
-    public function bloquear_username($username) /*bloquea usuario... ¿se debe actualizar updated_at???? */
+    public function bloquear_usuario($id) /*bloquea usuario... ¿se debe actualizar updated_at???? */
     {
         $ok = false;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE usuario SET activo=0 WHERE username=:username";
+                $sql = "UPDATE usuario SET activo=0 WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":username", $username);
+                $sentencia->bindParam(":id", $id);
                 $ok = $sentencia->execute();
 
             } catch (PDOException $ex) {
-                throw new Exception("error consulta bloquear_username");
+                throw new Exception("error consulta bloquear_usuario");
             }
         }
         return $ok;
     }
-    public function activar_username($username) /*desbloquea/activa usuario... ¿se debe actualizar updated_at???? */
+    public function activar_usuario($id) /*desbloquea/activa usuario... ¿se debe actualizar updated_at???? */
     {
         $ok = false;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE usuario SET activo=1 WHERE username=:username";
+                $sql = "UPDATE usuario SET activo=1 WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":username", $username);
+                $sentencia->bindParam(":id", $id);
                 $ok = $sentencia->execute();
 
             } catch (PDOException $ex) {
-                throw new Exception("error consulta activar_username");
+                throw new Exception("error consulta activar_usuario");
             }
         }
         return $ok;
     }
-    public function eliminar_username($username) /*eliminar logicamente usuario */
+    public function eliminar_usuario($id) /*eliminar logicamente usuario */
     {
         $ok = false;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE usuario SET borrado=1 WHERE username=:username";
+                $sql = "UPDATE usuario SET borrado=1 WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":username", $username);
+                $sentencia->bindParam(":id", $id);
                 $ok = $sentencia->execute();
 
             } catch (PDOException $ex) {
-                throw new Exception("error consulta eliminar_username");
+                throw new Exception("error consulta eliminar_usuario");
             }
         }
         return $ok;
