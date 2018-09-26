@@ -20,6 +20,12 @@ if(isset($_GET["action"])){
       case 'guardarConfiguracion':
         AdminController::getInstance()->guardarConfiguracion();
         break;
+      case 'usuarios':
+        AdminController::getInstance()->redirectUsuarios();
+        break;
+      case 'cargarPagina':
+        AdminController::getInstance()->cargarPagina();
+        break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }

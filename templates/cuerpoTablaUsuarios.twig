@@ -1,0 +1,18 @@
+
+{% if not (usuarios) %}
+  <td colspan="6" align="center" >No hay usuarios para mostrar</td>
+{% else %}
+  {% for usuario in usuarios %}
+  <tr>
+    <td>{{ usuario.getFirst_name }}</td>
+    <td>{{ usuario.getLast_name }}</td>
+    <td>{{ usuario.getEmail }}</td>
+    <td>{{ usuario.getUsername }}</td>
+    <td>{{ usuario.getActivo }}</td>
+    <td>
+      <button type="button" name="bloquear-activar" class="btn btn-sm btn-danger mb-1"></button>
+      <button type="button" name="administrar-rol" class="btn btn-sm btn-primary mb-1">Roles</button>
+    </td>
+  </tr>
+  {% endfor %}
+{% endif %}

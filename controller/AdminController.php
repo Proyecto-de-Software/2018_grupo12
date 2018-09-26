@@ -17,13 +17,13 @@ class AdminController {
   }
 
   public function redirectConfiguracion(){
-    $config = new repositorioConfiguracion();
+    $config = RepositorioConfiguracion::getInstance();
     $view = new Configuracion();
     $view->show($config->obtener_configuracion());
   }
 
   public function guardarConfiguracion(){
-    $config = new repositorioConfiguracion();
+    $config = RepositorioConfiguracion::getInstance();
     $view = new Configuracion();
 
     //intentan hacer un envio vacio desde url por ende redirecciono
@@ -61,6 +61,56 @@ class AdminController {
     }
 
     $view->show($config->obtener_configuracion(), null, "Los datos se guardaron correctamente");
+  }
+
+  public function redirectUsuarios(){
+    $repoUsuarios = RepositorioUsuario::getInstance();
+    $view = new Usuarios();
+
+    $limite = RepositorioConfiguracion::getInstance()->getLimite();
+    $usuarios = $repoUsuarios->obtener_todos_limite_pagina($limite,1);
+
+    $view->show($usuarios);
+  }
+
+  public function cargarPagina(){
+    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+    {
+      //No es una peticion ajax
+      header("Location: index.php");
+    	exit;
+    }
+
+    $config = RepositorioConfiguracion::getInstance();
+    $repoUsuario = RepositorioUsuario::getInstance();
+    $view = new Usuarios();
+
+    $pagina = $_POST["pagina"];
+    $username = strtolower($_POST["username"]);
+    $estado = $_POST["estado"];
+    $limite = $config->getLimite();
+
+    if ($username) {
+      if ($estado == "no aplica") {
+        $usuarios = $repoUsuario->obtener_todos_limite_pagina_like($limite,$pagina,$username);
+      }else{
+        $usuarios = $repoUsuario->obtener_actblo_limite_pagina_like($limite,$pagina,$username,$estado);
+      }
+    }elseif ($estado != "no aplica") {
+      if ($estado == "1") {
+        $usuarios = $repoUsuario->obtener_activos_limite_pagina($limite,$pagina);
+      } else {
+        $usuarios = $repoUsuario->obtener_bloqueados_limite_pagina($limite,$pagina);
+      }
+    }else {
+      $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,$pagina);
+    }
+
+    if (empty($usuarios)) {
+      echo "no hay";
+    }else {
+      $view->cargarPagina($usuarios);
+    }
   }
 
 }

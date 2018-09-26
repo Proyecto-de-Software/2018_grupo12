@@ -1,0 +1,202 @@
+{% extends 'admin.twig' %}
+
+{% block titulo %}Administración - Usuarios{% endblock %}
+
+{% block cuerpo %}
+  <div class="container my-3">
+    <div>
+      <div class="form-row align-items-center">
+        <div class="col-md-auto mb-2 ml-auto">
+          <label class="mr-sm-2" for="username">Nombre de usuario:</label>
+        </div>
+        <div class="col-md-auto">
+          <input type="text" class="form-control mb-2" id="username" placeholder="Nombre de usuario..." value="{{ username }}">
+        </div>
+        <div class="col-md-auto mb-2 ml-2">
+          <label class="" for="estado">Estado: </label>
+        </div>
+        <div class="col-md-auto mb-2">
+          <select class="custom-select mr-sm-2" id="estado" >
+            <option id="opcionPorDefecto" value="no aplica" selected>Elegir...</option>
+            <option value="1">Activo</option>
+            <option value="0">Bloqueado</option>
+          </select>
+        </div>
+        <div class="col-md-auto">
+          <button type="button" onclick="buscar()" class="btn btn-outline-primary mb-2">Buscar</button>
+        </div>
+      </div>
+    </div>
+    <div id="pagina" class="">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nombre de usuario</th>
+            <th scope="col">Activo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpoTablaUsuarios">
+
+          {{ include('cuerpoTablaUsuarios.twig') }}
+
+        </tbody>
+      </table>
+    </div>
+    <nav aria-label="Navegacion entre paginas">
+      <ul class="pagination justify-content-center">
+        <li id="anterior" class="page-item disabled">
+          <button class="page-link" onclick="anterior()" aria-label="Pagina anterior">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Pagina anterior</span>
+          </button>
+        </li>
+        <li id="inicio" class="page-item active"><button id="btnInicio" class="page-link" onclick="clickInicio(this)">1</button></li>
+        <li id="medio" class="page-item"><button id="btnMedio" class="page-link" onclick="clickMedio(this)">2</button></li>
+        <li id="final" class="page-item"><button id="btnFinal" class="page-link" onclick="clickFinal(this)">3</button></li>
+        <li id="siguiente" class="page-item">
+          <button class="page-link" onclick="siguiente()" aria-label="Pagina siguiente">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Pagina siguiente</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript">
+    var username = "";
+    var estado = document.getElementById("opcionPorDefecto").value;
+
+    function buscar(){
+      username = $("#username")[0].value;
+      estado = $("#estado")[0].value;
+
+      document.getElementsByClassName("page-item active")[0].className = "page-item";
+      $("#anterior")[0].className = "page-item disabled";
+      $("#inicio")[0].className = "page-item active";
+
+      $("#btnInicio")[0].innerHTML = "1";
+      $("#btnMedio")[0].innerHTML = "2";
+      $("#btnFinal")[0].innerHTML = "3";
+      $("#siguiente")[0].className = "page-item";
+
+      $("#btnInicio")[0].onclick();
+    }
+
+    function clickInicio(btn){
+      document.getElementsByClassName("page-item active")[0].className = "page-item";
+
+      var pagina = btn.innerHTML;
+
+      if (btn.innerHTML != "1") {
+        $("#medio")[0].className = "page-item active";
+
+        btn.innerHTML = parseInt(btn.innerHTML) - 1;
+        $("#btnMedio")[0].innerHTML = parseInt($("#btnMedio")[0].innerHTML) - 1;
+        $("#btnFinal")[0].innerHTML = parseInt($("#btnFinal")[0].innerHTML) - 1;
+      }else {
+        $("#inicio")[0].className = "page-item active";
+      }
+
+      if (btn.innerHTML == "1") {
+        $("#anterior")[0].className = "page-item disabled";
+      }
+
+      $.ajax({
+        url : '?action=cargarPagina',
+        data : { username : username, estado : estado, pagina : pagina },
+        type : 'POST',
+        // código a ejecutar si la petición es satisfactoria;
+        // la respuesta es pasada como argumento a la función
+        success : function(respuesta) {
+          if (respuesta == "no hay") {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+            if (btn.innerHTML == "1") {
+              $("#medio")[0].className = "page-item disabled";
+            }
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }else {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
+          }
+        }
+      });
+    }
+
+    function clickMedio(btn){
+      document.getElementsByClassName("page-item active")[0].className = "page-item";
+
+      var pagina = btn.innerHTML;
+
+      $("#medio")[0].className = "page-item active";
+
+      $.ajax({
+        url : '?action=cargarPagina',
+        data : { username : username, estado : estado, pagina : pagina },
+        type : 'POST',
+        // código a ejecutar si la petición es satisfactoria;
+        // la respuesta es pasada como argumento a la función
+        success : function(respuesta) {
+          if (respuesta == "no hay") {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }else {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
+          }
+        }
+      });
+    }
+
+    function clickFinal(btn){
+      document.getElementsByClassName("page-item active")[0].className = "page-item";
+
+      var pagina = btn.innerHTML;
+
+      $("#medio")[0].className = "page-item active";
+
+      $("#btnInicio")[0].innerHTML = parseInt($("#btnInicio")[0].innerHTML) + 1;
+      $("#btnMedio")[0].innerHTML = parseInt($("#btnMedio")[0].innerHTML) + 1;
+      btn.innerHTML = parseInt(btn.innerHTML) + 1;
+
+      if (btn.innerHTML != "3") {
+        $("#anterior")[0].className = "page-item"
+      }
+
+      $.ajax({
+        url : '?action=cargarPagina',
+        data : { username : username, estado : estado, pagina : pagina },
+        type : 'POST',
+        // código a ejecutar si la petición es satisfactoria;
+        // la respuesta es pasada como argumento a la función
+        success : function(respuesta) {
+          if (respuesta == "no hay") {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }else {
+            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
+          }
+        }
+      });
+    }
+
+    function anterior(){
+      $("#btnInicio")[0].onclick()
+    }
+
+    function siguiente(){
+      if (document.getElementsByClassName("page-item active")[0].id == "inicio") {
+        $("#btnMedio")[0].onclick()
+      }else {
+        $("#btnFinal")[0].onclick()
+      }
+    }
+  </script>
+{% endblock %}
