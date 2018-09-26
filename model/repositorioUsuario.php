@@ -133,56 +133,31 @@ class RepositorioUsuario
         return $usuario;
 
     }
-    public function obtener_activos($limite)
-    { /* $limite(string o int) elegido en la configuracion ,devuelve arreglo de usuarios activos, ¡¡controlar que arreglo no este vacio!! */
-        $usuarios = array();
+    public function obtener_usuario_por_username_act_blo($username,$activo)
+    { /*retorna objeto usuario correspondiente al username pasado como parametro con eleccion activo o bloqueado*/
+        $usuario = null;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = $sql = "SELECT * FROM usuario WHERE activo=1 AND borrado=0 LIMIT :limite";
+                $sql = "SELECT * FROM usuario WHERE username = :username AND borrado=0 AND activo=:activo";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->bindParam(":username", $username);
+                $sentencia->bindParam(":activo",$activo);
                 $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $fila) {
-                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
-                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila['borrado']);
-
-                    }
+                $resultado = $sentencia->fetch();
+                if (!empty($resultado)) {
+                    $usuario = new Usuario($resultado['id'], $resultado['email'], $resultado['username'], $resultado['password'], $resultado['activo']
+                        , $resultado['updated_at'], $resultado['created_at'], $resultado['first_name'], $resultado['last_name'], $resultado['borrado']);
                 }
-
             } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_activos ");
+                throw new Exception("error consulta obtener_usuario_por_username_act_blo");
             }
         }
-        return $usuarios;
-    }
-    public function obtener_bloqueados($limite)
-    { /*devuelve arreglo de usuarios bloqueados, ¡¡controlar,arreglo puede estar vacio!! */
-        $usuarios = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM usuario WHERE activo=0 AND borrados=0 LIMIT :limite";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $fila) {
-                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
-                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+        return $usuario;
 
-                    }
-                }
-
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_bloqueados");
-            }
-        }
-        return $usuarios;
     }
+
+   
     public function bloquear_username($username) /*bloquea usuario... ¿se debe actualizar updated_at???? */
     {
         $ok = false;
@@ -233,6 +208,146 @@ class RepositorioUsuario
             }
         }
         return $ok;
+    }
+    public function obtener_todos_limite_pagina($limite,$pag)
+    { 
+        $usuarios = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero=$limite*($pag-1);
+                $sql = "SELECT * FROM usuario WHERE borrado=0 LIMIT :primero,:limite" ;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
+                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_todos_limite_pagina ".$ex->getMessage());
+            }
+        }
+        return $usuarios;
+    }
+    public function obtener_bloqueados_limite_pagina($limite,$pag)
+    { 
+        $usuarios = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero=$limite*($pag-1);
+                $sql = "SELECT * FROM usuario WHERE borrado=0 AND activo=0 LIMIT :primero,:limite" ;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
+                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_bloqueados_limite_pagina ".$ex->getMessage());
+            }
+        }
+        return $usuarios;
+    }
+    public function obtener_activos_limite_pagina($limite,$pag)
+    { 
+        $usuarios = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero=$limite*($pag-1);
+                $sql = "SELECT * FROM usuario WHERE borrado=0 AND activo=1 LIMIT :primero,:limite" ;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
+                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_activos_limite_pagina ".$ex->getMessage());
+            }
+        }
+        return $usuarios;
+    }
+    public function obtener_todos_limite_pagina_like($limite,$pag,$string)
+    { 
+        $usuarios = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $string="%".$string."%";
+                $primero=$limite*($pag-1);
+                $sql = "SELECT * FROM usuario WHERE borrado=0 AND username LIKE :string LIMIT :primero,:limite" ;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->bindParam(":string",$string);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
+                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_todos_limite_pagina ".$ex->getMessage());
+            }
+        }
+        return $usuarios;
+    }
+    public function obtener_actblo_limite_pagina_like($limite,$pag,$string,$activo)
+    { 
+        $usuarios = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $string="%".$string."%";
+                $primero=$limite*($pag-1);
+                $sql = "SELECT * FROM usuario WHERE borrado=0 AND  activo=:activo AND (username LIKE :string) LIMIT :primero,:limite" ;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->bindParam(":string",$string);
+                $sentencia->bindParam(":activo",$activo);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $fila) {
+                        $usuarios[] = new Usuario($fila['id'], $fila['email'], $fila['username'], $fila['password'], $fila['activo']
+                            , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name'], $fila["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_todos_limite_pagina ".$ex->getMessage());
+            }
+        }
+        return $usuarios;
     }
 
 }
