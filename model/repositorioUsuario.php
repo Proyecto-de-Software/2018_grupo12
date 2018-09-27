@@ -84,7 +84,7 @@ class RepositorioUsuario
         return $email_existe;
     }
 
-    public function actualizar_informacion_usuario($usuario) /*objeto usuario con info para el cambio */
+    public function actualizar_informacion_usuario($id,$email,$password,$first_name,$last_name) /*objeto usuario con info para el cambio */
     {
         $actualizado = false;
         $conexion = abrir_conexion();
@@ -92,16 +92,11 @@ class RepositorioUsuario
             try {
                 $sql = "UPDATE usuario SET email=:email, password=:password, first_name=:first_name, last_name=:last_name, updated_at=NOW() WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
-                $obId = $usuario->getId();
-                $obEmail = $usuario->getUsername();
-                $obPassword = $usuario->getPassword();
-                $obFirst_name = $usuario->getFirst_name();
-                $obLast_name = $usuario->getLast_name();
-                $sentencia->bindParam(":id", $obId);
-                $sentencia->bindParam(":email", $obEmail);
-                $sentencia->bindParam(":password", $obPassword);
-                $sentencia->bindParam(":first_name", $obFirst_name);
-                $sentencia->bindParam(":last_name", $obLast_name);
+                $sentencia->bindParam(":id", $id);
+                $sentencia->bindParam(":email", $email);
+                $sentencia->bindParam(":password", $password);
+                $sentencia->bindParam(":first_name", $first_name);
+                $sentencia->bindParam(":last_name", $last_name);
                 $actualizado = $sentencia->execute();
 
             } catch (PDOException $ex) {
@@ -111,13 +106,35 @@ class RepositorioUsuario
         return $actualizado;
     }
 
+    public function obtener_usuario_por_id($id)
+    { /*retorna objeto usuario correspondiente al id pasado como parametro */
+        $usuario = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT * FROM usuario WHERE id = :id AND borrado=0";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":id", $id);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                if (!empty($resultado)) {
+                    $usuario = new Usuario($resultado['id'], $resultado['email'], $resultado['username'], $resultado['password'], $resultado['activo']
+                        , $resultado['updated_at'], $resultado['created_at'], $resultado['first_name'], $resultado['last_name'], $resultado['borrado']);
+                }
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_usuario_por_username");
+            }
+        }
+        return $usuario;
+
+    }
     public function obtener_usuario_por_username($username)
     { /*retorna objeto usuario correspondiente al username pasado como parametro */
         $usuario = null;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT * FROM usuario WHERE username = :username AND borrado=0";
+                $sql = "SELECT * FROM usuario WHERE id = :username AND borrado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":username", $username);
                 $sentencia->execute();
