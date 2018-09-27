@@ -1,0 +1,32 @@
+<div class="container">
+  <form class="form-inline justify-content-center" onsubmit="return false">
+    <div class="form-group mx-sm-3 mb-2">
+      <label for="rol" class="sr-only">Seleccionar rol</label>
+      <select class="form-control" id="rol" name="rol">
+        <option value="no seleccionado" selected>Selectionar Rol...</option>
+        {% for rol in roles %}
+          <option value="{{rol.getid}}">{{ rol.getnombre | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2" id="btnAgregarRol">Agregar rol</button>
+  </form>
+  <div class="mt-2">
+    <h5 align="center">Roles del usuario: {{ usuario.getUsername | capitalize }}</h5>
+    <hr>
+    <div class="px-5" >
+      {% if usuario.getRoles %}
+        {% for rol in usuario.getRoles %}
+          <div class="mb-2">
+            {{ rol.getnombre | capitalize }}
+            <button type="button" class="close" name="btnQuitarRol" aria-label="Boton para quitar rol {{ rol.getnombre | capitalize }}" id="{{ rol.getId }}">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% else %}
+          No tiene
+      {% endif %}
+    </div>
+  </div>
+</div>

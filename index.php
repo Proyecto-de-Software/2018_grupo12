@@ -42,6 +42,18 @@ if(isset($_GET["action"])){
       case 'formularioModificacionUsuario':
         AdminController::getInstance()->formularioModificacionUsuario();
         break;
+      case 'modificarUsuario':
+        AdminController::getInstance()->modificarUsuario();
+        break;
+      case 'cuerpoPanelAdministracionRoles':
+        AdminController::getInstance()->cuerpoPanelAdministracionRoles();
+        break;
+      case 'agregarRol':
+        AdminController::getInstance()->agregarRol();
+        break;
+      case 'quitarRol':
+        AdminController::getInstance()->quitarRol();
+        break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }

@@ -187,11 +187,11 @@ class AdminController {
     	exit;
     }
 
-    $nombre = $_POST["nombre"];
-    $apellido = $_POST["apellido"];
-    $nombreDeUsuario = $_POST["nombreDeUsuario"];
+    $nombre = strtolower($_POST["nombre"]);
+    $apellido = strtolower($_POST["apellido"]);
+    $nombreDeUsuario = strtolower($_POST["nombreDeUsuario"]);
     $contrasena = $_POST["contrasena"];
-    $email = $_POST["email"];
+    $email = strtolower($_POST["email"]);
 
     $repoUsuario = RepositorioUsuario::getInstance();
 
@@ -216,6 +216,7 @@ class AdminController {
     }else {
       echo "no se guardo";
     }
+
   }
 
   public function formularioModificacionUsuario(){
@@ -231,10 +232,110 @@ class AdminController {
     $repoUsuario = RepositorioUsuario::getInstance();
     $view = new Usuarios();
 
-    // aca obtener el $usuario
-    $usuario = null;
+    $usuario = $repoUsuario->obtener_usuario_por_id($id);
 
     $view->formularioModificacionUsuario($usuario);
+  }
+
+  public function modificarUsuario(){
+    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+    {
+      //No es una peticion ajax
+      header("Location: index.php");
+    	exit;
+    }
+
+    $id = $_POST["id"];
+    $nombre = $_POST["nombre"];
+    $apellido = $_POST["apellido"];
+    $contrasena = $_POST["contrasena"];
+    $email = $_POST["email"];
+
+    $repoUsuario = RepositorioUsuario::getInstance();
+
+    //Valido campos
+    if (!($nombre && $apellido && $email && $contrasena)) {
+      echo "datos incorrectos";
+      return;
+    }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
+      echo "email incorrecto";
+      return;
+    }
+
+    if ($repoUsuario->actualizar_informacion_usuario($id,$email,$contrasena,$nombre,$apellido)){
+      echo "modificado correcto";
+    }else {
+      echo "no se modifico";
+    }
+  }
+
+  public function cuerpoPanelAdministracionRoles(){
+    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+    {
+      //No es una peticion ajax
+      header("Location: index.php");
+    	exit;
+    }
+
+    $id = $_POST["id"];
+
+    $repoUsuario = RepositorioUsuario::getInstance();
+    $repoRol = RepositorioRol::getInstance();
+    $view = new Usuarios();
+
+    $usuario = $repoUsuario->obtener_usuario_por_id($id);
+    $roles = $repoRol->obtener_todos_los_roles();
+
+    if ($usuario) {
+      $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
+      $view->cuerpoPanelAdministracionRoles($usuario,$roles);
+    }else {
+      echo "error";
+    }
+  }
+
+  public function agregarRol(){
+    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+    {
+      //No es una peticion ajax
+      header("Location: index.php");
+    	exit;
+    }
+
+    $id = $_POST["id"];
+    $idRol = $_POST["idRol"];
+
+    $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
+
+    if ($idRol == "no seleccionado") {
+      echo "no seleccionado";
+      exit;
+    }
+
+    if ($repoUsuarioTieneRol->relacion_existe($id,$idRol,0)) {
+      echo "ya tiene este rol";
+      exit;
+    }
+
+    if ($repoUsuarioTieneRol->crearRelacion($id,$idRol)) {
+      echo "agregado correcto";
+    }else {
+      echo "error";
+    }
+
+  }
+
+  public function quitarRol(){
+    $id = $_POST["id"];
+    $idRol = $_POST["idRol"];
+
+    $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
+
+    if ($repoUsuarioTieneRol->eliminarRelacion($id, $idRol)) {
+      echo "quitado correcto";
+    }else {
+      echo "error";
+    }
   }
 
 }

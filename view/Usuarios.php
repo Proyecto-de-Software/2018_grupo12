@@ -16,4 +16,9 @@ class Usuarios extends TwigView {
     echo self::getTwig()->render('formularioModificacionUsuario.twig',array('usuario' => $usuario ));
   }
 
+  public function cuerpoPanelAdministracionRoles($usuario, $roles){
+    echo self::getTwig()->render('cuerpoPanelAdministracionRoles.twig',array('usuario' => $usuario,
+                                                                            'roles' => $roles ));
+  }
+
 }
