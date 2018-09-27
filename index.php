@@ -5,7 +5,8 @@ error_reporting(-1);
 
 require_once './vendor/autoload.php';
 
-
+//Agregar control de mantenimiento
+//Agregar control de sesiones
 if(isset($_GET["action"])){
   switch ($_GET["action"]) {
     case 'login':
@@ -25,6 +26,21 @@ if(isset($_GET["action"])){
         break;
       case 'cargarPagina':
         AdminController::getInstance()->cargarPagina();
+        break;
+      case 'eliminarUsuario':
+        AdminController::getInstance()->eliminarUsuario();
+        break;
+      case 'bloquearUsuario':
+        AdminController::getInstance()->bloquearUsuario();
+        break;
+      case 'activarUsuario':
+        AdminController::getInstance()->activarUsuario();
+        break;
+      case 'agregarUsuario':
+        AdminController::getInstance()->agregarUsuario();
+        break;
+      case 'formularioModificacionUsuario':
+        AdminController::getInstance()->formularioModificacionUsuario();
         break;
     default:
       InicioController::getInstance()->mostrarInicio();

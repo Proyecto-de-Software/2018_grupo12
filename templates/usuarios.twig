@@ -4,199 +4,111 @@
 
 {% block cuerpo %}
   <div class="container my-3">
-    <div>
-      <div class="form-row align-items-center">
-        <div class="col-md-auto mb-2 ml-auto">
-          <label class="mr-sm-2" for="username">Nombre de usuario:</label>
+    <ul class="nav nav-tabs" id="menuTabs" role="tablist">
+      <li id="tabUsuarios" class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#contenidoUsuarios" role="tab" aria-controls="contenidoUsuarios" aria-selected="true">Usuarios</a>
+      </li>
+      <li id="tabAgregarUsuario" class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#contenidoAgregarUsuario" role="tab" aria-controls="contenidoAgregarUsuario" aria-selected="false">Agregar usuario</a>
+      </li>
+      <li id="tabModificarUsuario" style="display: none;" class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#contenidoModificarUsuario" role="tab" aria-controls="contenidoModificarUsuario" aria-selected="false">Modificar Usuario</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="contenidoUsuarios" role="tabpanel" aria-labelledby="usuarios">
+        <div>
+          <div class="form-row align-items-center mt-2">
+            <div class="col-md-auto mb-2 ml-auto">
+              <label class="mr-sm-2" for="username">Nombre de usuario:</label>
+            </div>
+            <div class="col-md-auto">
+              <input type="text" class="form-control mb-2" id="username" placeholder="Nombre de usuario..." value="{{ username }}">
+            </div>
+            <div class="col-md-auto mb-2 ml-2">
+              <label class="" for="estado">Estado: </label>
+            </div>
+            <div class="col-md-auto mb-2">
+              <select class="custom-select mr-sm-2" id="estado" >
+                <option id="opcionPorDefecto" value="no aplica" selected>Elegir...</option>
+                <option value="1">Activo</option>
+                <option value="0">Bloqueado</option>
+              </select>
+            </div>
+            <div class="col-md-auto">
+              <button type="button" id="btnBuscar" class="btn btn-outline-primary mb-2">Buscar</button>
+            </div>
+          </div>
         </div>
-        <div class="col-md-auto">
-          <input type="text" class="form-control mb-2" id="username" placeholder="Nombre de usuario..." value="{{ username }}">
+        <div id="pagina" class="">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nombre de usuario</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTablaUsuarios">
+
+              {{ include('cuerpoTablaUsuarios.twig') }}
+
+            </tbody>
+          </table>
         </div>
-        <div class="col-md-auto mb-2 ml-2">
-          <label class="" for="estado">Estado: </label>
+        <nav aria-label="Navegacion entre paginas">
+          <ul class="pagination justify-content-center">
+            <li id="anterior" class="page-item disabled">
+              <button class="page-link" id="btnAnterior" aria-label="Pagina anterior">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Pagina anterior</span>
+              </button>
+            </li>
+            <li id="inicio" class="page-item active"><button id="btnInicio" class="page-link">1</button></li>
+            <li id="medio" class="page-item"><button id="btnMedio" class="page-link">2</button></li>
+            <li id="final" class="page-item"><button id="btnFinal" class="page-link">3</button></li>
+            <li id="siguiente" class="page-item">
+              <button class="page-link" id="btnSiguiente" aria-label="Pagina siguiente">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Pagina siguiente</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="tab-pane fade" id="contenidoAgregarUsuario" role="tabpanel" aria-labelledby="tabAgregarUsuario">
+        {{ include('contenidoAgregarUsuario.twig') }}
+      </div>
+      <div class="tab-pane fade" id="contenidoModificarUsuario" role="tabpanel" aria-labelledby="tabModificarUsuario">...</div>
+    </div>
+  </div>
+
+  <!-- Modal Mensaje Confirmacion -->
+  <div class="modal fade" id="mensajeConfirmacion" tabindex="-1" role="dialog" aria-labelledby="tituloMensaje" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title ml-auto" id="tituloMensaje"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Boton para cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="col-md-auto mb-2">
-          <select class="custom-select mr-sm-2" id="estado" >
-            <option id="opcionPorDefecto" value="no aplica" selected>Elegir...</option>
-            <option value="1">Activo</option>
-            <option value="0">Bloqueado</option>
-          </select>
+        <div id="cuerpoMensaje" class="modal-body">
+
         </div>
-        <div class="col-md-auto">
-          <button type="button" onclick="buscar()" class="btn btn-outline-primary mb-2">Buscar</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+          <button id="botonMensaje" type="button" class="btn btn-outline-success" data-dismiss="modal">Confirmar</button>
         </div>
       </div>
     </div>
-    <div id="pagina" class="">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Email</th>
-            <th scope="col">Nombre de usuario</th>
-            <th scope="col">Activo</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="cuerpoTablaUsuarios">
-
-          {{ include('cuerpoTablaUsuarios.twig') }}
-
-        </tbody>
-      </table>
-    </div>
-    <nav aria-label="Navegacion entre paginas">
-      <ul class="pagination justify-content-center">
-        <li id="anterior" class="page-item disabled">
-          <button class="page-link" onclick="anterior()" aria-label="Pagina anterior">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Pagina anterior</span>
-          </button>
-        </li>
-        <li id="inicio" class="page-item active"><button id="btnInicio" class="page-link" onclick="clickInicio(this)">1</button></li>
-        <li id="medio" class="page-item"><button id="btnMedio" class="page-link" onclick="clickMedio(this)">2</button></li>
-        <li id="final" class="page-item"><button id="btnFinal" class="page-link" onclick="clickFinal(this)">3</button></li>
-        <li id="siguiente" class="page-item">
-          <button class="page-link" onclick="siguiente()" aria-label="Pagina siguiente">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Pagina siguiente</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
   </div>
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript">
-    var username = "";
-    var estado = document.getElementById("opcionPorDefecto").value;
-
-    function buscar(){
-      username = $("#username")[0].value;
-      estado = $("#estado")[0].value;
-
-      document.getElementsByClassName("page-item active")[0].className = "page-item";
-      $("#anterior")[0].className = "page-item disabled";
-      $("#inicio")[0].className = "page-item active";
-
-      $("#btnInicio")[0].innerHTML = "1";
-      $("#btnMedio")[0].innerHTML = "2";
-      $("#btnFinal")[0].innerHTML = "3";
-      $("#siguiente")[0].className = "page-item";
-
-      $("#btnInicio")[0].onclick();
-    }
-
-    function clickInicio(btn){
-      document.getElementsByClassName("page-item active")[0].className = "page-item";
-
-      var pagina = btn.innerHTML;
-
-      if (btn.innerHTML != "1") {
-        $("#medio")[0].className = "page-item active";
-
-        btn.innerHTML = parseInt(btn.innerHTML) - 1;
-        $("#btnMedio")[0].innerHTML = parseInt($("#btnMedio")[0].innerHTML) - 1;
-        $("#btnFinal")[0].innerHTML = parseInt($("#btnFinal")[0].innerHTML) - 1;
-      }else {
-        $("#inicio")[0].className = "page-item active";
-      }
-
-      if (btn.innerHTML == "1") {
-        $("#anterior")[0].className = "page-item disabled";
-      }
-
-      $.ajax({
-        url : '?action=cargarPagina',
-        data : { username : username, estado : estado, pagina : pagina },
-        type : 'POST',
-        // código a ejecutar si la petición es satisfactoria;
-        // la respuesta es pasada como argumento a la función
-        success : function(respuesta) {
-          if (respuesta == "no hay") {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
-            if (btn.innerHTML == "1") {
-              $("#medio")[0].className = "page-item disabled";
-            }
-            $("#final")[0].className = "page-item disabled";
-            $("#siguiente")[0].className = "page-item disabled";
-          }else {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-          }
-        }
-      });
-    }
-
-    function clickMedio(btn){
-      document.getElementsByClassName("page-item active")[0].className = "page-item";
-
-      var pagina = btn.innerHTML;
-
-      $("#medio")[0].className = "page-item active";
-
-      $.ajax({
-        url : '?action=cargarPagina',
-        data : { username : username, estado : estado, pagina : pagina },
-        type : 'POST',
-        // código a ejecutar si la petición es satisfactoria;
-        // la respuesta es pasada como argumento a la función
-        success : function(respuesta) {
-          if (respuesta == "no hay") {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
-            $("#final")[0].className = "page-item disabled";
-            $("#siguiente")[0].className = "page-item disabled";
-          }else {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-          }
-        }
-      });
-    }
-
-    function clickFinal(btn){
-      document.getElementsByClassName("page-item active")[0].className = "page-item";
-
-      var pagina = btn.innerHTML;
-
-      $("#medio")[0].className = "page-item active";
-
-      $("#btnInicio")[0].innerHTML = parseInt($("#btnInicio")[0].innerHTML) + 1;
-      $("#btnMedio")[0].innerHTML = parseInt($("#btnMedio")[0].innerHTML) + 1;
-      btn.innerHTML = parseInt(btn.innerHTML) + 1;
-
-      if (btn.innerHTML != "3") {
-        $("#anterior")[0].className = "page-item"
-      }
-
-      $.ajax({
-        url : '?action=cargarPagina',
-        data : { username : username, estado : estado, pagina : pagina },
-        type : 'POST',
-        // código a ejecutar si la petición es satisfactoria;
-        // la respuesta es pasada como argumento a la función
-        success : function(respuesta) {
-          if (respuesta == "no hay") {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
-            $("#final")[0].className = "page-item disabled";
-            $("#siguiente")[0].className = "page-item disabled";
-          }else {
-            $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-          }
-        }
-      });
-    }
-
-    function anterior(){
-      $("#btnInicio")[0].onclick()
-    }
-
-    function siguiente(){
-      if (document.getElementsByClassName("page-item active")[0].id == "inicio") {
-        $("#btnMedio")[0].onclick()
-      }else {
-        $("#btnFinal")[0].onclick()
-      }
-    }
-  </script>
+  <script type="text/javascript" src="templates/js/usuarios.js"></script>
 {% endblock %}

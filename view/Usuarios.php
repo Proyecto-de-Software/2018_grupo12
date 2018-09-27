@@ -12,4 +12,8 @@ class Usuarios extends TwigView {
     echo self::getTwig()->render('cuerpoTablaUsuarios.twig',array('usuarios' => $usuarios ));
   }
 
+  public function formularioModificacionUsuario($usuario){
+    echo self::getTwig()->render('formularioModificacionUsuario.twig',array('usuario' => $usuario ));
+  }
+
 }

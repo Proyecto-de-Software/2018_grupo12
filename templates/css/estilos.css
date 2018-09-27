@@ -3,9 +3,18 @@
 }
 
 .pieDePagina{
-  line-height: 60px;
+  line-height: 3.75em;
 }
 
 .barraNavegacion{
   display: contents;
+}
+
+.btnActivar{
+  width: 5.143em;
+}
+
+.alerta{
+  max-width: inherit !important;
+  margin-right: 1em !important;
 }
