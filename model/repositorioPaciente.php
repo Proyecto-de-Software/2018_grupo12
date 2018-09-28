@@ -60,7 +60,9 @@ class RepositorioPaciente
             } catch (PDOException $ex) {
                 throw new Exception("error consulta insertar_paciente " . $ex->getMessage());
             }
-        }return $ok;
+        }
+        $conexion = null;
+        return $ok;
 
     }
     public function eliminar_paciente($id)
@@ -78,6 +80,7 @@ class RepositorioPaciente
                 throw new Exception("error consulta eliminar_paciente " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
 
@@ -105,6 +108,7 @@ class RepositorioPaciente
 
             }
         }
+        $conexion = null;
         return $paciente;
     }
 
@@ -131,6 +135,7 @@ class RepositorioPaciente
                 throw new Exception("error consulta obtener_por_datos_paciente " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $paciente;
     }
     public function obtener_por_id($id)
@@ -154,6 +159,7 @@ class RepositorioPaciente
 
             }
         }
+        $conexion = null;
         return $paciente;
     }
     public function obtener_por_id_info_completa($id)
@@ -199,6 +205,7 @@ class RepositorioPaciente
                 throw new Exception("error consulta obtener_por_id_info_completa " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $r;
     }
 

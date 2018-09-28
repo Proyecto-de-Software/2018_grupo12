@@ -35,6 +35,7 @@ class RepositorioRol
 
             }
         }
+        $conexion = null;
         return $Rol;
     }
     public function obtener_por_id_usuario($id)
@@ -60,6 +61,7 @@ class RepositorioRol
                 throw new Exception("error consulta repositorioRol->obtener_por_id_usuario " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $roles;
     }
     public function obtener_todos_los_roles()
@@ -81,6 +83,7 @@ class RepositorioRol
                 throw new Exception("erro consulta repositorioRol-> obtener_todos_los_roles");
             }
         }
+        $conexion = null;
         return $roles;
     }
 }

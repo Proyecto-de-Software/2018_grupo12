@@ -35,6 +35,7 @@ class RepositorioRegionSanitaria
 
             }
         }
+        $conexion = null;
         return $RegionSanitaria;
     }
 }

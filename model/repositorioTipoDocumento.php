@@ -35,6 +35,7 @@ class RepositorioTipoDocumento
 
             }
         }
+        $conexion = null;
         return $tipoDocumento;
     }
 }
