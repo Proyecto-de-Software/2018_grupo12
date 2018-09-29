@@ -9,7 +9,10 @@ class Usuarios extends TwigView {
   }
 
   public function cargarPagina($usuarios){
-    echo self::getTwig()->render('cuerpoTablaUsuarios.twig',array('usuarios' => $usuarios ));
+    $contenido = self::getTwig()->render('cuerpoTablaUsuarios.twig',array('usuarios' => $usuarios ));
+    $datos = array('estado' => "si hay",'contenido' => $contenido);
+
+    self::jsonEncode($datos);
   }
 
   public function formularioModificacionUsuario($usuario){

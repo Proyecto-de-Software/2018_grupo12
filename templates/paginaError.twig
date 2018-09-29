@@ -1,0 +1,30 @@
+{% extends 'layout.twig' %}
+
+{% block titulo %}
+  Oops!
+{% endblock %}
+
+{% block panel_derecho %}
+  <button type="button" name="button" onclick="location.href='index.php'" class="btn btn-outline-primary ml-0 ml-lg-5">Inicio</button>
+{% endblock %}
+
+{% block buscador %}
+  <div class="ml-auto">
+
+  </div>
+{% endblock %}
+
+{% block cuerpo %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 align="center">Oops!</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col">
+        <p align="center" style="font-size: 1.5em">La operacion solicitada no pudo ser realizada, vuelva a intentar mas tarde</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

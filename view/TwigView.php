@@ -13,4 +13,8 @@ abstract class TwigView {
         return self::$twig;
     }
 
+    public function jsonEncode($datos){
+      echo self::getTwig()->render('jsonEncode.twig',array('datos' => $datos ));
+    }
+
 }
