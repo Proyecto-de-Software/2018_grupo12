@@ -225,7 +225,6 @@ CREATE TABLE `usuario` (
   `created_at` datetime DEFAULT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `borrado` tinyint(1) not null default '0',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

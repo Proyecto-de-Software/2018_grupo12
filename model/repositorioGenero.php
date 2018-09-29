@@ -35,6 +35,7 @@ class RepositorioGenero
 
             }
         }
+        $conexion = null;
         return $genero;
     }
 }

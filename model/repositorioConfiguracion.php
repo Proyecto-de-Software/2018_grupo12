@@ -35,6 +35,7 @@ id 5= habilitado */
                 throw new Exception("error consulta set titulo " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
 
@@ -52,6 +53,7 @@ id 5= habilitado */
                 throw new Exception("error consulta set descripción " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
     public function setEmail($Email)
@@ -68,6 +70,7 @@ id 5= habilitado */
                 throw new Exception("error consulta set email " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
     public function setLimite($limite)
@@ -84,6 +87,7 @@ id 5= habilitado */
                 throw new Exception("error consulta set limite " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
     public function habilitar()
@@ -99,6 +103,7 @@ id 5= habilitado */
                 throw new Exception("error consulta habilitar " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
     public function deshabilitar()
@@ -114,6 +119,7 @@ id 5= habilitado */
                 throw new Exception("error consulta deshabilitar " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $ok;
     }
 
@@ -131,6 +137,7 @@ id 5= habilitado */
                 throw new Exception("error consulta getTitulo " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $titulo;
     }
     public function getDescripcion()
@@ -147,6 +154,7 @@ id 5= habilitado */
                 throw new Exception("error consulta getDescripcion " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $valor;
     }
     public function getEmail()
@@ -163,6 +171,7 @@ id 5= habilitado */
                 throw new Exception("error consulta getEmail " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $valor;
     }
     public function getLimite()
@@ -179,6 +188,7 @@ id 5= habilitado */
                 throw new Exception("error consulta getLimite " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $valor;
     }
     public function getHabilitado()
@@ -195,6 +205,7 @@ id 5= habilitado */
                 throw new Exception("error consulta getHabilitado " . $ex->getMessage());
             }
         }
+        $conexion = null;
         return $valor;
     }
     public function obtener_configuracion()
@@ -217,7 +228,9 @@ id 5= habilitado */
             } catch (PDOException $ex) {
                 throw new Exception("errpr consulta obtener_configuracion " . $ex->getMessage());
             }
-        }return $arreglo;
+        }
+        $conexion = null;
+        return $arreglo;
     }
 
 }

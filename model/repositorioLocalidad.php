@@ -35,6 +35,7 @@ class RepositorioLocalidad
 
             }
         }
+        $conexion = null;
         return $Localidad;
     }
 }

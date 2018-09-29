@@ -345,10 +345,10 @@ function modificarUsuario(){
   var id = this.usuario;
 
   //Tomo datos del formulario
-  var nombre = $("#nombre")[0].value;
-  var apellido = $("#apellido")[0].value;
-  var contrasena = $("#contrasena")[0].value;
-  var email = $("#email")[0].value;
+  var nombre = $("#nombreModificacion")[0].value;
+  var apellido = $("#apellidoModificacion")[0].value;
+  var contrasena = $("#contrasenaModificacion")[0].value;
+  var email = $("#emailModificacion")[0].value;
 
   $.ajax({
     url : '?action=modificarUsuario',
@@ -398,6 +398,104 @@ $('#menuTabs li:nth-child(2) a').on('click', function (e) {
   }, 250);
 })
 
+//------------------ Administrar roles usuario ------------------
+//Usado en el boton para desplegar modal
+function mostrarPanelAdministracionRoles() {
+  var id = this.parentNode.id;
+  actualizarPanelAdministracionRoles(id)
+}
+
+//Usado para actualizar el contenido del modal
+function actualizarPanelAdministracionRoles(id) {
+  $.ajax({
+    url : '?action=cuerpoPanelAdministracionRoles',
+    data : { id: id },
+    type : 'POST',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      if (respuesta == "error") {
+        mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }else {
+        $("#cuerpoPanelAdministracionRoles").html(respuesta);
+        $("#btnAgregarRol")[0].usuario = id;
+        $("#btnAgregarRol")[0].onclick = agregarRol;
+
+        document.getElementsByName("btnQuitarRol").forEach(function(btnQuitarRol){
+          btnQuitarRol.onclick= quitarRol;
+        });
+
+        $("#panelAdministracionRoles").modal();
+      }
+    }
+  });
+}
+
+function agregarRol() {
+  var id = this.usuario;
+  var idRol = $("#rol")[0].value;
+
+  $.ajax({
+    url : '?action=agregarRol',
+    data : { id: id, idRol: idRol },
+    type : 'POST',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      switch(respuesta) {
+        case "agregado correcto":
+          mostrarAlerta("Rol agregado correctamente","success");
+          actualizarPanelAdministracionRoles(id);
+          //$('#formulario').trigger("reset");
+          //actualizo listado de usuarios
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "ya tiene este rol":
+          mostrarAlerta("El usuario ya tiene asignado este rol","error");
+          break;
+        case "no seleccionado":
+          mostrarAlerta("No se selecciono ningun rol","error");
+        break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
+
+function quitarRol() {
+  var id = $("#btnAgregarRol")[0].usuario;
+  var idRol = this.id;
+
+  $.ajax({
+    url : '?action=quitarRol',
+    data : { id: id, idRol: idRol },
+    type : 'POST',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      switch(respuesta) {
+        case "quitado correcto":
+          mostrarAlerta("Rol quitado correctamente","success");
+          actualizarPanelAdministracionRoles(id);
+          //$('#formulario').trigger("reset");
+          //actualizo listado de usuarios
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+
+}
+
+//Borrar datos del panel cuando se oculte
+$('#panelAdministracionRoles').on('hidden.bs.modal', function (e) {
+  $("#cuerpoPanelAdministracionRoles").html("");
+})
+
+//------------------ Inicializar ------------------
 //Asigna las funciones a los botones de las operaciones
 function asignarFuncionesALasOperaciones(){
   //Asigno funciones al boton para eliminar usuario
@@ -415,6 +513,10 @@ function asignarFuncionesALasOperaciones(){
 
   document.getElementsByName("modificar").forEach(function(btnModificar){
     btnModificar.onclick= mostrarFormularioModificacion;
+  })
+
+  document.getElementsByName("administrar-rol").forEach(function(btnAdministrar){
+    btnAdministrar.onclick= mostrarPanelAdministracionRoles;
   })
 
 }

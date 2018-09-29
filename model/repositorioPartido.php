@@ -35,6 +35,7 @@ class RepositorioPartido
 
             }
         }
+        $conexion = null;
         return $Partido;
     }
 }
