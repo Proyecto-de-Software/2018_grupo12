@@ -87,23 +87,41 @@ class RepositorioUsuario
         return $email_existe;
     }
 
-    public function actualizar_informacion_usuario($id, $email, $password, $first_name, $last_name) /*objeto usuario con info para el cambio */
+    public function actualizar_informacion_usuario($id, $email, $first_name, $last_name) /*objeto usuario con info para el cambio */
     {
         $actualizado = false;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE usuario SET email=:email, password=:password, first_name=:first_name, last_name=:last_name, updated_at=NOW() WHERE id=:id";
+                $sql = "UPDATE usuario SET email=:email, first_name=:first_name, last_name=:last_name, updated_at=NOW() WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
                 $sentencia->bindParam(":email", $email);
-                $sentencia->bindParam(":password", $password);
                 $sentencia->bindParam(":first_name", $first_name);
                 $sentencia->bindParam(":last_name", $last_name);
                 $actualizado = $sentencia->execute();
 
             } catch (PDOException $ex) {
                 throw new Exception("erro consulta actualizar_informacion_usuario");
+            }
+        }
+        $conexion = null;
+        return $actualizado;
+    }
+    public function actualizar_password_usuario($id, $password) /*objeto usuario con info para el cambio */
+    {
+        $actualizado = false;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "UPDATE usuario SET password=:password, updated_at=NOW() WHERE id=:id";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":id", $id);
+                $sentencia->bindParam(":password",$password);
+                $actualizado = $sentencia->execute();
+
+            } catch (PDOException $ex) {
+                throw new Exception("erro consulta actualizar_password_usuario");
             }
         }
         $conexion = null;
