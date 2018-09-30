@@ -27,9 +27,6 @@ if(isset($_GET["action"])){
       case 'cargarPagina':
         AdminController::getInstance()->cargarPagina();
         break;
-      case 'eliminarUsuario':
-        AdminController::getInstance()->eliminarUsuario();
-        break;
       case 'bloquearUsuario':
         AdminController::getInstance()->bloquearUsuario();
         break;

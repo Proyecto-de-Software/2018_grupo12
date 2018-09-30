@@ -1,39 +1,33 @@
+{% set estado = {"0": "Bloqueado", "1": "Activo" } %}
 
-{% if not (usuarios) %}
-  <td colspan="7" align="center" >No hay usuarios para mostrar</td>
-{% else %}
-  {% for usuario in usuarios %}
+{% set botonActivar %} <button type="button" name="bloquear" class="btn btn-sm btn-danger mb-1">Bloquear</button> {% endset %}
+
+{% set botonBloquear %} <button type="button" name="activar" class="btn btn-sm btn-success btnActivar mb-1">Activar</button> {% endset %}
+
+{% set botonEstado = {"0": botonBloquear, "1": botonActivar } %}
+
+{% for usuario in usuarios %}
   <tr>
     <td>{{ usuario.getFirst_name |capitalize }}</td>
     <td>{{ usuario.getLast_name |capitalize }}</td>
     <td>{{ usuario.getEmail }}</td>
     <td>{{ usuario.getUsername |capitalize }}</td>
     <td>
-      {% if usuario.getActivo == "1" %}
-        Activo
-      {% else %}
-        Bloqueado
-      {% endif %}
+      {{ estado[usuario.getActivo] }}
     </td>
     <td>
-      {% if not(usuario.getRoles) %}
-        No tiene
+      {% for rol in usuario.getRoles %}
+        {{ rol.nombre |capitalize }} <br>
       {% else %}
-        {% for rol in usuario.getRoles %}
-          {{ rol.nombre |capitalize }} <br>
-        {% endfor %}
-      {% endif %}
+        No tiene
+      {% endfor %}
     </td>
     <td id="{{usuario.getId}}">
-      {% if usuario.getActivo == "1" %}
-        <button type="button" name="bloquear" class="btn btn-sm btn-warning mb-1">Bloquear</button>
-      {% else %}
-        <button type="button" name="activar" class="btn btn-sm btn-success btnActivar mb-1">Activar</button>
-      {% endif %}
-      <button type="button" name="administrar-rol" class="btn btn-sm btn-primary mb-1">Roles</button>
-      <button type="button" name="eliminar" class="btn btn-sm btn-danger mb-1">Eliminar</button>
+      {{ botonEstado[usuario.getActivo] }}
+      <button type="button" name="administrar-rol" class="btn btn-sm btn-info mb-1">Roles</button>
       <button type="button" name="modificar" class="btn btn-sm btn-primary mb-1">Editar datos</button>
     </td>
   </tr>
-  {% endfor %}
-{% endif %}
+  {% else %}
+    <td colspan="7" align="center" >No hay usuarios para mostrar</td>
+{% endfor %}

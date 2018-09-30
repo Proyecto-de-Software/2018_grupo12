@@ -16,12 +16,17 @@ class Usuarios extends TwigView {
   }
 
   public function formularioModificacionUsuario($usuario){
-    echo self::getTwig()->render('formularioModificacionUsuario.twig',array('usuario' => $usuario ));
+    $contenido = self::getTwig()->render('formularioModificacionUsuario.twig',array('usuario' => $usuario ));
+    $datos = array('estado' => "correcto",'contenido' => $contenido);
+
+    self::jsonEncode($datos);
   }
 
   public function cuerpoPanelAdministracionRoles($usuario, $roles){
-    echo self::getTwig()->render('cuerpoPanelAdministracionRoles.twig',array('usuario' => $usuario,
-                                                                            'roles' => $roles ));
+    $contenido = self::getTwig()->render('cuerpoPanelAdministracionRoles.twig',array('usuario' => $usuario, 'roles' => $roles ));
+    $datos = array('estado' => "correcto",'contenido' => $contenido);
+
+    self::jsonEncode($datos);
   }
 
 }

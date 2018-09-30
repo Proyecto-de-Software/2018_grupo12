@@ -133,225 +133,232 @@ class AdminController {
           $view->cargarPagina($usuarios);
         }
       }
-    } catch (\Exception $e) {
-      $view->jsonEncode(array('estado' => "no hay"));
-    }
-  }
-
-  public function eliminarUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
-
-    $repoUsuario = RepositorioUsuario::getInstance();
-
-    $id = $_POST["id"];
-
-    if ($repoUsuario->eliminar_usuario($id)) {
-      echo "eliminado";
-    }else {
-      echo "no se pudo eliminar";
+    }catch (\Exception $e){
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
 
   public function bloquearUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else{
+        $repoUsuario = RepositorioUsuario::getInstance();
 
-    $repoUsuario = RepositorioUsuario::getInstance();
+        $id = $_POST["id"];
 
-    $id = $_POST["id"];
-
-    if ($repoUsuario->bloquear_usuario($id)) {
-      echo "bloqueado";
-    }else {
-      echo "no se pudo bloquear";
+        if ($repoUsuario->bloquear_usuario($id)) {
+          TwigView::jsonEncode(array('estado' => "bloqueado"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
+      }
+    }catch (\Exception $e){
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
 
   public function activarUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $repoUsuario = RepositorioUsuario::getInstance();
 
-    $repoUsuario = RepositorioUsuario::getInstance();
+        $id = $_POST["id"];
 
-    $id = $_POST["id"];
-
-    if ($repoUsuario->activar_usuario($id)) {
-      echo "activado";
-    }else {
-      echo "no se pudo activar";
+        if ($repoUsuario->activar_usuario($id)) {
+          TwigView::jsonEncode(array('estado' => "activado"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
 
   public function agregarUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else{
+        $nombre = strtolower($_POST["nombre"]);
+        $apellido = strtolower($_POST["apellido"]);
+        $nombreDeUsuario = strtolower($_POST["nombreDeUsuario"]);
+        $contrasena = $_POST["contrasena"];
+        $email = strtolower($_POST["email"]);
+
+        $repoUsuario = RepositorioUsuario::getInstance();
+
+        //Valido que el email sea correcto y que los campos no esten vacios
+        if (!($nombre && $apellido && $nombreDeUsuario && $contrasena && $email)) {
+          TwigView::jsonEncode(array('estado' => "datos incorrectos"));
+        }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
+          TwigView::jsonEncode(array('estado' => "email incorrecto"));
+        }elseif ($repoUsuario->username_existe($nombreDeUsuario)) {
+          //Valido que no exista el nombre de usuario
+          TwigView::jsonEncode(array('estado' => "nombre de usuario existe"));
+        }elseif (strlen($contrasena) < 8) {
+          TwigView::jsonEncode(array('estado' => "contraseña menor a 8"));
+        }else{
+          $contrasena = password_hash($contrasena,PASSWORD_DEFAULT);
+          $usuario = new Usuario("",$email,$nombreDeUsuario,$contrasena,"","","",$nombre,$apellido,"");
+          if ($repoUsuario->insertar_usuario($usuario)){
+            TwigView::jsonEncode(array('estado' => "guardado correcto"));
+          }else {
+            TwigView::jsonEncode(array('estado' => "error"));
+          }
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
-
-    $nombre = strtolower($_POST["nombre"]);
-    $apellido = strtolower($_POST["apellido"]);
-    $nombreDeUsuario = strtolower($_POST["nombreDeUsuario"]);
-    $contrasena = $_POST["contrasena"];
-    $email = strtolower($_POST["email"]);
-
-    $repoUsuario = RepositorioUsuario::getInstance();
-
-    //Valido que el email sea correcto y que los campos no esten vacios
-    if (!($nombre && $apellido && $nombreDeUsuario && $contrasena && $email)) {
-      echo "datos incorrectos";
-      return;
-    }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
-      echo "email incorrecto";
-      return;
-    }
-
-    //Valido que no exista el nombre de usuario
-    if ($repoUsuario->username_existe($nombreDeUsuario)) {
-      echo "nombre de usuario existe";
-      return;
-    }
-
-    $usuario = new Usuario("",$email,$nombreDeUsuario,$contrasena,"","","",$nombre,$apellido,"");
-    if ($repoUsuario->insertar_usuario($usuario)){
-      echo "guardado correcto";
-    }else {
-      echo "no se guardo";
-    }
-
   }
 
   public function formularioModificacionUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $id = $_POST["id"];
+
+        $repoUsuario = RepositorioUsuario::getInstance();
+        $view = new Usuarios();
+
+        $usuario = $repoUsuario->obtener_usuario_por_id($id);
+
+        $view->formularioModificacionUsuario($usuario);
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
-
-    $id = $_POST["id"];
-
-    $repoUsuario = RepositorioUsuario::getInstance();
-    $view = new Usuarios();
-
-    $usuario = $repoUsuario->obtener_usuario_por_id($id);
-
-    $view->formularioModificacionUsuario($usuario);
   }
 
   public function modificarUsuario(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $id = $_POST["id"];
+        $nombre = $_POST["nombre"];
+        $apellido = $_POST["apellido"];
+        $contrasena = $_POST["contrasena"];
+        $email = $_POST["email"];
 
-    $id = $_POST["id"];
-    $nombre = $_POST["nombre"];
-    $apellido = $_POST["apellido"];
-    $contrasena = $_POST["contrasena"];
-    $email = $_POST["email"];
+        $repoUsuario = RepositorioUsuario::getInstance();
 
-    $repoUsuario = RepositorioUsuario::getInstance();
-
-    //Valido campos
-    if (!($nombre && $apellido && $email && $contrasena)) {
-      echo "datos incorrectos";
-      return;
-    }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
-      echo "email incorrecto";
-      return;
-    }
-
-    if ($repoUsuario->actualizar_informacion_usuario($id,$email,$contrasena,$nombre,$apellido)){
-      echo "modificado correcto";
-    }else {
-      echo "no se modifico";
+        //Valido campos
+        if (!($nombre && $apellido && $email)) {
+          TwigView::jsonEncode(array('estado' => "datos incorrectos"));
+        }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
+          TwigView::jsonEncode(array('estado' => "email incorrecto"));
+        }else{
+          if ($contrasena){
+            if (strlen($contrasena) < 8) {
+              TwigView::jsonEncode(array('estado' => "contraseña menor a 8"));
+            }else {
+              //actualizar contraseña
+              $repoUsuario->actualizar_informacion_usuario($id,$email,$nombre,$apellido);
+              $repoUsuario->actualizar_password_usuario($id, $contrasena);
+              TwigView::jsonEncode(array('estado' => "modificado correcto"));
+            }
+          }else{
+            $repoUsuario->actualizar_informacion_usuario($id,$email,$nombre,$apellido);
+            TwigView::jsonEncode(array('estado' => "modificado correcto"));
+          }
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
 
   public function cuerpoPanelAdministracionRoles(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $id = $_POST["id"];
 
-    $id = $_POST["id"];
+        $repoUsuario = RepositorioUsuario::getInstance();
+        $repoRol = RepositorioRol::getInstance();
+        $view = new Usuarios();
 
-    $repoUsuario = RepositorioUsuario::getInstance();
-    $repoRol = RepositorioRol::getInstance();
-    $view = new Usuarios();
+        $usuario = $repoUsuario->obtener_usuario_por_id($id);
+        $roles = $repoRol->obtener_todos_los_roles();
 
-    $usuario = $repoUsuario->obtener_usuario_por_id($id);
-    $roles = $repoRol->obtener_todos_los_roles();
-
-    if ($usuario) {
-      $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
-      $view->cuerpoPanelAdministracionRoles($usuario,$roles);
-    }else {
-      echo "error";
+        if ($usuario) {
+          $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
+          $view->cuerpoPanelAdministracionRoles($usuario,$roles);
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
 
   public function agregarRol(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $id = $_POST["id"];
+        $idRol = $_POST["idRol"];
+
+        $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
+
+        if ($idRol == "no seleccionado") {
+          TwigView::jsonEncode(array('estado' => "no seleccionado"));
+        }elseif ($repoUsuarioTieneRol->relacion_existe($id,$idRol,0)) {
+          TwigView::jsonEncode(array('estado' => "ya tiene este rol"));
+        }elseif ($repoUsuarioTieneRol->crearRelacion($id,$idRol)) {
+          TwigView::jsonEncode(array('estado' => "agregado correctamente"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
-
-    $id = $_POST["id"];
-    $idRol = $_POST["idRol"];
-
-    $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
-
-    if ($idRol == "no seleccionado") {
-      echo "no seleccionado";
-      exit;
-    }
-
-    if ($repoUsuarioTieneRol->relacion_existe($id,$idRol,0)) {
-      echo "ya tiene este rol";
-      exit;
-    }
-
-    if ($repoUsuarioTieneRol->crearRelacion($id,$idRol)) {
-      echo "agregado correcto";
-    }else {
-      echo "error";
-    }
-
   }
 
   public function quitarRol(){
-    $id = $_POST["id"];
-    $idRol = $_POST["idRol"];
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $id = $_POST["id"];
+        $idRol = $_POST["idRol"];
 
-    $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
+        $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
 
-    if ($repoUsuarioTieneRol->eliminarRelacion($id, $idRol)) {
-      echo "quitado correcto";
-    }else {
-      echo "error";
+        if ($repoUsuarioTieneRol->eliminarRelacion($id, $idRol)) {
+          TwigView::jsonEncode(array('estado' => "quitado correctamente"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error"));
     }
   }
-
 }

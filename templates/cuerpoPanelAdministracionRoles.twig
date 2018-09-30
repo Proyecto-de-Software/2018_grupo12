@@ -15,18 +15,16 @@
     <h5 align="center">Roles del usuario: {{ usuario.getUsername | capitalize }}</h5>
     <hr>
     <div class="px-5" >
-      {% if usuario.getRoles %}
-        {% for rol in usuario.getRoles %}
-          <div class="mb-2">
-            {{ rol.getnombre | capitalize }}
-            <button type="button" class="close" name="btnQuitarRol" aria-label="Boton para quitar rol {{ rol.getnombre | capitalize }}" id="{{ rol.getId }}">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        {% endfor %}
+      {% for rol in usuario.getRoles %}
+        <div class="mb-2">
+          {{ rol.getnombre | capitalize }}
+          <button type="button" class="close" name="btnQuitarRol" aria-label="Boton para quitar rol {{ rol.getnombre | capitalize }}" id="{{ rol.getId }}">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       {% else %}
-          No tiene
-      {% endif %}
+        <div align="center">No tiene</div>
+      {% endfor %}
     </div>
   </div>
 </div>
