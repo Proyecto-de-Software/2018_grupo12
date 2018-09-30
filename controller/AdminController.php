@@ -17,108 +17,124 @@ class AdminController {
   }
 
   public function redirectConfiguracion(){
-    $config = RepositorioConfiguracion::getInstance();
-    $view = new Configuracion();
-    $view->show($config->obtener_configuracion());
+    try {
+      $config = RepositorioConfiguracion::getInstance();
+      $view = new Configuracion();
+      $view->show($config->obtener_configuracion());
+    } catch (\Exception $e) {
+      $view = new PaginaError();
+      $view->show();
+    }
   }
 
   public function guardarConfiguracion(){
-    $config = RepositorioConfiguracion::getInstance();
-    $view = new Configuracion();
+    try {
+      $config = RepositorioConfiguracion::getInstance();
+      $view = new Configuracion();
 
-    //intentan hacer un envio vacio desde url por ende redirecciono
-    if (! (isset($_POST["titulo"]) && isset($_POST["descripcion"]) && isset($_POST["email"]) && isset($_POST["limite"]) && isset($_POST["habilitado"]))) {
-      header("Location: ?action=configuracion");
-      return;
+      //intentan hacer un envio vacio desde url por ende redirecciono
+      if (! (isset($_POST["titulo"]) && isset($_POST["descripcion"]) && isset($_POST["email"]) && isset($_POST["limite"]) && isset($_POST["habilitado"]))) {
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $titulo = $_POST["titulo"];
+        $descripcion = $_POST["descripcion"];
+        $email = $_POST["email"];
+        $limite = $_POST["limite"];
+        $habilitado = $_POST["habilitado"];
+
+        //Valido que el email sea correcto y que los campos no esten vacios
+        //Valido que el select "habilitado" tenga los valores correctos
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $view->show($config->obtener_configuracion(),"Email incorrecto");
+        }elseif(!($titulo && $descripcion && $email && $limite && ($habilitado == "0" || $habilitado == "1"))) {
+          $view->show($config->obtener_configuracion(),"Los datos ingresados son incorrectos");
+        }else {
+          //Guardo la configuracion nueva
+          $config->setTitulo($titulo);
+          $config->setDescripcion($descripcion);
+          $config->setEmail($email);
+          $config->setLimite($limite);
+
+          if ($habilitado == 1) {
+            $config->habilitar();
+          }else {
+            $config->deshabilitar();
+          }
+
+          $view->show($config->obtener_configuracion(), null, "Los datos se guardaron correctamente");
+        }
+      }
+    } catch (\Exception $e) {
+      $view = new PaginaError();
+      $view->show();
     }
-
-    $titulo = $_POST["titulo"];
-    $descripcion = $_POST["descripcion"];
-    $email = $_POST["email"];
-    $limite = $_POST["limite"];
-    $habilitado = $_POST["habilitado"];
-
-    //Valido que el email sea correcto y que los campos no esten vacios
-    //Valido que el select "habilitado" tenga los valores correctos
-    if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $view->show($config->obtener_configuracion(),"Email incorrecto");
-      return;
-    }elseif(!($titulo && $descripcion && $email && $limite && ($habilitado == "0" || $habilitado == "1"))) {
-      $view->show($config->obtener_configuracion(),"Los datos ingresados son incorrectos");
-      return;
-    }
-
-    //Guardo la configuracion nueva
-    $config->setTitulo($titulo);
-    $config->setDescripcion($descripcion);
-    $config->setEmail($email);
-    $config->setLimite($limite);
-
-    if ($habilitado == 1) {
-      $config->habilitar();
-    }else {
-      $config->deshabilitar();
-    }
-
-    $view->show($config->obtener_configuracion(), null, "Los datos se guardaron correctamente");
   }
 
   public function redirectUsuarios(){
-    $repoUsuario = RepositorioUsuario::getInstance();
-    $repoRol = RepositorioRol::getInstance();
-    $view = new Usuarios();
-
-    $limite = RepositorioConfiguracion::getInstance()->getLimite();
-    $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,1);
-
-    foreach ($usuarios as $usuario) {
-      $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
-    }
-
-    $view->show($usuarios);
-  }
-
-  public function cargarPagina(){
-    if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
-    {
-      //No es una peticion ajax
-      header("Location: index.php");
-    	exit;
-    }
-
-    $config = RepositorioConfiguracion::getInstance();
-    $repoUsuario = RepositorioUsuario::getInstance();
-    $view = new Usuarios();
-
-    $pagina = $_POST["pagina"];
-    $username = strtolower($_POST["username"]);
-    $estado = $_POST["estado"];
-    $limite = $config->getLimite();
-
-    if ($username) {
-      if ($estado == "no aplica") {
-        $usuarios = $repoUsuario->obtener_todos_limite_pagina_like($limite,$pagina,$username);
-      }else{
-        $usuarios = $repoUsuario->obtener_actblo_limite_pagina_like($limite,$pagina,$username,$estado);
-      }
-    }elseif ($estado != "no aplica") {
-      if ($estado == "1") {
-        $usuarios = $repoUsuario->obtener_activos_limite_pagina($limite,$pagina);
-      } else {
-        $usuarios = $repoUsuario->obtener_bloqueados_limite_pagina($limite,$pagina);
-      }
-    }else {
-      $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,$pagina);
-    }
-
-    if (empty($usuarios)) {
-      echo "no hay";
-    }else{
+    try {
+      $repoUsuario = RepositorioUsuario::getInstance();
       $repoRol = RepositorioRol::getInstance();
+      $view = new Usuarios();
+
+      $limite = RepositorioConfiguracion::getInstance()->getLimite();
+      $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,1);
+
       foreach ($usuarios as $usuario) {
         $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
       }
-      $view->cargarPagina($usuarios);
+
+      $view->show($usuarios);
+    } catch (\Exception $e) {
+      $view = new PaginaError();
+      $view->show();
+    }
+  }
+
+  public function cargarPagina(){
+    try {
+      if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
+      {
+        //No es una peticion ajax
+        InicioController::getInstance()->mostrarInicio();
+      }else {
+        $config = RepositorioConfiguracion::getInstance();
+        $repoUsuario = RepositorioUsuario::getInstance();
+        $view = new Usuarios();
+
+        $pagina = $_POST["pagina"];
+        $username = strtolower($_POST["username"]);
+        $estado = $_POST["estado"];
+        $limite = $config->getLimite();
+
+        //Identifico tipo de busqueda
+        if ($username) {
+          if ($estado == "no aplica") {
+            $usuarios = $repoUsuario->obtener_todos_limite_pagina_like($limite,$pagina,$username);
+          }else{
+            $usuarios = $repoUsuario->obtener_actblo_limite_pagina_like($limite,$pagina,$username,$estado);
+          }
+        }elseif ($estado != "no aplica") {
+          if ($estado == "1") {
+            $usuarios = $repoUsuario->obtener_activos_limite_pagina($limite,$pagina);
+          } else {
+            $usuarios = $repoUsuario->obtener_bloqueados_limite_pagina($limite,$pagina);
+          }
+        }else {
+          $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,$pagina);
+        }
+
+        if (empty($usuarios)) {
+          $view->jsonEncode(array('estado' => "no hay"));
+        }else{
+          $repoRol = RepositorioRol::getInstance();
+          foreach ($usuarios as $usuario) {
+            $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
+          }
+          $view->cargarPagina($usuarios);
+        }
+      }
+    } catch (\Exception $e) {
+      $view->jsonEncode(array('estado' => "no hay"));
     }
   }
 

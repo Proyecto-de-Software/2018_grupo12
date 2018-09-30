@@ -60,28 +60,33 @@ function clickInicio(){
     $("#anterior")[0].className = "page-item disabled";
   }
 
-
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPagina',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
+    dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
-      if (respuesta == "no hay") {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No hay usuarios para mostrar</td>';
-        if (pagina == "1") {
-          $("#medio")[0].className = "page-item disabled";
-        }
-        $("#final")[0].className = "page-item disabled";
-        $("#siguiente")[0].className = "page-item disabled";
-      }else {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-        $("#final")[0].className = "page-item";
-        $("#siguiente")[0].className = "page-item";
-        asignarFuncionesALasOperaciones();
+      switch (respuesta.estado) {
+        case "no hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+          if (pagina == "1") {
+            $("#medio")[0].className = "page-item disabled";
+          }
+          $("#final")[0].className = "page-item disabled";
+          $("#siguiente")[0].className = "page-item disabled";
+          break;
+        case "si hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta.contenido;
+          $("#final")[0].className = "page-item";
+          $("#siguiente")[0].className = "page-item";
+          asignarFuncionesALasOperaciones();
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
       }
     }
   });
@@ -104,17 +109,23 @@ function clickMedio(){
     url : '?action=cargarPagina',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
+    dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
-      if (respuesta == "no hay") {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
-        $("#final")[0].className = "page-item disabled";
-        $("#siguiente")[0].className = "page-item disabled";
-      }else {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-        asignarFuncionesALasOperaciones();
+      switch (respuesta.estado) {
+        case "no hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+          $("#final")[0].className = "page-item disabled";
+          $("#siguiente")[0].className = "page-item disabled";
+          break;
+        case "si hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta.contenido;
+          asignarFuncionesALasOperaciones();
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
       }
     }
   });
@@ -142,17 +153,23 @@ function clickFinal(){
     url : '?action=cargarPagina',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
+    dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
-      if (respuesta == "no hay") {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
-        $("#final")[0].className = "page-item disabled";
-        $("#siguiente")[0].className = "page-item disabled";
-      }else {
-        $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta;
-        asignarFuncionesALasOperaciones();
+      switch (respuesta.estado) {
+        case "no hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="6">No hay usuarios para mostrar</td>';
+          $("#final")[0].className = "page-item disabled";
+          $("#siguiente")[0].className = "page-item disabled";
+          break;
+        case "si hay":
+          $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta.contenido;
+          asignarFuncionesALasOperaciones();
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
       }
     }
   });
