@@ -4,6 +4,6 @@
     },
 
     "autoload": {
-        "psr-4": {"": ["view/","controller/", "model/"]}
+        "psr-4": {"": ["view/","controller/", "model/"] }
     }
 }
