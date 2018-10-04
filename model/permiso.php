@@ -3,11 +3,13 @@
 class Permiso{
     private $id;
     private $nombre;
+    private $admin;
 
 
-    public function __construct($id,$nombre){
+    public function __construct($id,$nombre,$admin){
         $this -> id=$id;
         $this -> nombre= $nombre;
+        $this -> admin = $admin;
     }
 
 
@@ -47,6 +49,26 @@ class Permiso{
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of admin
+     */ 
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * Set the value of admin
+     *
+     * @return  self
+     */ 
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
 
         return $this;
     }
