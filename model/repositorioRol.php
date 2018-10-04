@@ -1,7 +1,7 @@
 
 <?php
 include_once "conexion.php";
-include_once "Rol.php";
+include_once "rol.php";
 
 class RepositorioRol
 {

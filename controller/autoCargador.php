@@ -1,0 +1,41 @@
+<?php
+
+require_once "./vendor/autoload.php";
+/*controller */
+require_once "controller/AdminController.php";
+require_once "controller/InicioController.php";
+require_once "controller/LoginController.php";
+/*model */
+require_once "model/conexion.php";
+require_once "model/config.php";
+require_once "model/genero.php";
+require_once "model/localidad.php";
+require_once "model/obraSocial.php";
+require_once "model/paciente.php";
+require_once "model/partido.php";
+require_once "model/permiso.php";
+require_once "model/regionSanitaria.php";
+require_once "model/repositorioConfiguracion.php";
+require_once "model/repositorioGenero.php";
+require_once "model/repositorioLocalidad.php";
+require_once "model/repositorioObraSocial.php";
+require_once "model/repositorioPaciente.php";
+require_once "model/repositorioPartido.php";
+require_once "model/repositorioPermiso.php";
+require_once "model/repositorioRegionSanitaria.php";
+require_once "model/repositorioRol.php";
+require_once "model/repositorioTipoDocumento.php";
+require_once "model/repositorioUsuario.php";
+require_once "model/repositorioUsuarioTieneRol.php";
+require_once "model/rol.php";
+require_once "model/tipoDocumento.php";
+require_once "model/usuario.php";
+require_once "model/usuarioTieneRol.php";
+/*view */
+
+require_once "view/Admin.php";
+require_once "view/Configuracion.php";
+require_once "view/Login.php";
+require_once "view/PaginaError.php";
+require_once "view/TwigView.php";
+require_once "view/Usuarios.php";

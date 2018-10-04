@@ -43,7 +43,7 @@ class RepositorioPermiso
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT distinct u.id,p.id,p.nombre
+                $sql = "SELECT distinct u.id,p.id,p.nombre,p.admin
                  FROM usuario u INNER JOIN usuario_tiene_rol utr ON (u.id=utr.usuario_id)
                                 INNER JOIN rol r ON (utr.rol_id=r.id)
                                 INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
@@ -55,7 +55,7 @@ class RepositorioPermiso
                 $resultado = $sentencia->fetchAll();
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
-                        $permisos[] = new Permiso($r['id'], $r['nombre']);
+                        $permisos[] = new Permiso($r['id'], $r['nombre'],$r['admin']);
                     }
                 }
             } catch (PDOException $ex) {
