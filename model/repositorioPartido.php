@@ -1,7 +1,7 @@
 
 <?php
 include_once "conexion.php";
-include_once "Partido.php";
+include_once "partido.php";
 
 class RepositorioPartido
 {
