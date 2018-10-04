@@ -51,6 +51,9 @@ if(isset($_GET["action"])){
       case 'quitarRol':
         AdminController::getInstance()->quitarRol();
         break;
+        case 'validar':
+        UserController::getInstance()->loguear();
+        break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }
