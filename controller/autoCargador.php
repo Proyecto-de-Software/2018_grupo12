@@ -15,7 +15,6 @@ require_once "model/paciente.php";
 require_once "model/partido.php";
 require_once "model/permiso.php";
 require_once "model/regionSanitaria.php";
-require_once "model/repositorioConfiguracion.php";
 require_once "model/repositorioGenero.php";
 require_once "model/repositorioLocalidad.php";
 require_once "model/repositorioObraSocial.php";
