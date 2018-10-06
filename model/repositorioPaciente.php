@@ -1,6 +1,5 @@
 <?php
-include_once "paciente.php";
-include_once "conexion.php";
+
 
 class RepositorioPaciente
 {
@@ -207,6 +206,35 @@ class RepositorioPaciente
         }
         $conexion = null;
         return $r;
+    }
+    public function obtener_todos_limite_pagina($limite, $pag)
+    {
+        $pacientes = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $sql = "SELECT * FROM paciente WHERE borrado=0  LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $pacientes[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],
+                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+
+                    }
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioPacientes->obtener_todos_limite_pagina " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $pacientes;
     }
 
 }

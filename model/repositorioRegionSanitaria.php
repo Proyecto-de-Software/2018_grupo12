@@ -1,7 +1,6 @@
 
 <?php
-include_once "conexion.php";
-include_once "regionSanitaria.php";
+
 
 class RepositorioRegionSanitaria
 {

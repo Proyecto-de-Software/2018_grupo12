@@ -1,7 +1,6 @@
 <?php
 
-include_once "usuario.php";
-include_once "conexion.php";
+
 class RepositorioUsuario
 { /*instanciar como una clase normal y llamar a los metodos con la forma:  $repositorioUsuario -> funcion();
 ....ejecutar consultas dentro de un try para obtener excepciones en el catch en caso de error */
