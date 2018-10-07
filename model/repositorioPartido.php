@@ -1,7 +1,8 @@
 
 <?php
-
-
+/*include_once "conexion.php";
+include_once "partido.php";
+*/
 class RepositorioPartido
 {
     private static $instance;
@@ -36,5 +37,26 @@ class RepositorioPartido
         }
         $conexion = null;
         return $Partido;
+    }
+    public function obtener_todos(){
+        $todos=array();
+        $conexion=abrir_conexion();
+        if($conexion !==null){
+            try{
+                $sql= "SELECT * FROM Partido WHERE id>1";
+                $sentencia = $conexion ->prepare($sql);
+                $sentencia->execute();
+                $re=$sentencia ->fetchAll();
+                if(count($re)){
+                    foreach($re as $r){
+                        $todos[]= new Partido($r['id'],$r['nombre'],$r['region_sanitaria_id']);
+                    }
+                }
+            }catch(PDOException $ex){
+                throw new Exception ("error consulta repositorioPartido->obtener_todos ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $todos;
     }
 }

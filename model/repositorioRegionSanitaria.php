@@ -1,7 +1,8 @@
 
 <?php
-
-
+/*include_once "conexion.php";
+include_once "regionSanitaria.php";
+*/
 class RepositorioRegionSanitaria
 {
     private static $instance;
@@ -36,5 +37,26 @@ class RepositorioRegionSanitaria
         }
         $conexion = null;
         return $RegionSanitaria;
+    }
+    public function obtener_todos(){
+        $todos=array();
+        $conexion=abrir_conexion();
+        if($conexion !==null){
+            try{
+                $sql= "SELECT * FROM region_sanitaria WHERE id>1";
+                $sentencia = $conexion ->prepare($sql);
+                $sentencia->execute();
+                $re=$sentencia ->fetchAll();
+                if(count($re)){
+                    foreach($re as $r){
+                        $todos[]= new RegionSanitaria($r['id'],$r['nombre']);
+                    }
+                }
+            }catch(PDOException $ex){
+                throw new Exception ("error consulta repositorioRegionSanitaria->obtener_todos ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $todos;
     }
 }

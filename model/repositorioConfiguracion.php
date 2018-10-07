@@ -1,7 +1,5 @@
 <?php
 
-
-
 class RepositorioConfiguracion
 /*id 1=titulo
 id 2=descripcion

@@ -143,7 +143,7 @@ class RepositorioUsuario
                         , $resultado['updated_at'], $resultado['created_at'], $resultado['first_name'], $resultado['last_name']);
                 }
             } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_usuario_por_username");
+                throw new Exception("error consulta obtener_usuario_por_id");
             }
         }
         $conexion = null;
