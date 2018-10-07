@@ -2,7 +2,7 @@
 <html lang="es" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="templates/prophetjs-master/dist/css/prophet.min.css">
+    <link rel="stylesheet" href="templates/css/prophet.min.css">
     <link rel="stylesheet" href="templates/css/estilos.css">
     <link rel="stylesheet" href="templates/css/bootstrap.min.css">
     <title>{% block titulo %}{% endblock %} | Hospital Dr. Alejandro Korn</title>
@@ -24,10 +24,9 @@
           {% endblock %}
         </nav>
         {% block buscador %}
-        <form class="form-inline my-2 ml-auto">
-          <input class="inputBuscador form-control mr-2 mt-2 mt-sm-0" type="search" placeholder="Buscar..." aria-label="Search">
-          <button class="btn btn-outline-success mt-2 mt-sm-0" type="submit">Buscar</button>
-        </form>
+        <div class="ml-auto">
+
+        </div>
         {% endblock %}
 
         {% block panel_derecho %}
@@ -51,7 +50,7 @@
           <span class="d-block float-sm-right">v 0.0.1</span>
       </div>
     </footer>
-    <script src="templates/prophetjs-master/dist/js/prophet-min.js"></script>
+    <script src="templates/js/prophet-min.js"></script>
     <script src="templates/js/jquery-3.3.1.min.js"></script>
     <script src="templates/js/bootstrap.min.js"></script>
     <script src="templates/js/popper.min.js"></script>

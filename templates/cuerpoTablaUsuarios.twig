@@ -1,11 +1,5 @@
 {% set estado = {"0": "Bloqueado", "1": "Activo" } %}
 
-{% set botonActivar %} <button type="button" name="bloquear" class="btn btn-sm btn-danger mb-1">Bloquear</button> {% endset %}
-
-{% set botonBloquear %} <button type="button" name="activar" class="btn btn-sm btn-success btnActivar mb-1">Activar</button> {% endset %}
-
-{% set botonEstado = {"0": botonBloquear, "1": botonActivar } %}
-
 {% for usuario in usuarios %}
   <tr>
     <td>{{ usuario.getFirst_name |capitalize }}</td>
@@ -23,9 +17,9 @@
       {% endfor %}
     </td>
     <td id="{{usuario.getId}}">
-      {{ botonEstado[usuario.getActivo] }}
-      <button type="button" name="administrar-rol" class="btn btn-sm btn-info mb-1">Roles</button>
-      <button type="button" name="modificar" class="btn btn-sm btn-primary mb-1">Editar datos</button>
+      {% for permiso in permisos %}
+        {% include "moduloUsuario/boton_#{permiso}.twig" ignore missing %}
+      {% endfor %}
     </td>
   </tr>
   {% else %}

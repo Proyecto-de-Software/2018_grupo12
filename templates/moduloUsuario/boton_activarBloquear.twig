@@ -1,0 +1,7 @@
+{% set botonActivar %} <button type="button" name="bloquear" class="btn btn-sm btn-danger mb-1">Bloquear</button> {% endset %}
+
+{% set botonBloquear %} <button type="button" name="activar" class="btn btn-sm btn-success btnActivar mb-1">Activar</button> {% endset %}
+
+{% set botonEstado = {"0": botonBloquear, "1": botonActivar } %}
+
+{{ botonEstado[usuario.getActivo] }}

@@ -7,50 +7,51 @@ require_once './controller/autoCargador.php';
 
 //Agregar control de mantenimiento
 //Agregar control de sesiones
+//Agregar control de permisos
 if(isset($_GET["action"])){
   switch ($_GET["action"]) {
     case 'login':
       LoginController::getInstance()->mostrarLogin();
       break;
-      case 'admin':
-        LoginController::getInstance()->redirectAdmin();
-        break;
-      case 'configuracion':
-        AdminController::getInstance()->redirectConfiguracion();
-        break;
-      case 'guardarConfiguracion':
-        AdminController::getInstance()->guardarConfiguracion();
-        break;
-      case 'usuarios':
-        AdminController::getInstance()->redirectUsuarios();
-        break;
-      case 'cargarPagina':
-        AdminController::getInstance()->cargarPagina();
-        break;
-      case 'bloquearUsuario':
-        AdminController::getInstance()->bloquearUsuario();
-        break;
-      case 'activarUsuario':
-        AdminController::getInstance()->activarUsuario();
-        break;
-      case 'agregarUsuario':
-        AdminController::getInstance()->agregarUsuario();
-        break;
-      case 'formularioModificacionUsuario':
-        AdminController::getInstance()->formularioModificacionUsuario();
-        break;
-      case 'modificarUsuario':
-        AdminController::getInstance()->modificarUsuario();
-        break;
-      case 'cuerpoPanelAdministracionRoles':
-        AdminController::getInstance()->cuerpoPanelAdministracionRoles();
-        break;
-      case 'agregarRol':
-        AdminController::getInstance()->agregarRol();
-        break;
-      case 'quitarRol':
-        AdminController::getInstance()->quitarRol();
-        break;
+    case 'home':
+      LoginController::getInstance()->redirectHome();
+      break;
+    case 'configuracion':
+      ConfiguracionController::getInstance()->redirectConfiguracion();
+      break;
+    case 'guardarConfiguracion':
+      ConfiguracionController::getInstance()->guardarConfiguracion();
+      break;
+    case 'usuarios':
+      UsuariosController::getInstance()->redirectUsuarios();
+      break;
+    case 'cargarPagina':
+      UsuariosController::getInstance()->cargarPagina();
+      break;
+    case 'bloquearUsuario':
+      UsuariosController::getInstance()->bloquearUsuario();
+      break;
+    case 'activarUsuario':
+      UsuariosController::getInstance()->activarUsuario();
+      break;
+    case 'agregarUsuario':
+      UsuariosController::getInstance()->agregarUsuario();
+      break;
+    case 'formularioModificacionUsuario':
+      UsuariosController::getInstance()->formularioModificacionUsuario();
+      break;
+    case 'modificarUsuario':
+      UsuariosController::getInstance()->modificarUsuario();
+      break;
+    case 'cuerpoPanelAdministracionRoles':
+      UsuariosController::getInstance()->cuerpoPanelAdministracionRoles();
+      break;
+    case 'agregarRol':
+      UsuariosController::getInstance()->agregarRol();
+      break;
+    case 'quitarRol':
+      UsuariosController::getInstance()->quitarRol();
+      break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }

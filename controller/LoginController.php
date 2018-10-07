@@ -6,7 +6,7 @@ class LoginController {
 
   public static function getInstance() {
     if (!isset(self::$instance)) {
-        self::$instance = new self();
+      self::$instance = new self();
     }
 
     return self::$instance;
@@ -21,8 +21,8 @@ class LoginController {
     $view->show();
   }
 
-  public function redirectAdmin(){
-    $view = new Admin();
+  public function redirectHome(){
+    $view = new Home();
     $view->show();
   }
 

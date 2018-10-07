@@ -1,0 +1,28 @@
+{% extends 'layout.twig' %}
+
+{#
+Datos esperados
+array('modulos' => array('pacientes','consultas'),
+      'modulosAdministracion' => array('usuarios','roles', 'permisos', 'configuracion'));
+#}
+
+{% block panel_izquierdo %}
+<ul class="navbar-nav ml-lg-5">
+  <li class="nav-item">
+    <a class="nav-link" href="index.php?action=home">Inicio <span class="sr-only">(current)</span></a>
+  </li>
+  {% for modulo in modulos %}
+    {% include "modulosBarraNavegacion/#{modulo}.twig" %}
+  {% endfor %}
+</ul>
+{% endblock %}
+
+{% block panel_central %}
+  {% if modulosAdministracion is not empty %}
+    {% include 'modulosBarraNavegacion/dropdownAdministracion.twig' %}
+  {% endif %}
+{% endblock %}
+
+{% block panel_derecho %}
+  <p class="mb-0 ml-0 ml-lg-3">juan.perez</p>
+{% endblock %}
