@@ -199,16 +199,19 @@ class RepositorioPaciente
         $conexion = null;
         return $paciente;
     }
-    public function obtener_por_nombre($nombre)
+    public function obtener_por_nombre($nombre,$limite,$pag)
     { /*si no existe devuelve null */
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
+                $primero = $limite * ($pag - 1);
                 $nombre= "%".$nombre."%";
-                $sql = "SELECT * FROM paciente WHERE nombre LIKE :nombre  AND borrado=0";
+                $sql = "SELECT * FROM paciente WHERE nombre LIKE :nombre  AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nombre", $nombre);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
@@ -224,16 +227,19 @@ class RepositorioPaciente
         $conexion = null;
         return $paciente;
     }
-    public function obtener_por_apellido($apellido)
+    public function obtener_por_apellido($apellido,$limite,$pag)
     { /*si no existe devuelve null */
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
+                $primero = $limite * ($pag - 1);
                 $apellido= "%".$apellido."%";
-                $sql = "SELECT * FROM paciente WHERE apellido LIKE :apellido  AND borrado=0";
+                $sql = "SELECT * FROM paciente WHERE apellido LIKE :apellido  AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":apellido", $apellido);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
@@ -244,6 +250,36 @@ class RepositorioPaciente
                 }}
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_apellido" . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $paciente;
+    }
+    public function obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pag)
+    { /*si no existe devuelve null */
+        $paciente = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $nombre= "%".$nombre."%";
+                $apellido= "%".$apellido."%";
+                $sql = "SELECT * FROM paciente WHERE nombre LIKE :nombre AND apellido LIKE :apellido AND borrado=0 LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nombre", $nombre);
+                $sentencia->bindParam(":apellido",$apellido);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $re = $sentencia->fetchAll();
+                if (count($re)) {
+                    foreach($re as $r){
+                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                }}
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_por_nombre_y_apellido " . $ex->getMessage());
             }
         }
         $conexion = null;
