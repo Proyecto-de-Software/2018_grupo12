@@ -1,5 +1,13 @@
 {% extends 'layoutLogueado.twig' %}
 
+{#
+Datos esperados
+array('pacientes' => array( Paciente ),
+      'tiposDocumentos' => array( TipoDocumento ),
+      'permisos' => array('index', 'new', 'update', 'destroy', 'show' )
+      );
+#}
+
 {% block titulo %} Pacientes {% endblock %}
 
 {% block cuerpo %}

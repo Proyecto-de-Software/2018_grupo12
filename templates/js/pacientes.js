@@ -19,13 +19,27 @@ function mostrarAlerta(texto, tipo){
 
 // ------------------ Busqueda y Paginado ------------------
 
+//Para mostrar el formulario correspondiente al tipo de Busqueda
+function mostrarForm() {
+  if (tipoBusqueda != "no_aplica") {
+    $("#" + tipoBusqueda).css({"display": "none"});
+  }
+
+  if (this.value != "no_aplica") {
+    $("#" + this.value).css({"display": "contents"});
+    tipoBusqueda = this.value;
+  }else {
+    $("#btnBuscar")[0].onclick();
+  }
+}
+
 //Se ejecuta cuando se busca por algun campo
 function buscar(){
   //Actualizo criterios de busqueda
   tipoBusqueda = $("#tipoBusqueda")[0].value;
   nombre = $("#bus_nombre")[0].value;
   apellido = $("#bus_apellido")[0].value;
-  tipoDoc = $("#bus_nroDoc")[0].value;
+  tipoDoc = $("#bus_tipoDoc")[0].value;
   nroDoc = $("#bus_nroDoc")[0].value;
   nroHistoriaClinica = $("#bus_nroHistoriaClinica")[0].value;
 
@@ -100,9 +114,6 @@ function clickInicio(){
           $("#siguiente")[0].className = "page-item";
           asignarFuncionesALasOperaciones();
           break;
-        case "incompleto":
-          mostrarAlerta("Campos incompletos","error");
-          break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
           $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
@@ -145,9 +156,6 @@ function clickMedio(){
           $("#final")[0].className = "page-item";
           $("#siguiente")[0].className = "page-item";
           asignarFuncionesALasOperaciones();
-          break;
-        case "incompleto":
-          mostrarAlerta("Campos incompletos","error");
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
@@ -194,9 +202,6 @@ function clickFinal(){
         case "si hay":
           $("#cuerpoTablaPacientes")[0].innerHTML = respuesta.contenido;
           asignarFuncionesALasOperaciones();
-          break;
-        case "incompleto":
-          mostrarAlerta("Campos incompletos","error");
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
@@ -249,20 +254,16 @@ if ($("#contenidoModificarPaciente")[0]) {
 
 //Asigna las funciones a los botones de las operaciones
 function asignarFuncionesALasOperaciones(){
-  document.getElementsByName("bloquear").forEach(function(btnBloquear){
-    btnBloquear.onclick= mostrarMensajeBloqueo;
+  document.getElementsByName("eliminar").forEach(function(btnEliminar){
+    btnEliminar.onclick = "mostrarMensajeEliminar";
   })
 
-  document.getElementsByName("activar").forEach(function(btnActivar){
-    btnActivar.onclick= mostrarMensajeActivacion;
+  document.getElementsByName("ver_detalle").forEach(function(btnVer){
+    btnVer.onclick = "mostrarDetalle";
   })
 
   document.getElementsByName("modificar").forEach(function(btnModificar){
-    btnModificar.onclick= mostrarFormularioModificacion;
-  })
-
-  document.getElementsByName("administrar-rol").forEach(function(btnAdministrar){
-    btnAdministrar.onclick= mostrarPanelAdministracionRoles;
+    btnModificar.onclick = "mostrarFormularioModificacion";
   })
 
 }
@@ -281,7 +282,8 @@ function initialize(){
     $("#btnSiguiente")[0].onclick = siguiente;
 
     $("#btnBuscar")[0].onclick = buscar;
-    $("#tipoBusqueda")[0].value = "no aplica";
+    $("#tipoBusqueda")[0].value = "no_aplica";
+    $("#tipoBusqueda")[0].onchange = mostrarForm;
     $("#bus_nombre")[0].value = "";
     $("#bus_apellido")[0].value = "";
     $("#bus_tipoDoc")[0].value = "";

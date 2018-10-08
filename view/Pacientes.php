@@ -2,15 +2,16 @@
 
 class Pacientes extends TwigView {
 
-  public function show($pacientes) {
-    $permisos = array('index', 'new', 'update', 'show', 'destroy' );
-    echo self::getTwig()->render('pacientes.twig', array('pacientes'=> $pacientes, 'permisos' => $permisos ));
+  public function show($datos) {
+    $datos["permisos"] = array('index', 'new', 'update', 'show', 'destroy' );
+    echo self::getTwig()->render('pacientes.twig', $datos);
   }
 
-  public function cargarPagina($pacientes){
-    $contenido = self::getTwig()->render('cuerpoTablaPacientes.twig',array('pacientes' => $pacientes));
-    $datos = array('estado' => "si hay",'contenido' => $contenido);
+  public function cargarPagina($datos){
+    $datos["permisos"] = array('index', 'new', 'update', 'show', 'destroy' );
+    $contenido = self::getTwig()->render('cuerpoTablaPacientes.twig', $datos);
+    $respuesta = array('estado' => "si hay",'contenido' => $contenido);
 
-    self::jsonEncode($datos);
+    self::jsonEncode($respuesta);
   }
 }

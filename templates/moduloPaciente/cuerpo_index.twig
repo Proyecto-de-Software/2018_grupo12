@@ -7,14 +7,14 @@
         </div>
         <div class="col-md-auto mb-2">
           <select class="custom-select inputBuscadorPaciente" id="tipoBusqueda" >
-            <option id="opcionPorDefecto" value="no aplica" selected>Elegir...</option>
-            <option value="nombre y apellido">Nombre y apellido</option>
+            <option id="opcionPorDefecto" value="no_aplica" selected>Ninguno</option>
+            <option value="nombre_y_apellido">Nombre y apellido</option>
             <option value="dni">Documento</option>
-            <option value="historia clinica">Historia clinica</option>
+            <option value="historia_clinica">Historia clinica</option>
           </select>
         </div>
       </div>
-      <div id="form_nombreApellido" style="display: none">
+      <div id="nombre_y_apellido" style="display: none">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_nombre">Nombre:</label>
         </div>
@@ -28,7 +28,7 @@
           <input type="text" class="form-control mb-2 inputBuscadorPaciente" id="bus_apellido" placeholder="Apellido...">
         </div>
       </div>
-      <div id="form_dni" style="display: none">
+      <div id="dni" style="display: none">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_tipoDoc">Tipo:</label>
         </div>
@@ -47,7 +47,7 @@
           <input type="number" class="form-control mb-2 inputBuscadorPaciente" id="bus_nroDoc" min="0">
         </div>
       </div>
-      <div id="form_historiaClinica" style="display: contents">
+      <div id="historia_clinica" style="display: none">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_nroHistoriaClinica">Historia clinica:</label>
         </div>

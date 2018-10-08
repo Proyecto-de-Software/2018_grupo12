@@ -34,7 +34,9 @@ class PacientesController {
         $paciente->setNombreTipoDocumento(($repoTipoDoc->obtener_por_id($idTipoDoc))->getNombre());
       }
 
-      $view->show($pacientes);
+      $datos = array('tiposDocumentos' => $repoTipoDoc->obtener_todos(),
+                     'pacientes' => $pacientes);
+      $view->show($datos);
     } catch (\Exception $e) {
       $view = new PaginaError();
       $view->show();
@@ -65,42 +67,27 @@ class PacientesController {
 
         //Identifico tipo de busqueda
         switch ($tipoBusqueda) {
-          case 'nombre y apellido':
-            if (!($nombre || $apellido)) {
-              TwigView::jsonEncode(array('estado' => "incompleto"));
-              return;
+          case 'nombre_y_apellido':
+            if ($nombre &&  !$apellido) {
+              $pacientes = $repoPaciente->obtener_por_nombre($nombre, $limite, $pagina);
+            }elseif (!$nombre && $apellido) {
+              $pacientes = $repoPaciente->obtener_por_apellido($apellido, $limite, $pagina);
             }else {
-              if ($nombre &&  !$apellido) {
-                $pacientes = $repoPaciente->obtener_por_nombre($nombre, $limite, $pagina);
-              }elseif (!$nombre && $apellido) {
-                $pacientes = $repoPaciente->obtener_por_apellido($apellido, $limite, $pagina);
-              }else {
-                $pacientes = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
-              }
+              $pacientes = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
             }
             break;
           case 'dni':
-            if (!($nroDoc && $tipoDoc)) {
-              TwigView::jsonEncode(array('estado' => "incompleto"));
-              return;
-            }else {
-              $pacientes = array();
-              $paciente = $repoPaciente->obtener_por_datos_doc($tipoDoc, $nroDoc);
-              if ($paciente) {
-                $pacientes[] = $paciente;
-              }
+            $pacientes = array();
+            $paciente = $repoPaciente->obtener_por_datos_doc($tipoDoc, $nroDoc);
+            if ($paciente) {
+              $pacientes[] = $paciente;
             }
             break;
-          case 'historia clinica':
-            if (!$nroHistoriaClinica) {
-              TwigView::jsonEncode(array('estado' => "incompleto"));
-              return;
-            }else {
-              $pacientes = array();
-              $paciente = $repoPaciente->obtener_por_nro_historia_clinica($nroHistoriaClinica);
-              if ($paciente) {
-                $pacientes[] = $paciente;
-              }
+          case 'historia_clinica':
+            $pacientes = array();
+            $paciente = $repoPaciente->obtener_por_nro_historia_clinica($nroHistoriaClinica);
+            if ($paciente) {
+              $pacientes[] = $paciente;
             }
             break;
           default:
@@ -118,7 +105,8 @@ class PacientesController {
             $paciente->setNombreObraSocial(($repoObraSocial->obtener_por_id($idObraSocial))->getNombre());
             $paciente->setNombreTipoDocumento(($repoTipoDoc->obtener_por_id($idTipoDoc))->getNombre());
           }
-          $view->cargarPagina($pacientes);
+          $datos = array('pacientes' => $pacientes);
+          $view->cargarPagina($datos);
         }
       }
     }catch (\Exception $e){

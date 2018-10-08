@@ -1,3 +1,10 @@
+{#
+Datos esperados
+array('pacientes' => array( Paciente ),
+      'permisos' => array('index', 'new', 'update', 'destroy', 'show' )
+      );
+#}
+
 {% for paciente in pacientes %}
   <tr>
     <td align="center" >{{ paciente.getNombre |capitalize }}</td>
