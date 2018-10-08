@@ -25,7 +25,7 @@ if(isset($_GET["action"])){
     case 'usuarios':
       UsuariosController::getInstance()->redirectUsuarios();
       break;
-    case 'cargarPagina':
+    case 'cargarPaginaUsuarios':
       UsuariosController::getInstance()->cargarPagina();
       break;
     case 'bloquearUsuario':
@@ -51,6 +51,12 @@ if(isset($_GET["action"])){
       break;
     case 'quitarRol':
       UsuariosController::getInstance()->quitarRol();
+      break;
+    case 'pacientes':
+      PacientesController::getInstance()->redirectPacientes();
+      break;
+    case 'cargarPaginaPacientes':
+      PacientesController::getInstance()->cargarPagina();
       break;
     default:
       InicioController::getInstance()->mostrarInicio();

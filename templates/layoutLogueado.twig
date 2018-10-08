@@ -2,8 +2,10 @@
 
 {#
 Datos esperados
-array('modulos' => array('pacientes','consultas'),
-      'modulosAdministracion' => array('usuarios','roles', 'permisos', 'configuracion'));
+array('usuarios' => $usuarios,
+      'modulos' => array('paciente','consulta'),
+      'modulosAdministracion' => array('usuario','rol', 'permiso', 'configuracion'),
+      );
 #}
 
 {% block panel_izquierdo %}
