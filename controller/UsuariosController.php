@@ -308,42 +308,39 @@ class UsuariosController {
     }
   }
 
-  public function loguear(){
+public function loguear(){
   try{
-    $repoUsuario = RepositorioUsuario::getInstance();
-  
-    if(!(isset($_POST['usuario'])&&isset($_POST['contrasena']))){
-        //fallaron las variables
+    if (isset($_SESSION['id'])) {
+      TwigView::jsonEncode(array('estado' => "correcto"));
+    }else {
+      $repoUsuario = RepositorioUsuario::getInstance();
+      if(!($_POST['usuario'] && $_POST['contrasena'])){
+          TwigView::jsonEncode(array('estado' => "incompleto"));
       }else{
-        if($repoUsuario->username_existe($_POST['usuario'])){
-           $usuario = $repoUsuario->obtener_usuario_por_username($_POST['usuario']);
-           //1 activo SI   .... 0 Bloqueado
-           //if (password_verify($_POST['contrasena'], $usuario->getPassword()) ) {
-           if($usuario->getPassword() == $_POST['contrasena'] && $usuario->getActivo() ){ 
-              session_start(); 
-              $_SESSION['userName']=$usuario->getUsername();
-              $_SESSION['id']=$usuario->getId();
-              echo "logueado";
-              //falta vista
-           }else{
-            echo "no logueado Bloqueado o datos incorrectos";
-            //falta vista
-           }
-
-        }else{
-          //falta vista
-          echo "usuario no existe";
-        }
+          if($repoUsuario->username_existe($_POST['usuario'])){
+             $usuario = $repoUsuario->obtener_usuario_por_username($_POST['usuario']);
+             //1 activo SI   .... 0 Bloqueado
+             if(password_verify($_POST['contrasena'], $usuario->getPassword()) ){
+                session_start();
+                $_SESSION['userName']=$usuario->getUsername();
+                $_SESSION['id']=$usuario->getId();
+                TwigView::jsonEncode(array('estado' => "correcto"));
+             }else{
+              TwigView::jsonEncode(array('estado' => "incorrecto"));
+             }
+          }else{
+            TwigView::jsonEncode(array('estado' => "incorrecto"));
+          }
       }
+    }
   } catch (\Exception $e) {
-      $view = new PaginaError();
-      $view->show();
+      TwigView::jsonEncode(array('estado' => "error"));
   }
 
   }
 
   public function logout() {
-    session_destroy();  
+    session_destroy();
     header("location: index.php");
   }
 
