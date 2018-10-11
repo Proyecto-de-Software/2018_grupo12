@@ -3,7 +3,9 @@
 class Usuarios extends TwigView {
 
   public function show($usuarios) {
-    echo self::getTwig()->render('usuarios.twig',array('usuarios' => $usuarios));
+    $datos["usuarios"] = $usuarios;
+    $datos["permisos"] = array("new");
+    echo self::getTwig()->render('usuarios.twig',$datos);
 
   }
 
