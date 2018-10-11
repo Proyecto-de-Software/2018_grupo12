@@ -129,6 +129,8 @@ class UsuariosController {
   }
 
   public function agregarUsuario(){
+
+
     try {
       if(! (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'))
       {
@@ -311,7 +313,6 @@ class UsuariosController {
   public function loguear(){
   try{
     $repoUsuario = RepositorioUsuario::getInstance();
-  
     if(!(isset($_POST['usuario'])&&isset($_POST['contrasena']))){
         //fallaron las variables
       }else{
@@ -323,7 +324,6 @@ class UsuariosController {
               session_start(); 
               $_SESSION['userName']=$usuario->getUsername();
               $_SESSION['id']=$usuario->getId();
-              echo "logueado";
               //falta vista
            }else{
             echo "no logueado Bloqueado o datos incorrectos";
@@ -347,6 +347,19 @@ class UsuariosController {
     header("location: index.php");
   }
 
+  function tienePermisos($nombrePermiso){
+    //revisa la session
+    if(isset($_SESSION) ){
+        
+        $repoPermisos = RepositorioPermiso::getInstance();
+        
+        if($repoPermisos->id_usuario_tiene_permiso($_SESSION['id'], $nombrePermiso)){
+            return true;
+        }
+    }
+        //no esta logueado
+    return false;
+  }
 
 
 
