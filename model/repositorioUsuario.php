@@ -1,7 +1,6 @@
 <?php
 
-include_once "usuario.php";
-include_once "conexion.php";
+
 class RepositorioUsuario
 { /*instanciar como una clase normal y llamar a los metodos con la forma:  $repositorioUsuario -> funcion();
 ....ejecutar consultas dentro de un try para obtener excepciones en el catch en caso de error */
@@ -144,7 +143,7 @@ class RepositorioUsuario
                         , $resultado['updated_at'], $resultado['created_at'], $resultado['first_name'], $resultado['last_name']);
                 }
             } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_usuario_por_username");
+                throw new Exception("error consulta obtener_usuario_por_id");
             }
         }
         $conexion = null;

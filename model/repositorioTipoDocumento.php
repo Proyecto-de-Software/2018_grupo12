@@ -1,8 +1,8 @@
 
 <?php
-include_once "conexion.php";
+/*include_once "conexion.php";
 include_once "tipoDocumento.php";
-
+*/
 class RepositorioTipoDocumento
 {
     private static $instance;
@@ -37,5 +37,26 @@ class RepositorioTipoDocumento
         }
         $conexion = null;
         return $tipoDocumento;
+    }
+    public function obtener_todos(){
+        $todos=array();
+        $conexion=abrir_conexion();
+        if($conexion !==null){
+            try{
+                $sql= "SELECT * FROM tipo_documento WHERE id>1";
+                $sentencia = $conexion ->prepare($sql);
+                $sentencia->execute();
+                $re=$sentencia ->fetchAll();
+                if(count($re)){
+                    foreach($re as $r){
+                        $todos[]= new TipoDocumento($r['id'],$r['nombre']);
+                    }
+                }
+            }catch(PDOException $ex){
+                throw new Exception ("error consulta repositorioTipoDocumento->obtener_todos ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $todos;
     }
 }

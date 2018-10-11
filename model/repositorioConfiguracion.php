@@ -1,7 +1,5 @@
 <?php
 
-include_once "conexion.php";
-
 class RepositorioConfiguracion
 /*id 1=titulo
 id 2=descripcion

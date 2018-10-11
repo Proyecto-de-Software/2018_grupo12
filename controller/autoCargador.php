@@ -2,7 +2,8 @@
 
 require_once "./vendor/autoload.php";
 /*controller */
-require_once "controller/AdminController.php";
+require_once "controller/UsuariosController.php";
+require_once "controller/ConfiguracionController.php";
 require_once "controller/InicioController.php";
 require_once "controller/LoginController.php";
 /*model */
@@ -15,7 +16,6 @@ require_once "model/paciente.php";
 require_once "model/partido.php";
 require_once "model/permiso.php";
 require_once "model/regionSanitaria.php";
-require_once "model/repositorioConfiguracion.php";
 require_once "model/repositorioGenero.php";
 require_once "model/repositorioLocalidad.php";
 require_once "model/repositorioObraSocial.php";
@@ -33,7 +33,7 @@ require_once "model/usuario.php";
 require_once "model/usuarioTieneRol.php";
 /*view */
 
-require_once "view/Admin.php";
+require_once "view/Home.php";
 require_once "view/Configuracion.php";
 require_once "view/Login.php";
 require_once "view/PaginaError.php";

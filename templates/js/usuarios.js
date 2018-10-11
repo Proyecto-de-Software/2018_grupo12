@@ -1,5 +1,7 @@
-var username = "";
-var estado = document.getElementById("opcionPorDefecto").value;
+if ($("#tabUsuarios")[0]) {
+  var username = "";
+  var estado = document.getElementById("opcionPorDefecto").value;
+}
 
 // ------------------ Alertas ------------------
 //Funcion para armar la alerta
@@ -62,7 +64,7 @@ function clickInicio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPagina',
+    url : '?action=cargarPaginaUsuarios',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
     dataType: 'json',
@@ -110,7 +112,7 @@ function clickMedio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPagina',
+    url : '?action=cargarPaginaUsuarios',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
     dataType: 'json',
@@ -157,7 +159,7 @@ function clickFinal(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPagina',
+    url : '?action=cargarPaginaUsuarios',
     data : { username : username, estado : estado, pagina : pagina },
     type : 'POST',
     dataType: 'json',
@@ -321,7 +323,7 @@ function mostrarFormularioModificacion(){
         $("#btnModificarUsuario")[0].usuario = id;
         $("#btnModificarUsuario")[0].onclick = modificarUsuario;
         $("#tabModificarUsuario").css({"display":"block"});
-        $('#menuTabs li:nth-child(3) a').tab('show');
+        $('#menuTabs a[href="#contenidoModificarUsuario"]').tab('show');
       }else {
         mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
       }
@@ -352,7 +354,7 @@ function modificarUsuario(){
         case "modificado correcto":
           mostrarAlerta("Usuario modificado correctamente","success");
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
-          $('#menuTabs li:nth-child(1) a').click();
+          $('#menuTabs a[href="#contenidoUsuarios"]').click();
           break;
         case "datos incorrectos":
           mostrarAlerta("Complete todos los campos","error");
@@ -370,26 +372,6 @@ function modificarUsuario(){
   });
 
 }
-
-// Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Usuarios"
-$('#menuTabs li:nth-child(1) a').on('click', function (e) {
-  e.preventDefault()
-  $("#tabModificarUsuario").css({"display":"none"});
-  $(this).tab('show');
-  setTimeout(function() {
-    $("#contenidoModificarUsuario").html("...");
-  }, 250);
-})
-
-// Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Agregar"
-$('#menuTabs li:nth-child(2) a').on('click', function (e) {
-  e.preventDefault()
-  $("#tabModificarUsuario").css({"display":"none"});
-  $(this).tab('show');
-  setTimeout(function() {
-    $("#contenidoModificarUsuario").html("...");
-  }, 250);
-})
 
 //------------------ Administrar roles usuario ------------------
 //Usado en el boton para desplegar modal
@@ -492,6 +474,30 @@ $('#panelAdministracionRoles').on('hidden.bs.modal', function (e) {
 })
 
 //------------------ Inicializar ------------------
+//Pregunto si tiene dicha funcionalidad
+if ($("#contenidoModificarUsuario")[0]) {
+
+  // Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Usuarios"
+  $('#menuTabs a[href="#contenidoUsuarios"]').on('click', function (e) {
+    e.preventDefault()
+    $("#tabModificarUsuario").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoModificarUsuario").html("...");
+    }, 250);
+  })
+
+  // Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Agregar"
+  $('#menuTabs a[href="#contenidoAgregarUsuario"]').on('click', function (e) {
+    e.preventDefault()
+    $("#tabModificarUsuario").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoModificarUsuario").html("...");
+    }, 250);
+  })
+}
+
 //Asigna las funciones a los botones de las operaciones
 function asignarFuncionesALasOperaciones(){
   document.getElementsByName("bloquear").forEach(function(btnBloquear){
@@ -514,19 +520,24 @@ function asignarFuncionesALasOperaciones(){
 
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
-  $("#btnAnterior")[0].onclick = anterior;
-  $("#btnInicio")[0].onclick = clickInicio;
-  $("#btnMedio")[0].onclick = clickMedio;
-  $("#btnFinal")[0].onclick = clickFinal;
-  $("#btnSiguiente")[0].onclick = siguiente;
-  $("#btnBuscar")[0].onclick = buscar;
-  $("#btnAgregarUsuario")[0].onclick = agregarUsuario;
+  if ($("#btnAgregarUsuario")[0]) {
+    $("#btnAgregarUsuario")[0].onclick = agregarUsuario;
+  }
 
-  $("#estado")[0].value = "no aplica";
-  $("#username")[0].value = "";
-
-  //Disparo para cargar la pagina inicial
-  $("#btnInicio")[0].onclick();
+  if ($("#tabUsuarios")[0]) {
+    $("#btnAnterior")[0].onclick = anterior;
+    $("#btnInicio")[0].onclick = clickInicio;
+    $("#btnMedio")[0].onclick = clickMedio;
+    $("#btnFinal")[0].onclick = clickFinal;
+    $("#btnSiguiente")[0].onclick = siguiente;
+    $("#btnBuscar")[0].onclick = buscar;
+    $("#estado")[0].value = "no aplica";
+    $("#username")[0].value = "";
+    //Disparo para cargar la pagina inicial
+    $("#btnInicio")[0].onclick();
+  }else {
+    $('#menuTabs a[href="#contenidoAgregarUsuario"]').click();
+  }
 }
 
 //Disparo para levantar el sistema de funciones.

@@ -1,0 +1,24 @@
+{#
+Datos esperados
+array('pacientes' => array( Paciente ),
+      'permisos' => array('index', 'new', 'update', 'destroy', 'show' )
+      );
+#}
+
+{% for paciente in pacientes %}
+  <tr>
+    <td align="center" >{{ paciente.getNombre |capitalize }}</td>
+    <td align="center" >{{ paciente.getApellido |capitalize }}</td>
+    <td align="center" >{{ paciente.getNombreTipoDocumento }}</td>
+    <td align="center" >{{ paciente.getNumero }}</td>
+    <td align="center" >{{ paciente.getNro_historia_clinica }}</td>
+    <td align="center" >{{ paciente.getNombreObraSocial }}</td>
+    <td id="{{ paciente.getId }}">
+      {% for permiso in permisos %}
+        {% include "moduloPaciente/boton_#{permiso}.twig" ignore missing %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% else %}
+    <td colspan="7" align="center" >No hay pacientes para mostrar</td>
+{% endfor %}

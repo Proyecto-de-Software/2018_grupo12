@@ -2,24 +2,24 @@
 
 class InicioController {
 
-    private static $instance;
+  private static $instance;
 
-    public static function getInstance() {
+  public static function getInstance() {
 
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
+    if (!isset(self::$instance)) {
+      self::$instance = new self();
     }
 
-    private function __construct() {
+    return self::$instance;
+  }
 
-    }
+  private function __construct() {
 
-    public function mostrarInicio(){
-        $view = new Inicio();
-        $view->show();
-    }
+  }
+
+  public function mostrarInicio(){
+      $view = new Inicio();
+      $view->show();
+  }
 
 }

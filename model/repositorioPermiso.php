@@ -1,5 +1,5 @@
 <?php
-include_once "permiso.php";
+
 
 class RepositorioPermiso
 {
@@ -65,5 +65,93 @@ class RepositorioPermiso
         $conexion = null;
         return $permisos;
     }
+    public function modulos_id_usuario($usuario_id){ /*retorna los modulos que pueden ser accedidos por el usuario */
+        $modulos = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT distinct u.id,p.id,p.nombre,p.admin
+                 FROM usuario u INNER JOIN usuario_tiene_rol utr ON (u.id=utr.usuario_id)
+                                INNER JOIN rol r ON (utr.rol_id=r.id)
+                                INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
+                                INNER JOIN permiso p ON (rtp.permiso_id=p.id)
+                 WHERE u.id=:usuario_id";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":usuario_id", $usuario_id);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $modulo=explode("_",$r['nombre']);
+                        $modulos[] = $modulo[0];
+                    }
+                }
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioPermiso->modulos_id_usuario " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $modulos;
+
+    }
+    public function id_usuario_tiene_permiso($usuario_id,$permiso_completo)/*true si el usuario tiene el permiso(string) pasado por parametro */
+    {
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT distinct u.id,p.id,p.nombre,p.admin
+                 FROM usuario u INNER JOIN usuario_tiene_rol utr ON (u.id=utr.usuario_id)
+                                INNER JOIN rol r ON (utr.rol_id=r.id)
+                                INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
+                                INNER JOIN permiso p ON (rtp.permiso_id=p.id)
+                 WHERE u.id=:usuario_id AND p.nombre=:permiso_completo";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":usuario_id", $usuario_id);
+                $sentencia->bindParam(":permiso_completo",$permiso_completo);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    return true;
+                    }
+                
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioPermiso->id_usuario_tiene_permiso" . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return false;
+    }
+    public function permisos_id_usuario_modulo($usuario_id,$modulo){/*retorna los permisos que el usuario tiene en el modulo pasado por parametro */
+        
+            $permisos = array();
+            $conexion = abrir_conexion();
+            if ($conexion !== null) {
+                try {
+                    $modulo=$modulo."%";
+                    $sql = "SELECT distinct u.id,p.id,p.nombre,p.admin
+                     FROM usuario u INNER JOIN usuario_tiene_rol utr ON (u.id=utr.usuario_id)
+                                    INNER JOIN rol r ON (utr.rol_id=r.id)
+                                    INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
+                                    INNER JOIN permiso p ON (rtp.permiso_id=p.id)
+                     WHERE u.id=:usuario_id AND p.nombre LIKE :modulo";
+                    $sentencia = $conexion->prepare($sql);
+                    $sentencia->bindParam(":usuario_id", $usuario_id);
+                    $sentencia->bindParam(":modulo",$modulo);
+                    $sentencia->execute();
+                    $resultado = $sentencia->fetchAll();
+                    if (count($resultado)) {
+                        foreach ($resultado as $r) {
+                            $permisos[] = new Permiso($r['id'], $r['nombre'],$r['admin']);
+                        }
+                    }
+                } catch (PDOException $ex) {
+                    throw new Exception("error consulta repositorioPermiso->permisos_id_usuario_modulo " . $ex->getMessage());
+                }
+            }
+            $conexion = null;
+            return $permisos;
+        }
+    
+
 
 }

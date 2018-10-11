@@ -18,3 +18,21 @@
   max-width: inherit !important;
   margin-right: 1em !important;
 }
+
+@media only screen and (min-width: 768px) {
+  .inputBuscadorPaciente{
+    width: 6em !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .inputBuscadorPaciente{
+    width: 8em !important;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .inputBuscadorPaciente{
+    width: inherit !important;
+  }
+}
