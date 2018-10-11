@@ -20,7 +20,7 @@ function mostrarAlerta(texto, tipo){
 // ------------------ Busqueda y Paginado ------------------
 
 //Para mostrar el formulario correspondiente al tipo de Busqueda
-function mostrarForm() {
+function mostrarFormBusqueda() {
   if (tipoBusqueda != "no_aplica") {
     $("#" + tipoBusqueda).css({"display": "none"});
   }
@@ -226,12 +226,32 @@ function siguiente(){
     $("#btnFinal")[0].onclick()
   }
 }
+//------------------ Operaciones sobre los pacientes ------------------
+//########## Agregar paciente ##########
+function mostrarFormAlta() {
+  if (this.value == "simple") {
+    $("#form_completo").css({"display" : "none"});
+    $("#form_simple").css({"display" : "block"});
+    $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
+  }else {
+    $("#form_simple").css({"display" : "none"});
+    $("#form_completo").css({"display" : "block"});
+    $("#btnAgregarPaciente")[0].onclick = agregarPacienteCompleto;
+  }
+}
+
+function agregarPacienteSimple() {
+
+}
+
+function agregarPacienteCompleto() {
+
+}
 
 //------------------ Inicializar ------------------
 //Pregunto si tiene dicha funcionalidad
 if ($("#contenidoModificarPaciente")[0]) {
-
-  // Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Usuarios"
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Usuarios"
   $('#menuTabs a[href="#contenidoPacientes"]').on('click', function (e) {
     e.preventDefault()
     $("#tabModificarPaciente").css({"display":"none"});
@@ -241,7 +261,7 @@ if ($("#contenidoModificarPaciente")[0]) {
     }, 250);
   })
 
-  // Para quitar el formulario para modificar el usuario cuando se clickee la pestaña "Agregar"
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
   $('#menuTabs a[href="#contenidoAgregarPaciente"]').on('click', function (e) {
     e.preventDefault()
     $("#tabModificarPaciente").css({"display":"none"});
@@ -270,8 +290,11 @@ function asignarFuncionesALasOperaciones(){
 
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
+  //pregunto por modulo de alta
   if ($("#btnAgregarPaciente")[0]) {
-    $("#btnAgregarPaciente")[0].onclick = agregarPaciente;
+    $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
+    $("#tipoDeAlta")[0].value = "simple";
+    $("#tipoDeAlta")[0].onchange = mostrarFormAlta;
   }
 
   if ($("#tabPacientes")[0]) {
@@ -283,7 +306,7 @@ function initialize(){
 
     $("#btnBuscar")[0].onclick = buscar;
     $("#tipoBusqueda")[0].value = "no_aplica";
-    $("#tipoBusqueda")[0].onchange = mostrarForm;
+    $("#tipoBusqueda")[0].onchange = mostrarFormBusqueda;
     $("#bus_nombre")[0].value = "";
     $("#bus_apellido")[0].value = "";
     $("#bus_tipoDoc")[0].value = "";
