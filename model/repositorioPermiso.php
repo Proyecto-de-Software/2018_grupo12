@@ -65,7 +65,7 @@ class RepositorioPermiso
         $conexion = null;
         return $permisos;
     }
-    public function modulos_id_usuario($usuario_id){ /*retorna los modulos que pueden ser accedidos por el usuario */
+    public function modulos_id_usuario_admin($usuario_id,$admin){ /*retorna los modulos que pueden ser accedidos por el usuario */
         $modulos = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -75,9 +75,10 @@ class RepositorioPermiso
                                 INNER JOIN rol r ON (utr.rol_id=r.id)
                                 INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
                                 INNER JOIN permiso p ON (rtp.permiso_id=p.id)
-                 WHERE u.id=:usuario_id";
+                 WHERE u.id=:usuario_id AND p.admin=:admin";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":usuario_id", $usuario_id);
+                $sentencia->bindParam(":admin", $admin);
                 $sentencia->execute();
                 $resultado = $sentencia->fetchAll();
                 if (count($resultado)) {
@@ -141,7 +142,8 @@ class RepositorioPermiso
                     $resultado = $sentencia->fetchAll();
                     if (count($resultado)) {
                         foreach ($resultado as $r) {
-                            $permisos[] = new Permiso($r['id'], $r['nombre'],$r['admin']);
+                            $acciones=explode("_",$r['nombre']);
+                            $permisos[] = $acciones[1];
                         }
                     }
                 } catch (PDOException $ex) {
