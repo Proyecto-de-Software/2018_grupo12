@@ -312,8 +312,7 @@ class UsuariosController {
 
 public function loguear(){
   try{
-<<<<<<< HEAD
-    if (isset($_SESSION['id'])) {
+    if (isset($_SESSION['id'])){
       TwigView::jsonEncode(array('estado' => "correcto"));
     }else {
       $repoUsuario = RepositorioUsuario::getInstance();
@@ -334,30 +333,6 @@ public function loguear(){
           }else{
             TwigView::jsonEncode(array('estado' => "incorrecto"));
           }
-=======
-    $repoUsuario = RepositorioUsuario::getInstance();
-    if(!(isset($_POST['usuario'])&&isset($_POST['contrasena']))){
-        //fallaron las variables
-      }else{
-        if($repoUsuario->username_existe($_POST['usuario'])){
-           $usuario = $repoUsuario->obtener_usuario_por_username($_POST['usuario']);
-           //1 activo SI   .... 0 Bloqueado
-           //if (password_verify($_POST['contrasena'], $usuario->getPassword()) ) {
-           if($usuario->getPassword() == $_POST['contrasena'] && $usuario->getActivo() ){ 
-              session_start(); 
-              $_SESSION['userName']=$usuario->getUsername();
-              $_SESSION['id']=$usuario->getId();
-              //falta vista
-           }else{
-            echo "no logueado Bloqueado o datos incorrectos";
-            //falta vista
-           }
-
-        }else{
-          //falta vista
-          echo "usuario no existe";
-        }
->>>>>>> 7a74f8ca38bd0f28da2dc7914aadf9859ddb0c65
       }
     }
   } catch (\Exception $e) {
@@ -374,9 +349,9 @@ public function loguear(){
   function tienePermisos($nombrePermiso){
     //revisa la session
     if(isset($_SESSION) ){
-        
+
         $repoPermisos = RepositorioPermiso::getInstance();
-        
+
         if($repoPermisos->id_usuario_tiene_permiso($_SESSION['id'], $nombrePermiso)){
             return true;
         }

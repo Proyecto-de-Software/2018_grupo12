@@ -25,7 +25,7 @@ function validarDatos() {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "correcto":
-          window.location.href = "index.php?action=home";
+          //window.location.href = "index.php?action=home";
           break;
         case "incorrecto":
           mostrarAlerta("Usuario o contraseña incorrectos", "error")

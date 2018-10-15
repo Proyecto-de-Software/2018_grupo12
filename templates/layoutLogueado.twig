@@ -2,7 +2,7 @@
 
 {#
 Datos esperados
-array('usuarios' => $usuarios,
+array('username' => $username,
       'modulos' => array('paciente','consulta'),
       'modulosAdministracion' => array('usuario','rol', 'permiso', 'configuracion'),
       );
@@ -26,5 +26,5 @@ array('usuarios' => $usuarios,
 {% endblock %}
 
 {% block panel_derecho %}
-  <p class="mb-0 ml-0 ml-lg-3">juan.perez</p>
+  <p class="mb-0 ml-0 ml-lg-3">{{ username }}</p>
 {% endblock %}
