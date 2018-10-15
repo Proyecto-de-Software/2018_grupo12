@@ -168,10 +168,44 @@ if (! Validador::getInstance()->pagina_habilitada()) {
         }
         break;
       case 'pacientes':
-        PacientesController::getInstance()->redirectPacientes();
+        if ($validador->sesion_modulo("paciente")){
+          PacientesController::getInstance()->redirectPacientes();
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
         break;
       case 'cargarPaginaPacientes':
-        PacientesController::getInstance()->cargarPagina();
+        if ($isAjax) {
+          if ($validador->sesion_permiso("paciente_index")) {
+            PacientesController::getInstance()->cargarPagina();
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+          }
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
+        break;
+      case 'eliminarPaciente':
+        if ($isAjax) {
+          if ($validador->sesion_permiso("paciente_destroy")) {
+            PacientesController::getInstance()->eliminarPaciente();
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+          }
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
+        break;
+      case 'detallePaciente':
+        if ($isAjax) {
+          if ($validador->sesion_permiso("usuario_show")) {
+            PacientesController::getInstance()->detallePaciente();
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+          }
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
         break;
       default:
         InicioController::getInstance()->mostrarInicio();

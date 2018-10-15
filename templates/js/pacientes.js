@@ -227,6 +227,42 @@ function siguiente(){
   }
 }
 //------------------ Operaciones sobre los pacientes ------------------
+//########## Eliminar paciente ##########
+function mostrarMensajeEliminacion(){
+  $("#tituloMensaje").html("Eliminar paciente");
+  $("#cuerpoMensaje").html("¿Esta seguro de que desea eliminar este paciente?")
+
+  $("#botonMensaje")[0].paciente = this.parentNode.id;
+  $("#botonMensaje")[0].onclick = eliminarPaciente;
+
+  $("#mensajeConfirmacion").modal();
+}
+
+function eliminarPaciente(){
+  var id = this.paciente;
+  $.ajax({
+    url : '?action=eliminarPaciente',
+    data : { id: id },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
 //########## Agregar paciente ##########
 function mostrarFormAlta() {
   if (this.value == "simple") {
@@ -246,6 +282,32 @@ function agregarPacienteSimple() {
 
 function agregarPacienteCompleto() {
 
+}
+//########## Ver detalle paciente ##########
+function mostrarDetalle() {
+  var id = this.parentNode.id;
+  $.ajax({
+    url : '?action=detallePaciente',
+    data : { id: id },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      switch (respuesta.estado) {
+        case "success":
+          $("#contenidoVerPaciente").html(respuesta.contenido);
+          $("#tabVerPaciente").css({"display":"block"});
+          $('#menuTabs a[href="#contenidoVerPaciente"]').tab('show');
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 
 //------------------ Inicializar ------------------
@@ -275,11 +337,11 @@ if ($("#contenidoModificarPaciente")[0]) {
 //Asigna las funciones a los botones de las operaciones
 function asignarFuncionesALasOperaciones(){
   document.getElementsByName("eliminar").forEach(function(btnEliminar){
-    btnEliminar.onclick = "mostrarMensajeEliminar";
+    btnEliminar.onclick = mostrarMensajeEliminacion;
   })
 
   document.getElementsByName("ver_detalle").forEach(function(btnVer){
-    btnVer.onclick = "mostrarDetalle";
+    btnVer.onclick = mostrarDetalle;
   })
 
   document.getElementsByName("modificar").forEach(function(btnModificar){

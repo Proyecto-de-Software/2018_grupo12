@@ -227,6 +227,7 @@ class UsuariosController {
               TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La contraseña debe tener al menos 8 caracteres"));
             }else {
               //actualizar contraseña
+              $contrasena = password_hash($contrasena,PASSWORD_DEFAULT);
               $repoUsuario->actualizar_informacion_usuario($id,$email,$nombre,$apellido);
               $repoUsuario->actualizar_password_usuario($id, $contrasena);
               TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Usuario modificado correctamente"));

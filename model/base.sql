@@ -396,25 +396,23 @@ INSERT INTO `acompanamiento` (`id`, `nombre`) VALUES (7, 'Por sus propios medios
 
 
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 1,"consulta_index",0);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 2,"paciente_new",0);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 3,"paciente_update",0);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 4,"paciente_destroy",0);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 5,"paciente_index",0);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 6,"paciente_show",0);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 2,"paciente_index",0);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 3,"paciente_new",0);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 4,"paciente_update",0);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 5,"paciente_show",0);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 6,"paciente_destroy",0);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 7,"usuario_index",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 8,"usuario_new",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 9,"usuario_update",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 10,"usuario_activarBloquear",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 11,"usuario_administrarRoles",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 10,"usuario_administrarRoles",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 11,"usuario_activarBloquear",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 12,"rol_index",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 13,"rol_new",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 14,"rol_update",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 15,"rol_destroy",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 16,"permiso_new",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 17,"permiso_update",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 18,"permiso_destroy",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 19,"permiso_index",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 16,"permiso_index",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 17,"permiso_new",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 18,"permiso_update",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 19,"permiso_destroy",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 20,"configuracion_index",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 21,"configuracion_update",1);
-
-
