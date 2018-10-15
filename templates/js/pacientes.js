@@ -313,9 +313,10 @@ function mostrarDetalle() {
 //------------------ Inicializar ------------------
 //Pregunto si tiene dicha funcionalidad
 if ($("#contenidoModificarPaciente")[0]) {
-  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Usuarios"
-  $('#menuTabs a[href="#contenidoPacientes"]').on('click', function (e) {
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Pacientes"
+  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
     e.preventDefault()
+    console.log("sadasd");
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
@@ -324,12 +325,35 @@ if ($("#contenidoModificarPaciente")[0]) {
   })
 
   // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
-  $('#menuTabs a[href="#contenidoAgregarPaciente"]').on('click', function (e) {
+  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
     e.preventDefault()
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
       $("#contenidoModificarPaciente").html("...");
+    }, 250);
+  })
+}
+
+//Pregunto si tiene dicha funcionalidad
+if ($("#contenidoVerPaciente")[0]) {
+  // Para quitar el detalle del paciente clickee la pestaña "Pacientes"
+  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
+    e.preventDefault()
+    $("#tabVerPaciente").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoVerPaciente").html("...");
+    }, 250);
+  })
+
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
+  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
+    e.preventDefault()
+    $("#tabVerPaciente").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoVerPaciente").html("...");
     }, 250);
   })
 }

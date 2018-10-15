@@ -143,7 +143,7 @@ class PacientesController {
 
       $id = $_POST["id"];
 
-      $view->detallePaciente($repoPaciente->obtener_por_id($id));
+      $view->detallePaciente($repoPaciente->obtener_por_id_info_completa($id));
     }catch (\Exception $e){
       TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
     }

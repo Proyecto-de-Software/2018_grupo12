@@ -198,7 +198,7 @@ if (! Validador::getInstance()->pagina_habilitada()) {
         break;
       case 'detallePaciente':
         if ($isAjax) {
-          if ($validador->sesion_permiso("usuario_show")) {
+          if ($validador->sesion_permiso("paciente_show")) {
             PacientesController::getInstance()->detallePaciente();
           }else {
             TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));

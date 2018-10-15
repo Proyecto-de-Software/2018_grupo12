@@ -117,7 +117,7 @@ class RepositorioPaciente
              $sql= "UPDATE paciente SET apellido=:apellido ,nombre=:nombre, fecha_nac=:fecha_nac,lugar_nac=:lugar_nac,
               localidad_id=:localidad_id,partido_id=:partido_id, region_sanitaria_id=:region_sanitaria_id, domicilio=:domicilio,
                genero_id=:genero_id, tiene_documento=:tiene_documento, tipo_doc_id=:tipo_doc_id,
-                numero=:numero, tel=:tel, nro_historia_clinica=:nro_historia_clinica,nro_carpeta=:nro_carpeta, 
+                numero=:numero, tel=:tel, nro_historia_clinica=:nro_historia_clinica,nro_carpeta=:nro_carpeta,
                 obra_social_id=:obra_social_id
                 WHERE id=:id ";
              $sentencia=$conexion->prepare($sql);
@@ -138,7 +138,7 @@ class RepositorioPaciente
              $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
              $sentencia->bindParam(":nro_carpeta",$nro_carpeta);
              $sentencia->bindParam(":obra_social_id",$obra_social_id);
-             $ok=$sentencia->execute();             
+             $ok=$sentencia->execute();
          }catch(PDOException $ex){
              throw new Exception ("erro consulta repositorioPaciente->actualizar_informacion ".$ex->getMessage());
          }

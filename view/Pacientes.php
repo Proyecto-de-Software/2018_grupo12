@@ -14,6 +14,9 @@ class Pacientes extends TwigView {
   }
 
   public function detallePaciente($paciente){
-    echo self::getTwig()->render('detallePaciente.twig', array('paciente' => $paciente ));
+    $respuesta["contenido"] = self::getTwig()->render('detallePaciente.twig',$paciente);
+    $respuesta["estado"] = "success";
+
+    self::jsonEncode($respuesta);
   }
 }
