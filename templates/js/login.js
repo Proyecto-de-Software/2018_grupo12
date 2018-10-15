@@ -24,14 +24,11 @@ function validarDatos() {
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
-        case "correcto":
-          //window.location.href = "index.php?action=home";
+        case "success":
+          window.location.href = "index.php?action=home";
           break;
-        case "incorrecto":
-          mostrarAlerta("Usuario o contraseña incorrectos", "error")
-          break;
-        case "incompleto":
-          mostrarAlerta("Ingrese usuario y contraseña", "error");
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado)
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
