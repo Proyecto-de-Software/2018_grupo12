@@ -6,7 +6,7 @@ require_once "controller/UsuariosController.php";
 require_once "controller/ConfiguracionController.php";
 require_once "controller/InicioController.php";
 require_once "controller/LoginController.php";
-require_once "controller/Validador.php";
+require_once "controller/validador.php";
 /*model */
 require_once "model/conexion.php";
 require_once "model/config.php";
