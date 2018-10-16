@@ -74,8 +74,8 @@ class RepositorioPaciente
          try{
             $sql = "INSERT INTO paciente(apellido,nombre,fecha_nac,lugar_nac,localidad_id,partido_id,region_sanitaria_id,
             domicilio,genero_id,tiene_documento,tipo_doc_id,numero,tel,nro_historia_clinica,nro_carpeta,obra_social_id,borrado)
-            VALUES ('NN','NN',' ',' ',1,1,1,' ',
-            1,0,1,' ',' ',:nro_historia_clinica,' ',1,0)";
+            VALUES ('NN','NN',' ',' ',null,null,null,' ',
+            null,0,null,' ',' ',:nro_historia_clinica,' ',null,0)";
             $sentencia=$conexion->prepare($sql);
             $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
             $ok=$sentencia->execute();
@@ -126,17 +126,35 @@ class RepositorioPaciente
              $sentencia->bindParam(":nombre",$nombre);
              $sentencia->bindParam(":fecha_nac",$fecha_nac);
              $sentencia->bindParam(":lugar_nac",$lugar_nac);
+             if($localidad_id==""||$localidad_id==0){
+                 $localidad_id=null;
+             }
              $sentencia->bindParam(":localidad_id",$localidad_id);
+             if($partido_id==""||$partido_id==0){
+                $partido_id=null;
+            }
              $sentencia->bindParam(":partido_id",$partido_id);
-             $sentencia->bindParam(":region_sanitaria_id",$region_sanitaria_id);
+             if($region_sanitaria_id==""||$region_sanitaria_id==0){
+                $region_sanitaria_id=null;
+            }
+             $sentencia->bindParam(":region_sanitaria_id",$region_sanitaria_id);         
              $sentencia->bindParam(":domicilio",$domicilio);
+             if($genero_id==""||$genero_id==0){
+                 $genero_id=null;
+             }
              $sentencia->bindParam(":genero_id",$genero_id);
              $sentencia->bindParam(":tiene_documento",$tiene_documento);
+             if($tipo_doc_id==""||$tipo_doc_id==0){
+                 $tipo_doc_id=null;
+             }
              $sentencia->bindParam(":tipo_doc_id",$tipo_doc_id);
              $sentencia->bindParam(":numero",$numero);
              $sentencia->bindParam(":tel",$tel);
              $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
              $sentencia->bindParam(":nro_carpeta",$nro_carpeta);
+             if($obra_social_id==""||$obra_social_id==0){
+                 $obra_social_id=null;
+             }
              $sentencia->bindParam(":obra_social_id",$obra_social_id);
              $ok=$sentencia->execute();
          }catch(PDOException $ex){
@@ -357,19 +375,19 @@ class RepositorioPaciente
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT p.id,p.apellido,p.nombre,p.fecha_nac,p.lugar_nac, l.nombre as localidad, pa.nombre as partido , r.nombre as region_sanitaria,p.domicilio,
+                $sql = "SELECT Distinct p.id,p.apellido,p.nombre,p.fecha_nac,p.lugar_nac, l.nombre as localidad, pa.nombre as partido , r.nombre as region_sanitaria,p.domicilio,
                 g.nombre as genero,p.tiene_documento,td.nombre as tipo_doc, p.numero,p.tel,p.nro_historia_clinica,p.nro_carpeta,o.nombre as obra_social,p.borrado
-                FROM paciente p INNER JOIN localidad l ON(p.localidad_id=l.id)
-                                INNER JOIN partido pa ON(p.partido_id= pa.id)
-                                INNER JOIN region_sanitaria r ON(p.region_sanitaria_id=r.id)
-                                INNER JOIN genero g ON(p.genero_id=g.id)
-                                INNER JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
-                                INNER JOIN obra_social o ON(p.obra_social_id=o.id)
+                FROM paciente p LEFT JOIN localidad l ON(p.localidad_id=l.id)
+                                LEFT JOIN partido pa ON(p.partido_id= pa.id)
+                                LEFT JOIN region_sanitaria r ON(p.region_sanitaria_id=r.id)
+                                LEFT JOIN genero g ON(p.genero_id=g.id)
+                                LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
+                                LEFT JOIN obra_social o ON(p.obra_social_id=o.id)
                 WHERE p.id=:id AND borrado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
                 $sentencia->execute();
-                $r = $sentencia->fetch();
+                $r = $sentencia->fetch(PDO::FETCH_ASSOC);
                 if (empty($r)) {
                     return null;
                 }

@@ -162,18 +162,18 @@ CREATE TABLE `paciente` (
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `fecha_nac` date NOT NULL,
   `lugar_nac` varchar(255) DEFAULT NULL,
-  `localidad_id` int(11) NOT NULL,
-  `partido_id` int(11) NOT NULL,
-  `region_sanitaria_id` int(11) NOT NULL,
+  `localidad_id` int(11) NULL,
+  `partido_id` int(11) NULL,
+  `region_sanitaria_id` int(11) NULL,
   `domicilio` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `genero_id` int(11) NOT NULL,
+  `genero_id` int(11) NULL,
   `tiene_documento` tinyint(1) NOT NULL DEFAULT '1',
-  `tipo_doc_id` int(11) NOT NULL,
+  `tipo_doc_id` int(11) NULL,
   `numero` int(11) NOT NULL,
   `tel` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `nro_historia_clinica` int(11) DEFAULT NULL,
   `nro_carpeta` int(11) DEFAULT NULL,
-  `obra_social_id` int(11) NOT NULL,
+  `obra_social_id` int(11) NULL,
   `borrado` tinyint(1) not null,
   PRIMARY KEY (id),
   CONSTRAINT FK_region_sanitaria_id FOREIGN KEY (region_sanitaria_id) REFERENCES region_sanitaria(id),
@@ -308,70 +308,64 @@ CREATE TABLE `configuracion` (
 
 -- revisar campos que pueden ser nulos (NO obligatorios)
 -- armar tabla para mantener la historia de derivaciones de los pacientes
-INSERT INTO `obra_social` (`id`,`nombre`) values (1,"no se conoce");
-INSERT INTO `obra_social` (`id`,`nombre`) values (2,"OSDE");
-INSERT INTO `obra_social` (`id`,`nombre`) values (3,"Sancor Salud");
-INSERT INTO `obra_social` (`id`,`nombre`) values (4,"Medicus");
-INSERT INTO `obra_social` (`id`,`nombre`) values (5,"Medif\u00e9");
-INSERT INTO `obra_social` (`id`,`nombre`) values (6,"Galeno");
-INSERT INTO `obra_social` (`id`,`nombre`) values (7,"Accord Salud");
-INSERT INTO `obra_social` (`id`,`nombre`) values (8,"OMINT");
-INSERT INTO `obra_social` (`id`,`nombre`) values (9,"Swiss Medical");
-INSERT INTO `obra_social` (`id`,`nombre`) values (10,"AcaSalud");
-INSERT INTO `obra_social` (`id`,`nombre`) values (11,"Bristol Medicine");
-INSERT INTO `obra_social` (`id`,`nombre`) values (12,"OSECAC");
-INSERT INTO `obra_social` (`id`,`nombre`) values (13,"Uni\u00f3n Personal");
-INSERT INTO `obra_social` (`id`,`nombre`) values (14,"OSPACP");
-INSERT INTO `obra_social` (`id`,`nombre`) values (15,"OSDEPYM");
-INSERT INTO `obra_social` (`id`,`nombre`) values (16,"Luis Pasteur");
-INSERT INTO `obra_social` (`id`,`nombre`) values (17,"OSMEDICA");
-INSERT INTO `obra_social` (`id`,`nombre`) values (18,"IOMA");
-INSERT INTO `obra_social` (`id`,`nombre`) values (19,"OSPJN");
-INSERT INTO `obra_social` (`id`,`nombre`) values (20,"OSSSB");
-INSERT INTO `obra_social` (`id`,`nombre`) values (21,"OSPEPBA");
-INSERT INTO `obra_social` (`id`,`nombre`) values (22,"OSPE");
+INSERT INTO `obra_social` (`id`,`nombre`) values (1,"OSDE");
+INSERT INTO `obra_social` (`id`,`nombre`) values (2,"Sancor Salud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (3,"Medicus");
+INSERT INTO `obra_social` (`id`,`nombre`) values (4,"Medif\u00e9");
+INSERT INTO `obra_social` (`id`,`nombre`) values (5,"Galeno");
+INSERT INTO `obra_social` (`id`,`nombre`) values (6,"Accord Salud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (7,"OMINT");
+INSERT INTO `obra_social` (`id`,`nombre`) values (8,"Swiss Medical");
+INSERT INTO `obra_social` (`id`,`nombre`) values (9,"AcaSalud");
+INSERT INTO `obra_social` (`id`,`nombre`) values (10,"Bristol Medicine");
+INSERT INTO `obra_social` (`id`,`nombre`) values (11,"OSECAC");
+INSERT INTO `obra_social` (`id`,`nombre`) values (12,"Uni\u00f3n Personal");
+INSERT INTO `obra_social` (`id`,`nombre`) values (13,"OSPACP");
+INSERT INTO `obra_social` (`id`,`nombre`) values (14,"OSDEPYM");
+INSERT INTO `obra_social` (`id`,`nombre`) values (15,"Luis Pasteur");
+INSERT INTO `obra_social` (`id`,`nombre`) values (16,"OSMEDICA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (17,"IOMA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (18,"OSPJN");
+INSERT INTO `obra_social` (`id`,`nombre`) values (19,"OSSSB");
+INSERT INTO `obra_social` (`id`,`nombre`) values (20,"OSPEPBA");
+INSERT INTO `obra_social` (`id`,`nombre`) values (21,"OSPE");
 
 
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"titulo","titulo inicial");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (2,"descripcion","descripcion inicial");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"email","email@inicial");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"limite","1000");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"limite","20");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (5,"habilitado","1");
 
-INSERT INTO `genero` (`id`, `nombre`) VALUES (1, 'no se conoce');
-INSERT INTO `genero` (`id`, `nombre`) VALUES (2, 'Masculino');
-INSERT INTO `genero` (`id`, `nombre`) VALUES (3, 'Femenino');
-INSERT INTO `genero` (`id`, `nombre`) VALUES (4, 'Otro');
+INSERT INTO `genero` (`id`, `nombre`) VALUES (1, 'Masculino');
+INSERT INTO `genero` (`id`, `nombre`) VALUES (2, 'Femenino');
+INSERT INTO `genero` (`id`, `nombre`) VALUES (3, 'Otro');
 
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (1, 'no se conoce');
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (2, 'DNI');
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (3, 'LC');
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (4, 'CI');
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (5, 'LE');
-INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (6, 'Pasaporte');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (1, 'DNI');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (2, 'LC');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (3, 'CI');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (4, 'LE');
+INSERT INTO `tipo_documento` (`id`, `nombre`) VALUES (5, 'Pasaporte');
 
 INSERT INTO `tipo_institucion` (`id`, `nombre`) VALUES (1, 'Hospital');
 INSERT INTO `tipo_institucion` (`id`, `nombre`) VALUES (2, 'Comisaría');
 
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (1, 'no se conoce');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (2, 'I');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (3, 'II');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (4, 'III');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (5, 'IV');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (6, 'V');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (7, 'VI');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (8, 'VII');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (9, 'VIII');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (10, 'IX');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (11, 'X');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (12, 'XI');
-INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (13, 'XII');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (1, 'I');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (2, 'II');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (3, 'III');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (4, 'IV');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (5, 'V');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (6, 'VI');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (7, 'VII');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (8, 'VIII');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (9, 'IX');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (10, 'X');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (11, 'XI');
+INSERT INTO `region_sanitaria` (`id`, `nombre`) VALUES (12, 'XII');
 
-INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (1,"no se conoce",1);
-INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (2,"partido pruebas",2);
+INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (1,"partido pruebas",1);
 
-INSERT INTO `localidad`(`id`,`nombre`,`partido_id`) VALUES (1,"no se conoce",1);
-INSERT INTO `localidad`(`id`,`nombre`,`partido_id`) VALUES (2,"localidad prueba",2);
+INSERT INTO `localidad`(`id`,`nombre`,`partido_id`) VALUES (1,"localidad prueba",1);
 
 
 INSERT INTO `motivo_consulta` (`id`, `nombre`) VALUES (1, 'Receta Médica');
@@ -419,3 +413,30 @@ INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 21,"configuracion_update"
 
 INSERT INTO `usuario` (`id`,`email`,`username`,`password`, `activo`, `first_name`,`last_name`)
 VALUES ( 1,"admin@admin.com","admin","$2y$10$7hB/B/cLnnDf0e2Bk2tnC.oUDrb1LDYd.ctTXsW6Tu0yQo5sIKA7i","1","admin","admin");
+
+INSERT INTO `rol` VALUES(1,"Administrador");
+
+INSERT INTO `usuario_tiene_rol` VALUES(1,1,0);
+
+INSERT INTO `rol_tiene_permiso` VALUES(1,1);
+INSERT INTO `rol_tiene_permiso` VALUES(1,2);
+INSERT INTO `rol_tiene_permiso` VALUES(1,3);
+INSERT INTO `rol_tiene_permiso` VALUES(1,4);
+INSERT INTO `rol_tiene_permiso` VALUES(1,5);
+INSERT INTO `rol_tiene_permiso` VALUES(1,6);
+INSERT INTO `rol_tiene_permiso` VALUES(1,7);
+INSERT INTO `rol_tiene_permiso` VALUES(1,8);
+INSERT INTO `rol_tiene_permiso` VALUES(1,9);
+INSERT INTO `rol_tiene_permiso` VALUES(1,10);
+INSERT INTO `rol_tiene_permiso` VALUES(1,11);
+INSERT INTO `rol_tiene_permiso` VALUES(1,12);
+INSERT INTO `rol_tiene_permiso` VALUES(1,13);
+INSERT INTO `rol_tiene_permiso` VALUES(1,14);
+INSERT INTO `rol_tiene_permiso` VALUES(1,15);
+INSERT INTO `rol_tiene_permiso` VALUES(1,16);
+INSERT INTO `rol_tiene_permiso` VALUES(1,17);
+INSERT INTO `rol_tiene_permiso` VALUES(1,18);
+INSERT INTO `rol_tiene_permiso` VALUES(1,19);
+INSERT INTO `rol_tiene_permiso` VALUES(1,20);
+INSERT INTO `rol_tiene_permiso` VALUES(1,21);
+
