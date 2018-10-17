@@ -276,6 +276,125 @@ function mostrarFormAlta() {
   }
 }
 
+function cargarPartidos() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/partido',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(partidos) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_partido");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+      for (var i = 0; i < partidos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = partidos[i].id;
+        option.regionSanitaria = partidos[i].region_sanitaria_id;
+        option.innerHTML = partidos[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
+function cargarRegionSanitaria() {
+  var id = $("#ac_partido").find(":selected")[0].regionSanitaria;
+  if (id) {
+    $.ajax({
+      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + id,
+      data : {},
+      type : 'GET',
+      dataType: 'json',
+      // código a ejecutar si la petición es satisfactoria;
+      // la respuesta es pasada como argumento a la función
+      success : function(regionSanitaria) {
+        //Pregunto si se realizo la operacion correctamente
+        $("#ac_regionSanitaria").val(regionSanitaria.nombre);
+      }
+    });
+  }else {
+    $("#ac_regionSanitaria").val("");
+  }
+}
+
+function cargarLocalidades() {
+  if (this.value) {
+    $.ajax({
+      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/localidad/partido/' + this.value,
+      data : {},
+      type : 'GET',
+      dataType: 'json',
+      // código a ejecutar si la petición es satisfactoria;
+      // la respuesta es pasada como argumento a la función
+      success : function(localidades) {
+        //Pregunto si se realizo la operacion correctamente
+        var select = $("#ac_localidad");
+        select.html("");
+
+        select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+        for (var i = 0; i < localidades.length; i++) {
+          var option = $('<option/>')[0];
+          option.value = localidades[i].id;
+          option.innerHTML = localidades[i].nombre
+          select.append(option);
+        }
+      }
+    });
+  }else {
+    $("#ac_localidad").html("");
+  }
+}
+
+function cargarObrasSociales() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/obra-social',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(obrasSociales) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_obraSocial");
+
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+      for (var i = 0; i < obrasSociales.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = obrasSociales[i].id;
+        option.innerHTML = obrasSociales[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
+function cargarTiposDocumentos() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(tiposDocumentos) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_tipoDoc");
+
+      for (var i = 0; i < tiposDocumentos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = tiposDocumentos[i].id;
+        option.innerHTML = tiposDocumentos[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
 function agregarPacienteSimple() {
 
 }
@@ -377,10 +496,17 @@ function asignarFuncionesALasOperaciones(){
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
   //pregunto por modulo de alta
-  if ($("#btnAgregarPaciente")[0]) {
+  if ($("#tabAgregarPaciente")[0]) {
     $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
     $("#tipoDeAlta")[0].value = "simple";
     $("#tipoDeAlta")[0].onchange = mostrarFormAlta;
+
+    //Select del formulario paciente form_completo
+    cargarPartidos();
+    cargarObrasSociales();
+    cargarTiposDocumentos();
+    $("#ac_partido").bind('change', cargarRegionSanitaria);
+    $("#ac_partido").bind('change', cargarLocalidades);
   }
 
   if ($("#tabPacientes")[0]) {
