@@ -313,6 +313,7 @@ function cargarRegionSanitaria() {
       success : function(regionSanitaria) {
         //Pregunto si se realizo la operacion correctamente
         $("#ac_regionSanitaria").val(regionSanitaria.nombre);
+        $("#ac_regionSanitaria")[0].reg = regionSanitaria.id;
       }
     });
   }else {
@@ -384,6 +385,7 @@ function cargarTiposDocumentos() {
     success : function(tiposDocumentos) {
       //Pregunto si se realizo la operacion correctamente
       var select = $("#ac_tipoDoc");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
       for (var i = 0; i < tiposDocumentos.length; i++) {
         var option = $('<option/>')[0];
@@ -396,11 +398,77 @@ function cargarTiposDocumentos() {
 }
 
 function agregarPacienteSimple() {
+  var nroHC = $("#as_nroHC").val();
 
+  $.ajax({
+    url : '?action=agregarPacienteSimple',
+    data : {nroHC: nroHC},
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          $('#formularioAgregarPaciente').trigger("reset");
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 
 function agregarPacienteCompleto() {
+  var nombre = $("#ac_nombre").val();
+  var apellido = $("#ac_apellido").val();
+  var lNacimiento = $("#ac_lNacimiento").val();
+  var fNacimiento = $("#ac_fNacimiento").val();
+  var partido = $("#ac_partido").val();
+  var localidad = $("#ac_localidad").val();
+  var domicilio = $("#ac_domicilio").val();
+  var genero = $("#ac_genero").val();
+  var tieneDoc = $("#ac_tieneDoc").val();
+  var tipoDoc = $("#ac_tipoDoc").val();
+  var nroDoc = $("#ac_nroDoc").val();
+  var nroHC = $("#ac_nroHC").val();
+  var nroCarpeta = $("#ac_nroCarpeta").val();
+  var nroTel_cel = $("#ac_nroTel_cel").val();
+  var obraSocial = $("#ac_obraSocial").val();
+  var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
 
+  $.ajax({
+    url : '?action=agregarPacienteCompleto',
+    data : { nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
+      partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
+      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
+      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          $('#formularioAgregarUsuario').trigger("reset");
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 //########## Ver detalle paciente ##########
 function mostrarDetalle() {
@@ -507,6 +575,7 @@ function initialize(){
     cargarTiposDocumentos();
     $("#ac_partido").bind('change', cargarRegionSanitaria);
     $("#ac_partido").bind('change', cargarLocalidades);
+    $("#ac_regionSanitaria")[0].reg = "";
   }
 
   if ($("#tabPacientes")[0]) {

@@ -302,20 +302,4 @@ class UsuariosController {
     }
   }
 
-  function tienePermisos($nombrePermiso){
-    //revisa la session
-    if(isset($_SESSION) ){
-
-        $repoPermisos = RepositorioPermiso::getInstance();
-
-        if($repoPermisos->id_usuario_tiene_permiso($_SESSION['id'], $nombrePermiso)){
-            return true;
-        }
-    }
-        //no esta logueado
-    return false;
-  }
-
-
-
 }
