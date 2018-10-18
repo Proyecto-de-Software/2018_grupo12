@@ -68,7 +68,7 @@ class RepositorioPaciente
                 }
                 $sentencia->bindParam(":nro_carpeta", $obNro_carpeta);
                 if($obObra_social_id==""){
-                    $obObra_social_id=0;
+                    $obObra_social_id=null;
                 }
                 $sentencia->bindParam(":obra_social_id", $obObra_social_id);
                 $ok = $sentencia->execute();
