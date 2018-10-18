@@ -72,13 +72,7 @@ class RepositorioPaciente
          try{
             $sql = "INSERT INTO paciente(apellido,nombre,fecha_nac,lugar_nac,localidad_id,region_sanitaria_id,
             domicilio,genero_id,tiene_documento,tipo_doc_id,numero,tel,nro_historia_clinica,nro_carpeta,obra_social_id,borrado)
-<<<<<<< HEAD
-,'NN',0001-01-01,' ',null,null,null,' ',
->>>>>>> 399cb34b5c28b396b0747a7b3887b666894c368e
-=======
-            VALUES ('NN','NN',0001-01-01,' ',null,null,' ',
->>>>>>> 74747753759e6cb6003135de10ede630d50fc6fd
-            null,0,null,0,' ',:nro_historia_clinica,0,null,0)";
+            VALUES ('NN','NN','0001-01-01',' ',null,null,' ',null,0,null,0,' ',:nro_historia_clinica,0,null,0)";
             $sentencia=$conexion->prepare($sql);
             $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
             $ok=$sentencia->execute();
