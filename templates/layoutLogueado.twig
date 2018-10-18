@@ -2,7 +2,7 @@
 
 {#
 Datos esperados
-array('usuarios' => $usuarios,
+array('username' => $username,
       'modulos' => array('paciente','consulta'),
       'modulosAdministracion' => array('usuario','rol', 'permiso', 'configuracion'),
       );
@@ -26,6 +26,14 @@ array('usuarios' => $usuarios,
 {% endblock %}
 
 {% block panel_derecho %}
-  <p class="mb-0 ml-0 ml-lg-3">juan.perez</p>
-  
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ username | capitalize }}
+      </a>
+      <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="?action=cerrarSesion">Cerrar sesión</a>
+      </div>
+    </li>
+  </ul>
 {% endblock %}

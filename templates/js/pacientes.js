@@ -227,6 +227,42 @@ function siguiente(){
   }
 }
 //------------------ Operaciones sobre los pacientes ------------------
+//########## Eliminar paciente ##########
+function mostrarMensajeEliminacion(){
+  $("#tituloMensaje").html("Eliminar paciente");
+  $("#cuerpoMensaje").html("¿Esta seguro de que desea eliminar este paciente?")
+
+  $("#botonMensaje")[0].paciente = this.parentNode.id;
+  $("#botonMensaje")[0].onclick = eliminarPaciente;
+
+  $("#mensajeConfirmacion").modal();
+}
+
+function eliminarPaciente(){
+  var id = this.paciente;
+  $.ajax({
+    url : '?action=eliminarPaciente',
+    data : { id: id },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
 //########## Agregar paciente ##########
 function mostrarFormAlta() {
   if (this.value == "simple") {
@@ -240,20 +276,234 @@ function mostrarFormAlta() {
   }
 }
 
-function agregarPacienteSimple() {
+function cargarPartidos() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/partido',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(partidos) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_partido");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
+      for (var i = 0; i < partidos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = partidos[i].id;
+        option.regionSanitaria = partidos[i].region_sanitaria_id;
+        option.innerHTML = partidos[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
+function cargarRegionSanitaria() {
+  var id = $("#ac_partido").find(":selected")[0].regionSanitaria;
+  if (id) {
+    $.ajax({
+      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + id,
+      data : {},
+      type : 'GET',
+      dataType: 'json',
+      // código a ejecutar si la petición es satisfactoria;
+      // la respuesta es pasada como argumento a la función
+      success : function(regionSanitaria) {
+        //Pregunto si se realizo la operacion correctamente
+        $("#ac_regionSanitaria").val(regionSanitaria.nombre);
+        $("#ac_regionSanitaria")[0].reg = regionSanitaria.id;
+      }
+    });
+  }else {
+    $("#ac_regionSanitaria").val("");
+  }
+}
+
+function cargarLocalidades() {
+  if (this.value) {
+    $.ajax({
+      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/localidad/partido/' + this.value,
+      data : {},
+      type : 'GET',
+      dataType: 'json',
+      // código a ejecutar si la petición es satisfactoria;
+      // la respuesta es pasada como argumento a la función
+      success : function(localidades) {
+        //Pregunto si se realizo la operacion correctamente
+        var select = $("#ac_localidad");
+        select.html("");
+
+        select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+        for (var i = 0; i < localidades.length; i++) {
+          var option = $('<option/>')[0];
+          option.value = localidades[i].id;
+          option.innerHTML = localidades[i].nombre
+          select.append(option);
+        }
+      }
+    });
+  }else {
+    $("#ac_localidad").html("");
+  }
+}
+
+function cargarObrasSociales() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/obra-social',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(obrasSociales) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_obraSocial");
+
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+      for (var i = 0; i < obrasSociales.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = obrasSociales[i].id;
+        option.innerHTML = obrasSociales[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
+function cargarTiposDocumentos() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(tiposDocumentos) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#ac_tipoDoc");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+      for (var i = 0; i < tiposDocumentos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = tiposDocumentos[i].id;
+        option.innerHTML = tiposDocumentos[i].nombre
+        select.append(option);
+      }
+    }
+  });
+}
+
+function agregarPacienteSimple() {
+  var nroHC = $("#as_nroHC").val();
+
+  $.ajax({
+    url : '?action=agregarPacienteSimple',
+    data : {nroHC: nroHC},
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          $('#formularioAgregarPaciente').trigger("reset");
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 
 function agregarPacienteCompleto() {
+  var nombre = $("#ac_nombre").val();
+  var apellido = $("#ac_apellido").val();
+  var lNacimiento = $("#ac_lNacimiento").val();
+  var fNacimiento = $("#ac_fNacimiento").val();
+  var partido = $("#ac_partido").val();
+  var localidad = $("#ac_localidad").val();
+  var domicilio = $("#ac_domicilio").val();
+  var genero = $("#ac_genero").val();
+  var tieneDoc = $("#ac_tieneDoc").val();
+  var tipoDoc = $("#ac_tipoDoc").val();
+  var nroDoc = $("#ac_nroDoc").val();
+  var nroHC = $("#ac_nroHC").val();
+  var nroCarpeta = $("#ac_nroCarpeta").val();
+  var nroTel_cel = $("#ac_nroTel_cel").val();
+  var obraSocial = $("#ac_obraSocial").val();
+  var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
 
+  $.ajax({
+    url : '?action=agregarPacienteCompleto',
+    data : { nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
+      partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
+      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
+      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Pregunto si se realizo la operacion correctamente
+      switch (respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          $('#formularioAgregarUsuario').trigger("reset");
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
+//########## Ver detalle paciente ##########
+function mostrarDetalle() {
+  var id = this.parentNode.id;
+  $.ajax({
+    url : '?action=detallePaciente',
+    data : { id: id },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      switch (respuesta.estado) {
+        case "success":
+          $("#contenidoVerPaciente").html(respuesta.contenido);
+          $("#tabVerPaciente").css({"display":"block"});
+          $('#menuTabs a[href="#contenidoVerPaciente"]').tab('show');
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 
 //------------------ Inicializar ------------------
 //Pregunto si tiene dicha funcionalidad
 if ($("#contenidoModificarPaciente")[0]) {
-  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Usuarios"
-  $('#menuTabs a[href="#contenidoPacientes"]').on('click', function (e) {
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Pacientes"
+  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
     e.preventDefault()
+    console.log("sadasd");
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
@@ -262,7 +512,7 @@ if ($("#contenidoModificarPaciente")[0]) {
   })
 
   // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
-  $('#menuTabs a[href="#contenidoAgregarPaciente"]').on('click', function (e) {
+  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
     e.preventDefault()
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
@@ -272,14 +522,37 @@ if ($("#contenidoModificarPaciente")[0]) {
   })
 }
 
+//Pregunto si tiene dicha funcionalidad
+if ($("#contenidoVerPaciente")[0]) {
+  // Para quitar el detalle del paciente clickee la pestaña "Pacientes"
+  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
+    e.preventDefault()
+    $("#tabVerPaciente").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoVerPaciente").html("...");
+    }, 250);
+  })
+
+  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
+  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
+    e.preventDefault()
+    $("#tabVerPaciente").css({"display":"none"});
+    $(this).tab('show');
+    setTimeout(function() {
+      $("#contenidoVerPaciente").html("...");
+    }, 250);
+  })
+}
+
 //Asigna las funciones a los botones de las operaciones
 function asignarFuncionesALasOperaciones(){
   document.getElementsByName("eliminar").forEach(function(btnEliminar){
-    btnEliminar.onclick = "mostrarMensajeEliminar";
+    btnEliminar.onclick = mostrarMensajeEliminacion;
   })
 
   document.getElementsByName("ver_detalle").forEach(function(btnVer){
-    btnVer.onclick = "mostrarDetalle";
+    btnVer.onclick = mostrarDetalle;
   })
 
   document.getElementsByName("modificar").forEach(function(btnModificar){
@@ -291,10 +564,18 @@ function asignarFuncionesALasOperaciones(){
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
   //pregunto por modulo de alta
-  if ($("#btnAgregarPaciente")[0]) {
+  if ($("#tabAgregarPaciente")[0]) {
     $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
     $("#tipoDeAlta")[0].value = "simple";
     $("#tipoDeAlta")[0].onchange = mostrarFormAlta;
+
+    //Select del formulario paciente form_completo
+    cargarPartidos();
+    cargarObrasSociales();
+    cargarTiposDocumentos();
+    $("#ac_partido").bind('change', cargarRegionSanitaria);
+    $("#ac_partido").bind('change', cargarLocalidades);
+    $("#ac_regionSanitaria")[0].reg = "";
   }
 
   if ($("#tabPacientes")[0]) {

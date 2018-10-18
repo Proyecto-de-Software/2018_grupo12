@@ -18,8 +18,12 @@ class InicioController {
   }
 
   public function mostrarInicio(){
+    if (Validador::getInstance()->sesion_iniciada()) {
+      LoginController::getInstance()->redirectHome();
+    }else {
       $view = new Inicio();
       $view->show();
+    }
   }
 
 }

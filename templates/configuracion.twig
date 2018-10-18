@@ -6,23 +6,7 @@
   <div class="container">
     <div class="row justify-content-center my-5">
       <div class="col-8">
-        {% if not (error is empty) %}
-        <div class="alert alert-danger alert-dismissible fade show" align="center" role="alert">
-          {{ error }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endif %}
-        {% if not (success is empty) %}
-        <div class="alert alert-success alert-dismissible fade show" align="center" role="alert">
-          {{ success }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endif %}
-        <form method="post" action="?action=guardarConfiguracion">
+        <form method="post" action="return false" onsubmit="return false">
           <h2>Información del hospital</h2>
           <hr>
           <div class="form-group">
@@ -55,10 +39,16 @@
             </div>
           </div>
           <div class="form-row justify-content-center">
-            <button type="submit" class="btn btn-primary align-self-center">Guardar cambios</button>
+            {% for permiso in permisos %}
+              {% include "moduloConfiguracion/boton_#{permiso}.twig" ignore missing %}
+            {% endfor %}
           </div>
         </form>
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="templates/js/configuracion.js"></script>
 {% endblock %}

@@ -23,7 +23,13 @@ class LoginController {
 
   public function redirectHome(){
     $view = new Home();
-    $view->show();
+    $repoPermisos = RepositorioPermiso::getInstance();
+    $id = $_SESSION["id"];
+
+    $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
+    $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
+    $datos["username"] = $_SESSION["userName"];
+    $view->show($datos);
   }
 
 }

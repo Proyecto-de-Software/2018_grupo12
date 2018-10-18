@@ -19,8 +19,17 @@ class ConfiguracionController {
   public function redirectConfiguracion(){
     try {
       $config = RepositorioConfiguracion::getInstance();
+      $repoPermisos = RepositorioPermiso::getInstance();
+      $id = $_SESSION["id"];
+
+      $datos = $config->obtener_configuracion();
+      $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
+      $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
+      $datos["username"] = $_SESSION["userName"];
+      $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"configuracion");
+
       $view = new Configuracion();
-      $view->show($config->obtener_configuracion());
+      $view->show($datos);
     } catch (\Exception $e) {
       $view = new PaginaError();
       $view->show();
@@ -32,9 +41,9 @@ class ConfiguracionController {
       $config = RepositorioConfiguracion::getInstance();
       $view = new Configuracion();
 
-      //intentan hacer un envio vacio desde url por ende redirecciono
+      //intentan hacer un envio vacio por ende redirecciono
       if (! (isset($_POST["titulo"]) && isset($_POST["descripcion"]) && isset($_POST["email"]) && isset($_POST["limite"]) && isset($_POST["habilitado"]))) {
-        InicioController::getInstance()->mostrarInicio();
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "Complete todos los campos"));
       }else {
         $titulo = $_POST["titulo"];
         $descripcion = $_POST["descripcion"];
@@ -45,9 +54,9 @@ class ConfiguracionController {
         //Valido que el email sea correcto y que los campos no esten vacios
         //Valido que el select "habilitado" tenga los valores correctos
         if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-          $view->show($config->obtener_configuracion(),"Email incorrecto");
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "El email ingresado es incorrecto"));
         }elseif(!($titulo && $descripcion && $email && $limite && ($habilitado == "0" || $habilitado == "1"))) {
-          $view->show($config->obtener_configuracion(),"Los datos ingresados son incorrectos");
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "Los datos ingresados son incorrectos"));;
         }else {
           //Guardo la configuracion nueva
           $config->setTitulo($titulo);
@@ -61,12 +70,11 @@ class ConfiguracionController {
             $config->deshabilitar();
           }
 
-          $view->show($config->obtener_configuracion(), null, "Los datos se guardaron correctamente");
+          TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Los datos se guardaron correctamente"));
         }
       }
     } catch (\Exception $e) {
-      $view = new PaginaError();
-      $view->show();
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
     }
   }
 }

@@ -283,23 +283,14 @@ function agregarUsuario(){
     success : function(respuesta) {
       //Tengo en cuenta los posibles casos
       switch(respuesta.estado){
-        case "guardado correcto":
-          mostrarAlerta("Usuario guardado correctamente","success");
+        case "success":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
           $('#formularioAgregarUsuario').trigger("reset");
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
           break;
-        case "datos incorrectos":
-          mostrarAlerta("Complete todos los campos","error");
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
           break;
-        case "email incorrecto":
-          mostrarAlerta("Email ingresado es incorrecto","error");
-          break;
-        case "nombre de usuario existe":
-          mostrarAlerta("El nombre de usuario ya esta registrado","error");
-        break;
-        case "contraseña menor a 8":
-          mostrarAlerta("La contraseña debe tener por lo menos 8 caracteres","error");
-        break;
         default:
           mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
       }
@@ -318,7 +309,7 @@ function mostrarFormularioModificacion(){
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      if (respuesta.estado == "correcto") {
+      if (respuesta.estado == "success") {
         $("#contenidoModificarUsuario").html(respuesta.contenido);
         $("#btnModificarUsuario")[0].usuario = id;
         $("#btnModificarUsuario")[0].onclick = modificarUsuario;
@@ -351,19 +342,13 @@ function modificarUsuario(){
     success : function(respuesta) {
       //Tengo en cuenta los posibles casos
       switch(respuesta.estado) {
-        case "modificado correcto":
-          mostrarAlerta("Usuario modificado correctamente","success");
+        case "success":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
           $('#menuTabs a[href="#contenidoUsuarios"]').click();
           break;
-        case "datos incorrectos":
-          mostrarAlerta("Complete todos los campos","error");
-          break;
-        case "contraseña menor a 8":
-          mostrarAlerta("La contraseña debe tener al menos 8 caracteres","error");
-        break;
-        case "email incorrecto":
-          mostrarAlerta("Email ingresado es incorrecto","error");
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
@@ -390,7 +375,7 @@ function actualizarPanelAdministracionRoles(id) {
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      if (respuesta.estado == "correcto") {
+      if (respuesta.estado == "success") {
         $("#cuerpoPanelAdministracionRoles").html(respuesta.contenido);
         $("#btnAgregarRol")[0].usuario = id;
         $("#btnAgregarRol")[0].onclick = agregarRol;
@@ -420,19 +405,16 @@ function agregarRol() {
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       switch(respuesta.estado) {
-        case "agregado correctamente":
-          mostrarAlerta("Rol agregado correctamente","success");
+        case "success":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           actualizarPanelAdministracionRoles(id);
           //$('#formulario').trigger("reset");
           //actualizo listado de usuarios
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
           break;
-        case "ya tiene este rol":
-          mostrarAlerta("El usuario ya tiene asignado este rol","error");
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           break;
-        case "no seleccionado":
-          mostrarAlerta("No se selecciono ningun rol","error");
-        break;
         default:
           mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
       }
@@ -453,12 +435,15 @@ function quitarRol() {
     // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       switch(respuesta.estado) {
-        case "quitado correctamente":
-          mostrarAlerta("Rol quitado correctamente","success");
+        case "success":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           actualizarPanelAdministracionRoles(id);
           //$('#formulario').trigger("reset");
           //actualizo listado de usuarios
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");

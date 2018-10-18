@@ -86,6 +86,7 @@ class RepositorioPermiso
                         $modulo=explode("_",$r['nombre']);
                         $modulos[] = $modulo[0];
                     }
+                  $modulos = array_unique($modulos);
                 }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta repositorioPermiso->modulos_id_usuario " . $ex->getMessage());
@@ -105,7 +106,7 @@ class RepositorioPermiso
                                 INNER JOIN rol r ON (utr.rol_id=r.id)
                                 INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
                                 INNER JOIN permiso p ON (rtp.permiso_id=p.id)
-                 WHERE u.id=:usuario_id AND p.nombre=:permiso_completo";
+                 WHERE u.id=:usuario_id AND p.nombre=:permiso_completo AND utr.eliminado = 0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":usuario_id", $usuario_id);
                 $sentencia->bindParam(":permiso_completo",$permiso_completo);
@@ -114,7 +115,7 @@ class RepositorioPermiso
                 if (count($resultado)) {
                     return true;
                     }
-                
+
             } catch (PDOException $ex) {
                 throw new Exception("error consulta repositorioPermiso->id_usuario_tiene_permiso" . $ex->getMessage());
             }
@@ -123,7 +124,7 @@ class RepositorioPermiso
         return false;
     }
     public function permisos_id_usuario_modulo($usuario_id,$modulo){/*retorna los permisos que el usuario tiene en el modulo pasado por parametro */
-        
+
             $permisos = array();
             $conexion = abrir_conexion();
             if ($conexion !== null) {
@@ -153,7 +154,7 @@ class RepositorioPermiso
             $conexion = null;
             return $permisos;
         }
-    
+
 
 
 }

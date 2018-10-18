@@ -2,8 +2,8 @@
 
 class Home extends TwigView {
 
-  public function show($modulos) {
-    echo self::getTwig()->render('home.twig', $modulos);
+  public function show($datos) {
+    echo self::getTwig()->render('home.twig', $datos);
   }
 
 }
