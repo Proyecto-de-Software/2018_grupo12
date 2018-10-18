@@ -7,6 +7,7 @@ require_once "controller/ConfiguracionController.php";
 require_once "controller/InicioController.php";
 require_once "controller/LoginController.php";
 /*model */
+require_once "model/repositorioConfiguracion.php";
 require_once "model/conexion.php";
 require_once "model/config.php";
 require_once "model/genero.php";
