@@ -163,6 +163,7 @@ CREATE TABLE `paciente` (
   `fecha_nac` date NOT NULL,
   `lugar_nac` varchar(255) DEFAULT NULL,
   `localidad_id` int(11) NULL,
+  `partido_id` int(11) NULL,
   `region_sanitaria_id` int(11) NULL,
   `domicilio` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `genero_id` int(11) NULL,
@@ -179,6 +180,7 @@ CREATE TABLE `paciente` (
   CONSTRAINT FK_obra_social_id FOREIGN KEY (obra_social_id) REFERENCES obra_social(id),
   CONSTRAINT FK_tipo_doc_id FOREIGN KEY (tipo_doc_id) REFERENCES tipo_documento(id),
   CONSTRAINT FK_localidad_id FOREIGN KEY (localidad_id) REFERENCES localidad(id),
+  CONSTRAINT FK_partido_id FOREIGN KEY (partido_id) REFERENCES partido(id),
   CONSTRAINT FK_genero_id FOREIGN KEY (genero_id) REFERENCES genero(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

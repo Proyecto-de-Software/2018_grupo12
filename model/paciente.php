@@ -7,6 +7,7 @@ class Paciente{
   private $fecha_nac;
   private $lugar_nac;
   private $localidad_id;
+  private $partido_id;
   private $region_sanitaria_id;
   private $domicilio;
   private $genero_id;
@@ -21,7 +22,7 @@ class Paciente{
   private $nombreObraSocial;
   private $nombreTipoDocumento;
 
-  public function __construct($id,$apellido,$nombre,$fecha_nac,$lugar_nac,$localidad_id,$region_sanitaria_id,
+  public function __construct($id,$apellido,$nombre,$fecha_nac,$lugar_nac,$localidad_id,$partido_id,$region_sanitaria_id,
   $domicilio,$genero_id,$tiene_documento,$tipo_doc_id,$numero,$tel,$nro_historia_clinica,$nro_carpeta,$obra_social_id,$borrado){
     $this ->id=$id;
     $this ->apellido=$apellido;
@@ -29,6 +30,7 @@ class Paciente{
     $this ->fecha_nac=$fecha_nac;
     $this ->lugar_nac=$lugar_nac;
     $this ->localidad_id=$localidad_id;
+    $this ->partido_id=$partido_id;
     $this ->region_sanitaria_id=$region_sanitaria_id;
     $this ->domicilio=$domicilio;
     $this ->genero_id=$genero_id;
@@ -427,4 +429,24 @@ class Paciente{
 
 
 
+
+  /**
+   * Get the value of partido_id
+   */ 
+  public function getPartido_id()
+  {
+    return $this->partido_id;
+  }
+
+  /**
+   * Set the value of partido_id
+   *
+   * @return  self
+   */ 
+  public function setPartido_id($partido_id)
+  {
+    $this->partido_id = $partido_id;
+
+    return $this;
+  }
 }
