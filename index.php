@@ -196,6 +196,28 @@ if (! Validador::getInstance()->pagina_habilitada()) {
           InicioController::getInstance()->mostrarInicio();
         }
         break;
+      case 'agregarPacienteSimple':
+        if ($isAjax) {
+          if ($validador->sesion_permiso("paciente_new")) {
+            PacientesController::getInstance()->agregarPacienteSimple();
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+          }
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
+        break;
+      case 'agregarPacienteCompleto':
+        if ($isAjax) {
+          if ($validador->sesion_permiso("paciente_new")) {
+            PacientesController::getInstance()->agregarPacienteCompleto();
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+          }
+        }else {
+          InicioController::getInstance()->mostrarInicio();
+        }
+        break;
       case 'detallePaciente':
         if ($isAjax) {
           if ($validador->sesion_permiso("paciente_show")) {
