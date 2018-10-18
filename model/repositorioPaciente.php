@@ -46,11 +46,11 @@ class RepositorioPaciente
                 $sentencia->bindParam(":fecha_nac", $obFecha_nac);
                 $sentencia->bindParam(":lugar_nac", $obLugar_nac);
                 if($obLocalidad_id==""){
-                    $obLocalidad_id=0;
+                    $obLocalidad_id=null;
                 }
                 $sentencia->bindParam(":localidad_id", $obLocalidad_id);
                 if($obRegion_sanitaria_id==""){
-                    $obRegion_sanitaria_id=0;
+                    $obRegion_sanitaria_id=null;
                 }
                 $sentencia->bindParam(":region_sanitaria_id", $obRegion_sanitaria_id);
                 $sentencia->bindParam(":domicilio", $obDomicilio);
