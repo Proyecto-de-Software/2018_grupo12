@@ -50,7 +50,7 @@ class RepositorioPaciente
                 }
                 $sentencia->bindParam(":localidad_id", $obLocalidad_id);
                 if($obRegion_sanitaria_id==""){
-                    $obLocalidad_id=0;
+                    $obRegion_sanitaria_id=0;
                 }
                 $sentencia->bindParam(":region_sanitaria_id", $obRegion_sanitaria_id);
                 $sentencia->bindParam(":domicilio", $obDomicilio);
