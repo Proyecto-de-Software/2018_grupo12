@@ -45,7 +45,13 @@ class RepositorioPaciente
                 $sentencia->bindParam(":nombre", $obNombre);
                 $sentencia->bindParam(":fecha_nac", $obFecha_nac);
                 $sentencia->bindParam(":lugar_nac", $obLugar_nac);
+                if($obLocalidad_id==""){
+                    $obLocalidad_id=0;
+                }
                 $sentencia->bindParam(":localidad_id", $obLocalidad_id);
+                if($obRegion_sanitaria_id==""){
+                    $obLocalidad_id=0;
+                }
                 $sentencia->bindParam(":region_sanitaria_id", $obRegion_sanitaria_id);
                 $sentencia->bindParam(":domicilio", $obDomicilio);
                 $sentencia->bindParam(":genero_id", $obGenero_id);
@@ -53,8 +59,17 @@ class RepositorioPaciente
                 $sentencia->bindParam(":tipo_doc_id", $obTipo_doc_id);
                 $sentencia->bindParam(":numero", $obNumero);
                 $sentencia->bindParam(":tel", $obTel);
+                if($obNro_historia_clinica==""){
+                    $obNro_historia_clinica=0;
+                }
                 $sentencia->bindParam(":nro_historia_clinica", $obNro_historia_clinica);
+                if($obNro_carpeta==""){
+                    $obNro_carpeta=0;
+                }
                 $sentencia->bindParam(":nro_carpeta", $obNro_carpeta);
+                if($obObra_social_id==""){
+                    $obObra_social_id=0;
+                }
                 $sentencia->bindParam(":obra_social_id", $obObra_social_id);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
