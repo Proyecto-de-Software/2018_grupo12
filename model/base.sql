@@ -329,9 +329,9 @@ INSERT INTO `obra_social` (`id`,`nombre`) values (20,"OSPEPBA");
 INSERT INTO `obra_social` (`id`,`nombre`) values (21,"OSPE");
 
 
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"titulo","titulo inicial");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (1,"titulo","Hospital Dr.Alejandro Korn");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (2,"descripcion","descripcion inicial");
-INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"email","email@inicial");
+INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (3,"email","email@inicial.com");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (4,"limite","20");
 INSERT INTO `configuracion` (`id`,`variable`,`valor`) values (5,"habilitado","1");
 
