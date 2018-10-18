@@ -385,6 +385,7 @@ function cargarTiposDocumentos() {
     success : function(tiposDocumentos) {
       //Pregunto si se realizo la operacion correctamente
       var select = $("#ac_tipoDoc");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
       for (var i = 0; i < tiposDocumentos.length; i++) {
         var option = $('<option/>')[0];
@@ -411,7 +412,7 @@ function agregarPacienteSimple() {
       switch (respuesta.estado) {
         case "success":
           mostrarAlerta(respuesta.mensaje,respuesta.estado);
-          $('#formularioAgregarUsuario').trigger("reset");
+          $('#formularioAgregarPaciente').trigger("reset");
           document.getElementsByClassName("page-item active")[0].children[0].onclick();
           break;
         case "error":
@@ -440,7 +441,7 @@ function agregarPacienteCompleto() {
   var nroCarpeta = $("#ac_nroCarpeta").val();
   var nroTel_cel = $("#ac_nroTel_cel").val();
   var obraSocial = $("#ac_obraSocial").val();
-  var regionSanitaria = $("#ac_regionSanitaria")[0].identificador;
+  var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
 
   $.ajax({
     url : '?action=agregarPacienteCompleto',
@@ -574,6 +575,7 @@ function initialize(){
     cargarTiposDocumentos();
     $("#ac_partido").bind('change', cargarRegionSanitaria);
     $("#ac_partido").bind('change', cargarLocalidades);
+    $("#ac_regionSanitaria")[0].reg = "";
   }
 
   if ($("#tabPacientes")[0]) {

@@ -164,7 +164,7 @@ class PacientesController {
   }
 
   public function agregarPacienteCompleto(){
-    try {
+    //try {
       $nombre = strtolower($_POST["nombre"]);
       $apellido = strtolower($_POST["apellido"]);
       $lNacimiento = strtolower($_POST["lNacimiento"]);
@@ -185,17 +185,26 @@ class PacientesController {
 
       $repoPaciente = RepositorioPaciente::getInstance();
 
+      $date = date('Y-m-d',time());
+
+      $fechaIngresada = strtotime($fNacimiento);
+      $date = strtotime($date);
+
       //Valido que los campos no esten vacios y sean correctos
       if (!($nombre && $apellido && $fNacimiento && $domicilio && $tieneDoc && $tipoDoc && $nroDoc)) {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete los campos obligatorios"));
-      }elseif(strlen($nroHC) > 6){
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de historia tiene un maximo de 6 numeros"));
-      }elseif (strlen($nroCarpeta) > 5) {
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de carpeta tiene un maximo de 5 numeros"));
-      }elseif ($repoPaciente->obtener_por_datos_doc($tipoDoc, $nroDoc)) {
+      }elseif(strlen($nroHC) > 6 || (int)$nroHC < 0){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de historia tiene un maximo de 6 numeros y es positivo"));
+      }elseif (strlen($nroCarpeta) > 5 || (int)$nroCarpeta < 0) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de carpeta tiene un maximo de 5 numeros y es positivo"));
+      }elseif ((int)$nroDoc <= 0){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de documento debe ser mayor que 0"));
+      }elseif($repoPaciente->obtener_por_datos_doc($tipoDoc, $nroDoc)) {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de documento ya existe"));
       }elseif ($repoPaciente->obtener_por_nro_historia_clinica($nroHC)){
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de historia clinica ya existe"));
+      }elseif ($fechaIngresada > $date) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La fecha tiene que ser menor a la actual"));
       }else{
         $paciente = new Paciente('',$apellido,$nombre,$fNacimiento,$lNacimiento,$localidad,$regionSanitaria,
                     $domicilio,$genero,$tieneDoc,$tipoDoc,$nroDoc,$nroTel_cel,$nroHC,$nroCarpeta,$obraSocial,0);
@@ -205,9 +214,9 @@ class PacientesController {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
         }
       }
-    } catch (\Exception $e) {
+    /*} catch (\Exception $e) {
       TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
-    }
+    }*/
   }
 
   public function agregarPacienteSimple(){
