@@ -17,8 +17,9 @@ class LoginController {
   }
 
   public function mostrarLogin(){
+    $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
     $view = new Login();
-    $view->show();
+    $view->show($datos);
   }
 
   public function redirectHome(){
@@ -26,6 +27,7 @@ class LoginController {
     $repoPermisos = RepositorioPermiso::getInstance();
     $id = $_SESSION["id"];
 
+    $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
     $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
     $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
     $datos["username"] = $_SESSION["userName"];

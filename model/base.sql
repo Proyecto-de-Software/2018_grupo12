@@ -436,12 +436,16 @@ INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 21,"configuracion_update"
 INSERT INTO `usuario` (`id`,`email`,`username`,`password`, `activo`, `first_name`,`last_name`)
 VALUES ( 1,"admin@admin.com","admin","$2y$10$7hB/B/cLnnDf0e2Bk2tnC.oUDrb1LDYd.ctTXsW6Tu0yQo5sIKA7i","1","admin","admin");
 
+INSERT INTO `usuario` (`id`,`email`,`username`,`password`, `activo`, `first_name`,`last_name`)
+VALUES ( 2,"guardia@guardia.com","equipodeguardia","$2y$10$H1jXRhl8CuCGmmLODtubSuR8RpHna17GqjbnBfJAw91LNUFkTVS0q","1","guardia","guardia");
+
 INSERT INTO `rol` VALUES(1,"Administrador");
 INSERT INTO `rol` VALUES(2,"EquipoDeGuardia");
 
 INSERT INTO `usuario_tiene_rol` VALUES(1,1,0);
 
 INSERT INTO `rol_tiene_permiso` VALUES(1,1);
+INSERT INTO `rol_tiene_permiso` VALUES(1,2);
 INSERT INTO `rol_tiene_permiso` VALUES(1,6);
 INSERT INTO `rol_tiene_permiso` VALUES(1,7);
 INSERT INTO `rol_tiene_permiso` VALUES(1,8);

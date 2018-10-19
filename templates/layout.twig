@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="templates/css/prophet.min.css">
     <link rel="stylesheet" href="templates/css/estilos.css">
     <link rel="stylesheet" href="templates/css/bootstrap.min.css">
-    <title>{% block titulo %}{% endblock %} | Hospital Dr. Alejandro Korn</title>
+    <title>{% block titulo %}{% endblock %} | {{tituloPag}}</title>
   </head>
   <body>
     <div class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <nav class="barraNavegacion">
           {% block panel_izquierdo %}
-          <p class="mb-lg-0 ml-lg-4"> Hospital Dr. Alejandro Korn</p>
+          <p class="mb-lg-0 ml-lg-4"> {{tituloPag}}</p>
           {% endblock %}
 
           {% block panel_central %}
@@ -46,7 +46,7 @@
     </main>
     <footer class="pieDePagina align-bottom">
       <div class="container-flex pl-3 pr-3" style="background-color: #e3f2fd;">
-          <span>Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
+          <span>Proyecto de Software 2018 - {{tituloPag}}</span>
           <span class="d-block float-sm-right">v 0.0.1</span>
       </div>
     </footer>

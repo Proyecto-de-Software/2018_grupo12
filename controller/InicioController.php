@@ -18,11 +18,14 @@ class InicioController {
   }
 
   public function mostrarInicio(){
-    if (Validador::getInstance()->sesion_iniciada()) {
+    if (! Validador::getInstance()->pagina_habilitada()){
+      Validador::getInstance()->mostrarPaginaMantenimiento();
+    }elseif (Validador::getInstance()->sesion_iniciada()){
       LoginController::getInstance()->redirectHome();
-    }else {
+    }else{
+      $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
       $view = new Inicio();
-      $view->show();
+      $view->show($datos);
     }
   }
 

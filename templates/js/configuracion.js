@@ -35,7 +35,7 @@ function guardarDatos() {
 }
 
 function initialize() {
-  if ($("btnGuardar")[0]) {
+  if ($("#btnGuardar")[0]) {
     $("#btnGuardar")[0].onclick = guardarDatos;
   }
 }

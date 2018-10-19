@@ -23,24 +23,26 @@
     </div>
   </div>
   <div id="pagina" class="">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Apellido</th>
-          <th scope="col">Email</th>
-          <th scope="col">Nombre de usuario</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Roles</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="cuerpoTablaUsuarios">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nombre de usuario</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpoTablaUsuarios">
 
-        {% include 'cuerpoTablaUsuarios.twig' %}
+          {% include 'cuerpoTablaUsuarios.twig' %}
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
   <nav aria-label="Navegacion entre paginas">
     <ul class="pagination justify-content-center">

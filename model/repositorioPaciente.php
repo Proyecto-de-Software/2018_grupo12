@@ -198,16 +198,70 @@ class RepositorioPaciente
 
     }
 
-    public function obtener_por_nro_historia_clinica($nro)
+    public function existe_doc($tipo_doc,$num)
     { /*si no existe devuelve null */
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $nro="%".$nro."%";
-                $sql = "SELECT * FROM paciente WHERE nro_historia_clinica LIKE :nro AND borrado=0";
+                $sql = "SELECT * FROM paciente WHERE  tipo_doc_id=:tipo_doc_id AND numero =:num";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":tipo_doc_id", $tipo_doc);
+                $sentencia->bindParam(":num", $num);
+                $sentencia->execute();
+                $re = $sentencia->fetchAll();
+                if (count($re)) {
+                    foreach($re as $r){
+                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                }}
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_por_datos_doc " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $paciente;
+    }
+
+    public function existe_historia_clinica($nro)
+    { /*si no existe devuelve null */
+        $paciente = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT * FROM paciente WHERE nro_historia_clinica =:nro";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nro", $nro);
+                $sentencia->execute();
+                $re = $sentencia->fetchAll();
+                if (count($re)) {
+                    foreach($re as $r){
+                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                }}
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_por_nro_historia_clinica " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $paciente;
+    }
+
+    public function obtener_por_nro_historia_clinica($nro,$limite,$pag)
+    { /*si no existe devuelve null */
+        $paciente = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $nro="%".$nro."%";
+                $sql = "SELECT * FROM paciente WHERE nro_historia_clinica LIKE :nro AND borrado=0 LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nro", $nro);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
@@ -337,17 +391,49 @@ class RepositorioPaciente
         $conexion = null;
         return $paciente;
     }
-    public function obtener_por_datos_doc( $tipo_doc, $num)
+    public function obtener_por_num_doc($num,$limite,$pag)
     { /*si no existe devuelve null */
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
+                $primero = $limite * ($pag - 1);
                 $num="%".$num."%";
-                $sql = "SELECT * FROM paciente WHERE  tipo_doc_id=:tipo_doc_id AND numero LIKE :num AND borrado=0";
+                $sql = "SELECT * FROM paciente WHERE numero LIKE :num AND borrado=0 LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":num", $num);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $re = $sentencia->fetchAll();
+                if (count($re)) {
+                    foreach($re as $r){
+                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                }}
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_por_datos_doc " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $paciente;
+    }
+
+    public function obtener_por_datos_doc( $tipo_doc,$num,$limite,$pag)
+    { /*si no existe devuelve null */
+        $paciente = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $num="%".$num."%";
+                $sql = "SELECT * FROM paciente WHERE  tipo_doc_id=:tipo_doc_id AND numero LIKE :num AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":tipo_doc_id", $tipo_doc);
                 $sentencia->bindParam(":num", $num);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {

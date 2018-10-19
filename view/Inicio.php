@@ -2,9 +2,9 @@
 
 class Inicio extends TwigView {
 
-    public function show() {
+    public function show($datos) {
 
-        echo self::getTwig()->render('inicio.twig');
+        echo self::getTwig()->render('inicio.twig', $datos);
 
 
     }

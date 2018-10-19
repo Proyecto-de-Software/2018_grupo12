@@ -23,6 +23,7 @@ class ConfiguracionController {
       $id = $_SESSION["id"];
 
       $datos = $config->obtener_configuracion();
+      $datos["tituloPag"] = $config->getTitulo();
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
       $datos["username"] = $_SESSION["userName"];

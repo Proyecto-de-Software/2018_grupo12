@@ -52,6 +52,19 @@ class Validador{
 
     public function mostrarPaginaMantenimiento(){
       $view = new PaginaMantenimiento();
-      $view->show();
+      $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
+
+      if (Validador::getInstance()->sesion_iniciada()) {
+        $repoPermisos = RepositorioPermiso::getInstance();
+        $id = $_SESSION["id"];
+
+        $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
+        $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
+        $datos["username"] = $_SESSION["userName"];
+        $datos["pagina"] = 'home.twig';
+      }else {
+        $datos["pagina"] = 'inicio.twig';
+      }
+      $view->show($datos);
     }
 }

@@ -26,9 +26,13 @@ class UsuariosController {
           $usuario = $repoUsuario->obtener_usuario_por_username($_POST['usuario']);
           //1 activo SI   .... 0 Bloqueado
           if(password_verify($_POST['contrasena'], $usuario->getPassword()) ){
-            $_SESSION['userName']=$usuario->getUsername();
-            $_SESSION['id']=$usuario->getId();
-            TwigView::jsonEncode(array('estado' => "success"));
+            if ($usuario->getActivo()) {
+              $_SESSION['userName']=$usuario->getUsername();
+              $_SESSION['id']=$usuario->getId();
+              TwigView::jsonEncode(array('estado' => "success"));
+            }else {
+              TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El usuario se encuentra bloqueado"));
+            }
           }else{
             TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Usuario y contraseña incorrectos"));
           }
@@ -43,8 +47,9 @@ class UsuariosController {
 
   public function logout() {
     session_destroy();
+    $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
     $view = new Inicio();
-    $view->show();
+    $view->show($datos);
   }
 
   public function redirectUsuarios(){
@@ -67,6 +72,7 @@ class UsuariosController {
       $datos["username"] = $_SESSION["userName"];
       $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"usuario");
       $datos["usuarios"] = $usuarios;
+      $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
 
       $view->show($datos);
     } catch (\Exception $e) {
