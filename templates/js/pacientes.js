@@ -62,7 +62,7 @@ function buscar(){
   $("#btnInicio")[0].onclick();
 }
 
-//Se ejecuta cuando se cliquea la pagina izquierda
+//Se ejecuta cuando se clickea la pagina izquierda
 function clickInicio(){
   //Desactivo pagina actual
   document.getElementsByClassName("page-item active")[0].className = "page-item";
@@ -98,7 +98,7 @@ function clickInicio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
           if (pagina == "1") {
             $("#medio")[0].className = "page-item disabled";
           }
@@ -116,13 +116,13 @@ function clickInicio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
       }
     }
   });
 }
 
-//Se ejecuta cuando cliquea la pagina del medio
+//Se ejecuta cuando clickea la pagina del medio
 function clickMedio(){
   //Desactivo pagina actual
   document.getElementsByClassName("page-item active")[0].className = "page-item";
@@ -147,7 +147,7 @@ function clickMedio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -159,13 +159,13 @@ function clickMedio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
       }
     }
   });
 }
 
-//Se ejecuta cuando cliquea la pagina derecha
+//Se ejecuta cuando clickea la pagina derecha
 function clickFinal(){
   //Desactivo pagina actual
   document.getElementsByClassName("page-item active")[0].className = "page-item";
@@ -195,7 +195,7 @@ function clickFinal(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -205,19 +205,19 @@ function clickFinal(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
       }
     }
   });
 }
 
-//Se ejecuta cuando se cliquea el boton para volver a la pag anterior
+//Se ejecuta cuando se clickea el boton para volver a la pag anterior
 function anterior(){
   //Delega a la pag izquierda
   $("#btnInicio")[0].onclick()
 }
 
-//Se ejecuta cuando se cliquea el boton para pasar a la pag siguiente
+//Se ejecuta cuando se clickea el boton para pasar a la pag siguiente
 function siguiente(){
   //Delega a la pag que corresponda
   if (document.getElementsByClassName("page-item active")[0].id == "inicio") {
@@ -226,8 +226,7 @@ function siguiente(){
     $("#btnFinal")[0].onclick()
   }
 }
-//------------------ Operaciones sobre los pacientes ------------------
-//########## Eliminar paciente ##########
+//------------------ Baja de pacientes ------------------
 function mostrarMensajeEliminacion(){
   $("#tituloMensaje").html("Eliminar paciente");
   $("#cuerpoMensaje").html("¿Esta seguro de que desea eliminar este paciente?")
@@ -263,20 +262,10 @@ function eliminarPaciente(){
     }
   });
 }
-//########## Agregar paciente ##########
-function mostrarFormAlta() {
-  if (this.value == "simple") {
-    $("#form_completo").css({"display" : "none"});
-    $("#form_simple").css({"display" : "block"});
-    $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
-  }else {
-    $("#form_simple").css({"display" : "none"});
-    $("#form_completo").css({"display" : "block"});
-    $("#btnAgregarPaciente")[0].onclick = agregarPacienteCompleto;
-  }
-}
+//------------------ Carga de Formularios alta, modificacion y busqueda ------------------
 
-function cargarPartidos() {
+//Recibo el id del select a cargar
+function cargarPartidos(idSelectPartido) {
   $.ajax({
     url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/partido',
     data : {},
@@ -286,22 +275,23 @@ function cargarPartidos() {
     // la respuesta es pasada como argumento a la función
     success : function(partidos) {
       //Pregunto si se realizo la operacion correctamente
-      var select = $("#ac_partido");
+      var select = $(idSelectPartido);
       select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
       for (var i = 0; i < partidos.length; i++) {
         var option = $('<option/>')[0];
         option.value = partidos[i].id;
         option.regionSanitaria = partidos[i].region_sanitaria_id;
-        option.innerHTML = partidos[i].nombre
+        option.innerHTML = partidos[i].nombre;
         select.append(option);
       }
     }
   });
 }
 
-function cargarRegionSanitaria() {
-  var id = $("#ac_partido").find(":selected")[0].regionSanitaria;
+//Recibo el id del select que disparo el evento y el id del campo a cargar
+function cargarRegionSanitaria(idSelectPartido, idSelectRegion) {
+  var id = $(idSelectPartido).find(":selected")[0].regionSanitaria;
   if (id) {
     $.ajax({
       url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + id,
@@ -312,19 +302,21 @@ function cargarRegionSanitaria() {
       // la respuesta es pasada como argumento a la función
       success : function(regionSanitaria) {
         //Pregunto si se realizo la operacion correctamente
-        $("#ac_regionSanitaria").val(regionSanitaria.nombre);
-        $("#ac_regionSanitaria")[0].reg = regionSanitaria.id;
+        $(idSelectRegion).val(regionSanitaria.nombre);
+        $(idSelectRegion)[0].reg = regionSanitaria.id;
       }
     });
   }else {
-    $("#ac_regionSanitaria").val("");
+    $(idSelectRegion).val("");
   }
 }
 
-function cargarLocalidades() {
-  if (this.value) {
+//Recibo el id del select que disparo el evento, el id del select a cargar y un valor por defecto para la localidad
+function cargarLocalidades(idPartido,idSelectLocalidad,valorSeleccionado = "") {
+  var id = $(idPartido).val()
+  if (id) {
     $.ajax({
-      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/localidad/partido/' + this.value,
+      url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/localidad/partido/' + id,
       data : {},
       type : 'GET',
       dataType: 'json',
@@ -332,7 +324,7 @@ function cargarLocalidades() {
       // la respuesta es pasada como argumento a la función
       success : function(localidades) {
         //Pregunto si se realizo la operacion correctamente
-        var select = $("#ac_localidad");
+        var select = $(idSelectLocalidad);
         select.html("");
 
         select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
@@ -343,14 +335,16 @@ function cargarLocalidades() {
           option.innerHTML = localidades[i].nombre
           select.append(option);
         }
+        select.val(valorSeleccionado);
       }
     });
   }else {
-    $("#ac_localidad").html("");
+    $(idSelectLocalidad).html("");
   }
 }
 
-function cargarObrasSociales() {
+// Recibo el id del select a cargar
+function cargarObrasSociales(id) {
   $.ajax({
     url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/obra-social',
     data : {},
@@ -360,7 +354,7 @@ function cargarObrasSociales() {
     // la respuesta es pasada como argumento a la función
     success : function(obrasSociales) {
       //Pregunto si se realizo la operacion correctamente
-      var select = $("#ac_obraSocial");
+      var select = $(id);
 
       select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
@@ -374,7 +368,8 @@ function cargarObrasSociales() {
   });
 }
 
-function cargarTiposDocumentos() {
+//Recibo el id del select a cargar
+function cargarTiposDocumentos(id) {
   $.ajax({
     url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento',
     data : {},
@@ -384,44 +379,34 @@ function cargarTiposDocumentos() {
     // la respuesta es pasada como argumento a la función
     success : function(tiposDocumentos) {
       //Pregunto si se realizo la operacion correctamente
-      if ($("#bus_tipoDoc")[0]) {
-        var select = $("#bus_tipoDoc");
-        select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+      var select = $(id);
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
-        for (var i = 0; i < tiposDocumentos.length; i++) {
-          var option = $('<option/>')[0];
-          option.value = tiposDocumentos[i].id;
-          option.innerHTML = tiposDocumentos[i].nombre
-          select.append(option);
-        }
+      for (var i = 0; i < tiposDocumentos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = tiposDocumentos[i].id;
+        option.innerHTML = tiposDocumentos[i].nombre
+        select.append(option);
       }
-      if ($("#ac_tipoDoc")[0]) {
-        var select = $("#ac_tipoDoc");
-        select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
-
-        for (var i = 0; i < tiposDocumentos.length; i++) {
-          var option = $('<option/>')[0];
-          option.value = tiposDocumentos[i].id;
-          option.innerHTML = tiposDocumentos[i].nombre
-          select.append(option);
-        }
-      }
-      if ($("#m_tipoDoc")[0]) {
-        var select = $("#m_tipoDoc");
-        select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
-
-        for (var i = 0; i < tiposDocumentos.length; i++) {
-          var option = $('<option/>')[0];
-          option.value = tiposDocumentos[i].id;
-          option.innerHTML = tiposDocumentos[i].nombre
-          select.append(option);
-        }
-      }
-
     }
   });
 }
 
+//------------------ Alta de pacientes ------------------
+//Mostrar formulario segun el tipo de carga que se quiera hacer
+function mostrarFormAlta() {
+  if (this.value == "simple") {
+    $("#form_completo").css({"display" : "none"});
+    $("#form_simple").css({"display" : "block"});
+    $("#btnAgregarPaciente")[0].onclick = agregarPacienteSimple;
+  }else {
+    $("#form_simple").css({"display" : "none"});
+    $("#form_completo").css({"display" : "block"});
+    $("#btnAgregarPaciente")[0].onclick = agregarPacienteCompleto;
+  }
+}
+
+//Funcion para agregar paciente "NN"
 function agregarPacienteSimple() {
   var nroHC = $("#as_nroHC").val();
 
@@ -450,6 +435,7 @@ function agregarPacienteSimple() {
   });
 }
 
+//Funcion para agregar paciente con todos sus datos
 function agregarPacienteCompleto() {
   var nombre = $("#ac_nombre").val();
   var apellido = $("#ac_apellido").val();
@@ -495,7 +481,97 @@ function agregarPacienteCompleto() {
     }
   });
 }
-//########## Ver detalle paciente ##########
+//------------------ Moficacion de pacientes ------------------
+function mostrarFormularioModificacion(){
+  var id = this.parentNode.id;
+  $.ajax({
+    url : '?action=formularioModificacionPaciente',
+    data : { id: id },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(paciente) {
+      if (paciente.estado == "success") {
+        $("#m_nombre").val(paciente.nombre);
+        $("#m_apellido").val(paciente.apellido);
+        $("#m_fNacimiento").val(paciente.fecha_nac);
+        $("#m_lNacimiento").val(paciente.lugar_nac);
+        $("#m_partido").val(paciente.partido_id);
+        $("#m_domicilio").val(paciente.domicilio);
+        $("#m_genero").val(paciente.genero_id);
+        $("#m_tieneDoc").val(paciente.tiene_documento);
+        $("#m_tipoDoc").val(paciente.tipo_doc_id);
+        $("#m_nroDoc").val(paciente.numero);
+        $("#m_nroHC").val(paciente.nro_historia_clinica);
+        $("#m_nroCarpeta").val(paciente.nro_carpeta);
+        $("#m_nroTel_cel").val(paciente.tel);
+        $("#m_obraSocial").val(paciente.obra_social_id);
+        cargarLocalidades("#m_partido","#m_localidad",paciente.localidad_id);
+        cargarRegionSanitaria("#m_partido", "#m_regionSanitaria");
+
+        $("#btnModificarPaciente")[0].paciente = id;
+        $("#btnModificarPaciente")[0].onclick = modificarPaciente;
+        $("#tabModificarPaciente").css({"display":"block"});
+        $('#menuTabs a[href="#contenidoModificarPaciente"]').tab('show');
+      }else {
+        mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
+
+function modificarPaciente(){
+  //id del paciente a modificar
+  var id = this.paciente;
+
+  //Tomo datos del formulario
+  var nombre = $("#m_nombre").val();
+  var apellido = $("#m_apellido").val();
+  var lNacimiento = $("#m_lNacimiento").val();
+  var fNacimiento = $("#m_fNacimiento").val();
+  var partido = $("#m_partido").val();
+  var localidad = $("#m_localidad").val();
+  var domicilio = $("#m_domicilio").val();
+  var genero = $("#m_genero").val();
+  var tieneDoc = $("#m_tieneDoc").val();
+  var tipoDoc = $("#m_tipoDoc").val();
+  var nroDoc = $("#m_nroDoc").val();
+  var nroHC = $("#m_nroHC").val();
+  var nroCarpeta = $("#m_nroCarpeta").val();
+  var nroTel_cel = $("#m_nroTel_cel").val();
+  var obraSocial = $("#m_obraSocial").val();
+  var regionSanitaria = $("#m_regionSanitaria")[0].reg;
+
+  $.ajax({
+    url : '?action=modificarPaciente',
+    data : { id:id, nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
+      partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
+      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
+      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
+    type : 'POST',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(respuesta) {
+      //Tengo en cuenta los posibles casos
+      switch(respuesta.estado) {
+        case "success":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
+          document.getElementsByClassName("page-item active")[0].children[0].onclick();
+          $('#menuTabs a[href="#contenidoPacientes"]').click();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje, respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
+      }
+    }
+  });
+}
+
+//------------------ Ver informacion completa de pacientes ------------------
 function mostrarDetalle() {
   var id = this.parentNode.id;
   $.ajax({
@@ -521,79 +597,6 @@ function mostrarDetalle() {
     }
   });
 }
-//########## Modificar paciente ##########
-function mostrarFormularioModificacion(){
-  var id = this.parentNode.id;
-  $.ajax({
-    url : '?action=formularioModificacionPaciente',
-    data : { id: id },
-    type : 'POST',
-    dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
-    success : function(respuesta) {
-      if (respuesta.estado == "success") {
-        $("#contenidoModificarPaciente").html(respuesta.contenido);
-        $("#btnModificarPaciente")[0].usuario = id;
-        $("#btnModificarPaciente")[0].onclick = modificarPaciente;
-        $("#tabModificarPaciente").css({"display":"block"});
-        $('#menuTabs a[href="#contenidoModificarPaciente"]').tab('show');
-      }else {
-        mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
-      }
-    }
-  });
-}
-
-function modificarPaciente(){
-  //id del usuario a modificar
-  var id = this.usuario;
-
-  //Tomo datos del formulario
-  var nombre = $("m_nombre").val();
-  var apellido = $("m_apellido").val();
-  var lNacimiento = $("m_lNacimiento").val();
-  var fNacimiento = $("m_fNacimiento").val();
-  var partido = $("m_partido").val();
-  var localidad = $("m_localidad").val();
-  var domicilio = $("m_domicilio").val();
-  var genero = $("m_genero").val();
-  var tieneDoc = $("m_tieneDoc").val();
-  var tipoDoc = $("m_tipoDoc").val();
-  var nroDoc = $("m_nroDoc").val();
-  var nroHC = $("m_nroHC").val();
-  var nroCarpeta = $("m_nroCarpeta").val();
-  var nroTel_cel = $("m_nroTel_cel").val();
-  var obraSocial = $("m_obraSocial").val();
-  var regionSanitaria = $("m_regionSanitaria")[0].reg;
-
-  $.ajax({
-    url : '?action=modificarPaciente',
-    data : { nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
-      partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
-      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
-      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
-    type : 'POST',
-    dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
-    success : function(respuesta) {
-      //Tengo en cuenta los posibles casos
-      switch(respuesta.estado) {
-        case "success":
-          mostrarAlerta(respuesta.mensaje, respuesta.estado);
-          document.getElementsByClassName("page-item active")[0].children[0].onclick();
-          $('#menuTabs a[href="#contenidoPacientes"]').click();
-          break;
-        case "error":
-          mostrarAlerta(respuesta.mensaje, respuesta.estado);
-          break;
-        default:
-          mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
-      }
-    }
-  });
-}
 //------------------ Inicializar ------------------
 //Pregunto si tiene dicha funcionalidad
 if ($("#contenidoModificarPaciente")[0]) {
@@ -603,7 +606,9 @@ if ($("#contenidoModificarPaciente")[0]) {
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $("#contenidoModificarPaciente").html("...");
+      $('#formularioModificarPaciente').trigger("reset");
+      $('#btnModificarPaciente')[0].onclick = "";
+      $("#btnModificarPaciente")[0].paciente = "";
     }, 250);
   })
 
@@ -613,7 +618,9 @@ if ($("#contenidoModificarPaciente")[0]) {
     $("#tabModificarPaciente").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $("#contenidoModificarPaciente").html("...");
+      $('#formularioModificarPaciente').trigger("reset");
+      $('#btnModificarPaciente')[0].onclick = "";
+      $("#btnModificarPaciente")[0].paciente = "";
     }, 250);
   })
 }
@@ -659,9 +666,6 @@ function asignarFuncionesALasOperaciones(){
 
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
-  if ($("#tabPacientes")[0] || $("#tabAgregarPaciente")[0] || $("#tabModificarPaciente")[0] ) {
-    cargarTiposDocumentos();
-  }
 
   //pregunto por modulo de alta
   if ($("#tabAgregarPaciente")[0]) {
@@ -670,19 +674,33 @@ function initialize(){
     $("#tipoDeAlta")[0].onchange = mostrarFormAlta;
 
     //Select del formulario paciente form_completo
-    cargarPartidos();
-    cargarObrasSociales();
-    $("#ac_partido").bind('change', cargarRegionSanitaria);
-    $("#ac_partido").bind('change', cargarLocalidades);
+    cargarTiposDocumentos("#ac_tipoDoc");
+    cargarPartidos("#ac_partido");
+    cargarObrasSociales("#ac_obraSocial");
+    $("#ac_partido").bind('change', function(){ cargarRegionSanitaria("#ac_partido", "#ac_regionSanitaria") });
+    $("#ac_partido").bind('change', function(){ cargarLocalidades("#ac_partido", "#ac_localidad") });
     $("#ac_regionSanitaria")[0].reg = "";
   }
 
+  //pregunto por modulo de Modificacion
+  if ($("#tabModificarPaciente")[0]) {
+    cargarTiposDocumentos("#m_tipoDoc");
+    cargarPartidos("#m_partido");
+    cargarObrasSociales("#m_obraSocial");
+    $("#m_partido").bind('change', function(){ cargarRegionSanitaria("#m_partido", "#m_regionSanitaria") });
+    $("#m_partido").bind('change', function(){ cargarLocalidades("#m_partido", "#m_localidad") });
+    $("#m_regionSanitaria")[0].reg = "";
+  }
+
+  //Pregunto por modulo de listado (contiene baja y show)
   if ($("#tabPacientes")[0]) {
     $("#btnAnterior")[0].onclick = anterior;
     $("#btnInicio")[0].onclick = clickInicio;
     $("#btnMedio")[0].onclick = clickMedio;
     $("#btnFinal")[0].onclick = clickFinal;
     $("#btnSiguiente")[0].onclick = siguiente;
+
+    cargarTiposDocumentos("#bus_tipoDoc");
 
     $("#btnBuscar")[0].onclick = buscar;
     $("#tipoBusqueda")[0].value = "no_aplica";

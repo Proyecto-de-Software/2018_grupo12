@@ -14,14 +14,14 @@
   <div class="container">
     <div class="row justify-content-center mt-5">
       <div class="col-12 col-sm-6 col-lg-4">
-        <form action="return false" onsubmit="return false">
+        <form action="" onsubmit="return false">
           <div class="form-group">
-            <label for="usuario">Usuario</label>
-            <input name="usuario" type="text" class="form-control" id="usuario" aria-describedby="nombre de usuario" placeholder="Usuario..." required>
+            <label for="usuario" id="labelUsuario">Usuario</label>
+            <input name="usuario" type="text" class="form-control" id="usuario" aria-describedby="labelUsuario" placeholder="Usuario..." required>
           </div>
           <div class="form-group">
-            <label for="contrasena">Contraseña</label>
-            <input name="contrasena" type="password" class="form-control" id="contrasena" placeholder="Contraseña..." required>
+            <label for="contrasena" id="labelContrasena">Contraseña</label>
+            <input aria-describedby="labelContrasena" name="contrasena" type="password" class="form-control" id="contrasena" placeholder="Contraseña..." required>
           </div>
           <div class="form-row justify-content-center">
             <button type="submit" class="btn btn-primary align-self-center" id="btnAceptar">Aceptar</button>
@@ -33,5 +33,5 @@
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript" src="templates/js/login.js"></script>
+  <script type="" src="templates/js/login.js"></script>
 {% endblock %}

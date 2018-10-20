@@ -3,26 +3,26 @@
     <form id="formularioModificarUsuario" onsubmit="return false">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="nombre">Nombre</label>
+          <label for="nombreModificacion">Nombre</label>
           <input type="text" class="form-control" id="nombreModificacion" name="nombre" placeholder="Nombre" value="{{usuario.getFirst_name | capitalize}}" required>
         </div>
         <div class="form-group col-md-6">
-          <label for="apellido">Apellido</label>
+          <label for="apellidoModificacion">Apellido</label>
           <input type="text" class="form-control" id="apellidoModificacion" name="apellido" placeholder="Apellido" value="{{usuario.getLast_name | capitalize}}" required>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="nombre">Nombre de Usuario</label>
+          <label>Nombre de Usuario</label>
           <input type="text" class="form-control" placeholder="Nombre de usuario" value="{{usuario.getUsername | capitalize}}" readonly>
         </div>
         <div class="form-group col-md-6">
-          <label for="contrasena">Contraseña</label>
+          <label for="contrasenaModificacion">Contraseña</label>
           <input type="password" class="form-control" id="contrasenaModificacion" name="contrasena" placeholder="Contraseña" minlength="8">
         </div>
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="emailModificacion">Email</label>
         <input type="email" class="form-control" id="emailModificacion" name="email" placeholder="Email" value="{{usuario.getEmail}}" required>
       </div>
       <div class="form-row justify-content-center">
