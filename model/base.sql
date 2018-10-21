@@ -472,4 +472,4 @@ INSERT INTO `rol_tiene_permiso` VALUES(2,2);
 INSERT INTO `rol_tiene_permiso` VALUES(2,3);
 INSERT INTO `rol_tiene_permiso` VALUES(2,4);
 INSERT INTO `rol_tiene_permiso` VALUES(2,5);
-INSERT INTO `rol_tiene_permiso` VALUES(2,6);
+
