@@ -189,6 +189,8 @@ class PacientesController {
       //Valido que los campos no esten vacios y sean correctos
       if (!($nombre && $apellido && $fNacimiento && $domicilio && ($tieneDoc == 1 || $tieneDoc == 0) && $tipoDoc && $nroDoc)) {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete los campos obligatorios"));
+      }elseif (strlen($nroDoc) > 10) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de documento tiene un maximo de 10 caracteres"));
       }elseif(strlen($nroHC) > 6 || (int)$nroHC < 0){
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de historia tiene un maximo de 6 numeros y es positivo"));
       }elseif (strlen($nroCarpeta) > 5 || (int)$nroCarpeta < 0) {
@@ -240,17 +242,80 @@ class PacientesController {
   }
 
   public function formularioModificacionPaciente(){
-  //  try {
+  try {
         $id = $_POST["id"];
 
         $repoPaciente = RepositorioPaciente::getInstance();
-        $view = new Pacientes();
 
         $paciente = $repoPaciente->obtener_por_id_info_completa($id);
 
-        $view->formularioModificacionPaciente($paciente);
-    /*} catch (\Exception $e) {
+        if ($paciente["borrado"]) {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "el paciente no existe o fue borrado"));
+        }else {
+          $paciente["estado"] = "success";
+          TwigView::jsonEncode($paciente);
+        }
+    } catch (\Exception $e) {
       TwigView::jsonEncode(array('estado' => "error"));
-    }*/
+    }
+  }
+
+  public function modificarPaciente(){
+    try {
+      $id = $_POST["id"];
+      $nombre = strtolower($_POST["nombre"]);
+      $apellido = strtolower($_POST["apellido"]);
+      $lNacimiento = strtolower($_POST["lNacimiento"]);
+      $fNacimiento = $_POST["fNacimiento"];
+      $partido = $_POST["partido"];
+      $localidad = $_POST["localidad"];
+      $domicilio = $_POST["domicilio"];
+      $genero = $_POST["genero"];
+      $tieneDoc = $_POST["tieneDoc"];
+      $tipoDoc = $_POST["tipoDoc"];
+      $nroDoc = $_POST["nroDoc"];
+      $nroHC = $_POST["nroHC"];
+      $nroCarpeta = $_POST["nroCarpeta"];
+      $nroTel_cel = $_POST["nroTel_cel"];
+      $obraSocial = $_POST["obraSocial"];
+      $regionSanitaria = $_POST["regionSanitaria"];
+
+
+      $repoPaciente = RepositorioPaciente::getInstance();
+
+      $date = date('Y-m-d',time());
+
+      $fechaIngresada = strtotime($fNacimiento);
+      $date = strtotime($date);
+
+      //Valido que los campos no esten vacios y sean correctos
+      if (!($nombre && $apellido && $fNacimiento && $domicilio && ($tieneDoc == 1 || $tieneDoc == 0) && $tipoDoc && $nroDoc)) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete los campos obligatorios"));
+      }elseif (strlen($nroDoc) > 10) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de documento tiene un maximo de 10 caracteres"));
+      }elseif(strlen($nroHC) > 6 || (int)$nroHC < 0){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de historia tiene un maximo de 6 numeros y es positivo"));
+      }elseif (strlen($nroCarpeta) > 5 || (int)$nroCarpeta < 0) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de carpeta tiene un maximo de 5 numeros y es positivo"));
+      }elseif ((int)$nroDoc <= 0){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Numero de documento debe ser mayor que 0"));
+      }elseif(($pac = $repoPaciente->existe_doc($tipoDoc, $nroDoc)) && ($pac->getId() != $id)){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de documento ya existe"));
+      }elseif ($nroHC && ($pac = $repoPaciente->existe_historia_clinica($nroHC)) && ($pac->getId() != $id)){
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de historia clinica ya existe"));
+      }elseif ($fechaIngresada > $date) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La fecha tiene que ser menor a la actual"));
+      }else{
+        $result = $repoPaciente->actualizar_informacion($id,$apellido,$nombre,$fNacimiento,$lNacimiento,$localidad,$partido,
+        $regionSanitaria,$domicilio,$genero,$tieneDoc,$tipoDoc,$nroDoc,$nroTel_cel,$nroHC,$nroCarpeta,$obraSocial);
+        if ($result){
+          TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Paciente guardado correctamente"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+        }
+      }
+    } catch (\Exception $e) {
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+    }
   }
 }

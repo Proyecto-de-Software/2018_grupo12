@@ -12,7 +12,7 @@
     <button type="submit" class="btn btn-primary mb-2" id="btnAgregarRol">Agregar rol</button>
   </form>
   <div class="mt-2">
-    <h5 align="center">Roles del usuario: {{ usuario.getUsername | capitalize }}</h5>
+    <h5 style="text-align: center">Roles del usuario: {{ usuario.getUsername | capitalize }}</h5>
     <hr>
     <div class="px-5" >
       {% for rol in usuario.getRoles %}
@@ -23,7 +23,7 @@
           </button>
         </div>
       {% else %}
-        <div align="center">No tiene</div>
+        <div style="text-align: center">No tiene</div>
       {% endfor %}
     </div>
   </div>

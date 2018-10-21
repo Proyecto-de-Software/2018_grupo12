@@ -209,13 +209,12 @@ class RepositorioPaciente
                 $sentencia->bindParam(":tipo_doc_id", $tipo_doc);
                 $sentencia->bindParam(":num", $num);
                 $sentencia->execute();
-                $re = $sentencia->fetchAll();
-                if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                $r = $sentencia->fetch();
+                if (!empty($r)) {
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_datos_doc " . $ex->getMessage());
             }
@@ -234,13 +233,12 @@ class RepositorioPaciente
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nro", $nro);
                 $sentencia->execute();
-                $re = $sentencia->fetchAll();
-                if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                $r = $sentencia->fetch();
+                if (!empty($r)) {
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_nro_historia_clinica " . $ex->getMessage());
             }
@@ -483,16 +481,23 @@ class RepositorioPaciente
         fecha_nac
         lugar_nac
         localidad
+        localidad_id
+        partido
+        partido_id
         region_sanitaria
+        region_sanitaria_id
         domicilio
         genero
+        genero_id
         tiene_documento
         tipo_doc
+        tipo_doc_id
         numero
         tel
         nro_historia_clinica
         nro_carpeta
         obra_social
+        obra_social_id
         borrado*/
         $conexion = abrir_conexion();
         if ($conexion !== null) {

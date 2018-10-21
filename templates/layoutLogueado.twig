@@ -28,10 +28,10 @@ array('username' => $username,
 {% block panel_derecho %}
   <ul class="navbar-nav ml-auto">
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_username" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ username | capitalize }}
       </a>
-      <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="navbarDropdown">
+      <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="navbarDropdown_username">
         <a class="dropdown-item" href="?action=cerrarSesion">Cerrar sesión</a>
       </div>
     </li>

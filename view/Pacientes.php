@@ -19,11 +19,4 @@ class Pacientes extends TwigView {
 
     self::jsonEncode($respuesta);
   }
-
-  public function formularioModificacionPaciente($paciente){
-    $contenido = self::getTwig()->render('formularioModificacionPaciente.twig',$paciente);
-    $datos = array('estado' => "success",'contenido' => $contenido);
-
-    self::jsonEncode($datos);
-  }
 }
