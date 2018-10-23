@@ -6,7 +6,7 @@ error_reporting(-1);
 session_start();
 
 require_once './controller/autoCargador.php';
-
+try{
 if(isset($_GET["action"])){
   $validador = Validador::getInstance();
   $isAjax = $validador->isAjax();
@@ -246,4 +246,8 @@ if(isset($_GET["action"])){
   }
 }else{
   InicioController::getInstance()->mostrarInicio();
+}
+} catch (\Exception $e) {
+  $view = new PaginaError();
+  $view->show();
 }
