@@ -241,6 +241,24 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'roles':
+      if ($validador->sesion_modulo("rol")){
+        RolController::getInstance()->redirectRoles();
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'cargarPaginaRoles':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_index")) {
+          RolesController::getInstance()->cargarPagina();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }
