@@ -59,7 +59,7 @@ class RolesController {
       }else{
 
         $datos["roles"] = $roles;
-        $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"paciente");
+        $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"rol");
 
         $view->cargarPagina($datos);
       }
