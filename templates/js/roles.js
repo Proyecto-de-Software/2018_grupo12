@@ -64,7 +64,7 @@ function clickInicio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : {nombre : nombre},
+    data : {nombre : nombre, pagina: pagina},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -73,7 +73,7 @@ function clickInicio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaRoles")[0].innerHTML = '<td style="text-align: center" colspan="2">No hay roles para mostrar</td>';
           if (pagina == "1") {
             $("#medio")[0].className = "page-item disabled";
           }
@@ -81,7 +81,7 @@ function clickInicio(){
           $("#siguiente")[0].className = "page-item disabled";
           break;
         case "si hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = respuesta.contenido;
+          $("#cuerpoTablaRoles")[0].innerHTML = respuesta.contenido;
           if (pagina == 1) {
             $("#medio")[0].className = "page-item";
           }
@@ -91,7 +91,7 @@ function clickInicio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="2">No se pudo realizar la operacion solicitada</td>';
       }
     }
   });
@@ -112,7 +112,7 @@ function clickMedio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : {nombre : nombre},
+    data : {nombre : nombre, pagina: pagina},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -159,7 +159,7 @@ function clickFinal(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : { nombre : nombre },
+    data : {nombre : nombre, pagina: pagina},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

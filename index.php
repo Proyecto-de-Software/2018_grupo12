@@ -243,7 +243,7 @@ if(isset($_GET["action"])){
       break;
     case 'roles':
       if ($validador->sesion_modulo("rol")){
-        RolController::getInstance()->redirectRoles();
+        RolesController::getInstance()->redirectRoles();
       }else {
         InicioController::getInstance()->mostrarInicio();
       }

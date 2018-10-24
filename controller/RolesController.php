@@ -1,6 +1,6 @@
 <?php
 
-class RolController {
+class RolesController {
 
   private static $instance;
 
@@ -39,8 +39,8 @@ class RolController {
   public function cargarPagina(){
     try {
       $config = RepositorioConfiguracion::getInstance();
-      $repoPermisos = RepositorioPermiso::getInstance();
       $repoRol = RepositorioRol::getInstance();
+      $repoPermisos = RepositorioPermiso::getInstance();
       $view = new Roles();
 
       $pagina = $_POST["pagina"];
@@ -49,30 +49,16 @@ class RolController {
       $id = $_SESSION["id"];
 
       if ($nombre) {
-        $roles = $repoRol->obtener_por_nombre($nombre, $limite, $pagina);
+        $roles = $repoRol->obtener_roles_por_nombre($nombre, $limite, $pagina);
       }else {
-        $pacientes = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
+        $roles = $repoRol->obtener_todos_los_roles_pagina($limite, $pagina);
       }
 
-      if (empty($pacientes)) {
+      if (empty($roles)) {
         $view->jsonEncode(array('estado' => "no hay"));
       }else{
-        foreach ($pacientes as $paciente) {
-          $idObraSocial = $paciente->getObra_social_id();
-          $idTipoDoc = $paciente->getTipo_doc_id();
 
-          $obraSocialPaciente = $repoObraSocial->obtener_por_id($idObraSocial);
-          if ($obraSocialPaciente) {
-            $paciente->setNombreObraSocial($obraSocialPaciente->getNombre());
-          }
-
-          $tipoDocPaciente = $repoTipoDoc->obtener_por_id($idTipoDoc);
-          if ($tipoDocPaciente) {
-            $paciente->setNombreTipoDocumento($tipoDocPaciente->getNombre());
-          }
-        }
-
-        $datos["pacientes"] = $pacientes;
+        $datos["roles"] = $roles;
         $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"paciente");
 
         $view->cargarPagina($datos);
@@ -81,5 +67,4 @@ class RolController {
       TwigView::jsonEncode(array('estado' => "error"));
     }
   }
-
 }
