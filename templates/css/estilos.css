@@ -4,6 +4,12 @@
 .rojo{
   color:red;
 }
+.textcenter{
+  text-align: center;
+}
+.textend{
+  text-align: end;
+}
 .noneclass{
   display: none ;
 }
