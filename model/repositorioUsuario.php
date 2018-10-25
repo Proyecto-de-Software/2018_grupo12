@@ -197,6 +197,25 @@ class RepositorioUsuario
         return $usuario;
 
     }
+    public function bloquear_activar($id,$accion) 
+    {
+        $ok = false;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "UPDATE usuario SET activo=:accion WHERE id=:id";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":accion",$accion);
+                $sentencia->bindParam(":id", $id);
+                $ok = $sentencia->execute();
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta bloquear_activar");
+            }
+        }
+        $conexion = null;
+        return $ok;
+    }
 
     public function bloquear_usuario($id) /*bloquea usuario... ¿se debe actualizar updated_at???? */
     {
