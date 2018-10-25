@@ -25,7 +25,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE id=1";
+                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='titulo'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":valor", $titulo);
                 $ok = $sentencia->execute();
@@ -43,7 +43,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE id=2";
+                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='descripcion'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":valor", $descripcion);
                 $ok = $sentencia->execute();
@@ -60,7 +60,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE id=3";
+                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='email'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":valor", $Email);
                 $ok = $sentencia->execute();
@@ -77,7 +77,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE id=4";
+                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='limite'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":valor", $limite, PDO::PARAM_INT);
                 $ok = $sentencia->execute();
@@ -94,7 +94,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=1 WHERE id=5";
+                $sql = "UPDATE configuracion SET valor=1 WHERE variable='habilitado'";
                 $sentencia = $conexion->prepare($sql);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
@@ -110,7 +110,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=0 WHERE id=5";
+                $sql = "UPDATE configuracion SET valor=0 WHERE variable='habilidato'";
                 $sentencia = $conexion->prepare($sql);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
@@ -127,7 +127,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT valor FROM configuracion WHERE id=1";
+                $sql = "SELECT valor FROM configuracion WHERE variable='titulo'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $titulo = $sentencia->fetchColumn();
@@ -144,7 +144,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT valor FROM configuracion WHERE id=2";
+                $sql = "SELECT valor FROM configuracion WHERE variable='descripcion'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $valor = $sentencia->fetchColumn();
@@ -161,7 +161,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT valor FROM configuracion WHERE id=3";
+                $sql = "SELECT valor FROM configuracion WHERE variable='email'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $valor = $sentencia->fetchColumn();
@@ -178,7 +178,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT valor FROM configuracion WHERE id=4";
+                $sql = "SELECT valor FROM configuracion WHERE variable='limite'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $valor = $sentencia->fetchColumn();
@@ -195,7 +195,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT valor FROM configuracion WHERE id=5";
+                $sql = "SELECT valor FROM configuracion WHERE variable='habilitado'";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $valor = $sentencia->fetchColumn();
