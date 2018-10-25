@@ -1,7 +1,7 @@
 <div class="tab-pane fade show active" id="contenidoPacientes" role="tabpanel" aria-labelledby="tabPacientes">
   <div>
     <div class="form-row align-items-center mt-2">
-      <div style="display: contents">
+      <div class="contentsclass">
         <div class="col-md-auto mb-2 pr-md-0">
           <label for="tipoBusqueda">Buscar por:</label>
         </div>
@@ -14,7 +14,7 @@
           </select>
         </div>
       </div>
-      <div id="nombre_y_apellido" style="display: none">
+      <div id="nombre_y_apellido" class="noneclass">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_nombre">Nombre:</label>
         </div>
@@ -28,7 +28,7 @@
           <input type="text" class="form-control mb-2 inputBuscadorPaciente" id="bus_apellido" placeholder="Apellido...">
         </div>
       </div>
-      <div id="dni" style="display: none">
+      <div id="dni" class="noneclass">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_tipoDoc">Tipo:</label>
         </div>
@@ -44,7 +44,7 @@
           <input type="number" class="form-control mb-2 inputBuscadorPaciente" id="bus_nroDoc" min="0">
         </div>
       </div>
-      <div id="historia_clinica" style="display: none">
+      <div id="historia_clinica" class="noneclass">
         <div class="col-md-auto mb-2 ml-auto px-md-0">
           <label for="bus_nroHistoriaClinica">Historia clinica:</label>
         </div>
@@ -52,7 +52,7 @@
           <input type="number" class="form-control mb-2" id="bus_nroHistoriaClinica" min="0" max="999999">
         </div>
       </div>
-      <div class="col-md-auto" style="text-align: center">
+      <div class="col-md-auto noneclass" >
         <button type="button" id="btnBuscar" class="btn btn-outline-primary mb-2">Buscar</button>
       </div>
     </div>
