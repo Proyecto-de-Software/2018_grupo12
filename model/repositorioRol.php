@@ -137,4 +137,24 @@ class RepositorioRol
         $conexion = null;
         return $roles;
     }
+    public function actualizar_rol($rol_id,$nombre){
+        $result=false;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="UPDATE rol SET nombre=:nombre WHERE id=:id";
+                $sentencia=$conexion->prepare($sql);
+                $sentencia->bindParam(":nombre" ,$nombre);
+                $sentencia->bindParam(":id", $rol_id);
+                $result=$sentencia->execute();
+            }catch(PDOException $ex){
+                throw new Exception ("error repositorioRol->actualizar_rol ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $result;
+        
+
+    }
+    
 }
