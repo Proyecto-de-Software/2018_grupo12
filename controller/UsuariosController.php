@@ -22,7 +22,7 @@ class UsuariosController {
       if(!($_POST['usuario'] && $_POST['contrasena'])){
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
       }else{
-        if($repoUsuario->username_existe($_POST['usuario'])){
+        if(!preg_match("/[A-ZÑ ]/", $_POST['usuario']) && $repoUsuario->username_existe($_POST['usuario'])){
           $usuario = $repoUsuario->obtener_usuario_por_username($_POST['usuario']);
           //1 activo SI   .... 0 Bloqueado
           if(password_verify($_POST['contrasena'], $usuario->getPassword()) ){
@@ -182,7 +182,7 @@ class UsuariosController {
     try {
       $nombre = strtolower($_POST["nombre"]);
       $apellido = strtolower($_POST["apellido"]);
-      $nombreDeUsuario = strtolower($_POST["nombreDeUsuario"]);
+      $nombreDeUsuario = $_POST["nombreDeUsuario"];
       $contrasena = $_POST["contrasena"];
       $email = strtolower($_POST["email"]);
 
@@ -192,6 +192,8 @@ class UsuariosController {
       if ($this->validarCampos($nombre,$apellido,$email)) {
         if (!($nombreDeUsuario && $contrasena)) {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
+        }elseif( preg_match("/[A-ZÑ ]/", $nombreDeUsuario)){
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El nombre de usuario no permite mayusculas ni espacios"));
         }elseif ($repoUsuario->username_existe($nombreDeUsuario)) {
           //Valido que no exista el nombre de usuario
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El nombre de usuario ya esta registrado"));

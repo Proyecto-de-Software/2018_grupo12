@@ -2,10 +2,10 @@
 
 {% for usuario in usuarios %}
   <tr>
-    <td>{{ usuario.getFirst_name |capitalize }}</td>
-    <td>{{ usuario.getLast_name |capitalize }}</td>
+    <td>{{ usuario.getFirst_name |title }}</td>
+    <td>{{ usuario.getLast_name |title }}</td>
     <td>{{ usuario.getEmail }}</td>
-    <td>{{ usuario.getUsername |capitalize }}</td>
+    <td>{{ usuario.getUsername }}</td>
     <td>
       {{ estado[usuario.getActivo] }}
     </td>
@@ -23,5 +23,5 @@
     </td>
   </tr>
   {% else %}
-    <td colspan="7" class="textcenter" >No hay usuarios para mostrar</td>
+    <tr><td colspan="7" class="textcenter" >No hay usuarios para mostrar</td></tr>
 {% endfor %}
