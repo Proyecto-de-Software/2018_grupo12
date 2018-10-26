@@ -7,12 +7,12 @@ array('pacientes' => array( Paciente ),
 
 {% for paciente in pacientes %}
   <tr>
-    <td style="text-align: center" >{{ paciente.getNombre |capitalize }}</td>
-    <td style="text-align: center" >{{ paciente.getApellido |capitalize }}</td>
-    <td style="text-align: center" >{{ paciente.getNombreTipoDocumento }}</td>
-    <td style="text-align: center" >{{ paciente.getNumero }}</td>
-    <td style="text-align: center" >{{ paciente.getNro_historia_clinica }}</td>
-    <td style="text-align: center" >{{ paciente.getNombreObraSocial }}</td>
+    <td class="textcenter" >{{ paciente.getNombre |capitalize }}</td>
+    <td class="textcenter" >{{ paciente.getApellido |capitalize }}</td>
+    <td class="textcenter" >{{ paciente.getNombreTipoDocumento }}</td>
+    <td class="textcenter" >{{ paciente.getNumero }}</td>
+    <td class="textcenter" >{{ paciente.getNro_historia_clinica }}</td>
+    <td class="textcenter" >{{ paciente.getNombreObraSocial }}</td>
     <td id="{{ paciente.getId }}">
       {% for permiso in permisos %}
         {% include "moduloPaciente/boton_#{permiso}.twig" ignore missing %}
@@ -20,5 +20,5 @@ array('pacientes' => array( Paciente ),
     </td>
   </tr> 
   {% else %}
-    <td colspan="7" style="text-align: center" >No hay pacientes para mostrar</td>
+    <td colspan="7" class="textcenter" >No hay pacientes para mostrar</td>
 {% endfor %}

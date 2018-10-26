@@ -1,3 +1,37 @@
+.contentsclass{
+  display: contents;
+}
+.rojo{
+  color:red;
+}
+.textcenter{
+  text-align: center;
+}
+.textend{
+  text-align: end;
+}
+.bordeclass{
+  border: solid grey 2px;
+  border-radius: 9px;
+}
+.breakclass{
+  word-break: break-all;
+}
+.colorfondo{
+ background-color:  #e3f2fd;
+}
+.bottomclass{
+  bottom:1em;
+}
+.alturabuscador{
+  height: 3.375em;
+}
+.tamanofuente{
+  font-size: 1.5em;
+}
+.noneclass{
+  display: none ;
+}
 .inputBuscador{
   width: 14em !important;
 }
@@ -36,3 +70,4 @@
     width: inherit !important;
   }
 }
+

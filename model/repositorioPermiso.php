@@ -75,7 +75,7 @@ class RepositorioPermiso
                                 INNER JOIN rol r ON (utr.rol_id=r.id)
                                 INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
                                 INNER JOIN permiso p ON (rtp.permiso_id=p.id)
-                 WHERE u.id=:usuario_id AND p.admin=:admin";
+                 WHERE u.id=:usuario_id AND p.admin=:admin AND utr.eliminado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":usuario_id", $usuario_id);
                 $sentencia->bindParam(":admin", $admin);
@@ -135,7 +135,7 @@ class RepositorioPermiso
                                     INNER JOIN rol r ON (utr.rol_id=r.id)
                                     INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
                                     INNER JOIN permiso p ON (rtp.permiso_id=p.id)
-                     WHERE u.id=:usuario_id AND p.nombre LIKE :modulo
+                     WHERE u.id=:usuario_id AND p.nombre LIKE :modulo AND utr.eliminado=0
                      ORDER BY p.id" ;
                     $sentencia = $conexion->prepare($sql);
                     $sentencia->bindParam(":usuario_id", $usuario_id);

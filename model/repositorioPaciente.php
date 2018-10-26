@@ -14,6 +14,18 @@ class RepositorioPaciente
 
         return self::$instance;
     }
+    private function toNull($variable){
+        if($variable==""||$variable==0){
+            $variable=null;
+        }
+        return $variable;
+    }
+    private function cero($variable){
+        if($variable==""){
+            $variable=0;
+        }
+        return $variable;
+    }
 
     public function insertar_paciente($paciente)
     {
@@ -46,17 +58,11 @@ class RepositorioPaciente
                 $sentencia->bindParam(":nombre", $obNombre);
                 $sentencia->bindParam(":fecha_nac", $obFecha_nac);
                 $sentencia->bindParam(":lugar_nac", $obLugar_nac);
-                if($obLocalidad_id==""){
-                    $obLocalidad_id=null;
-                }
+                $obLocalidad_id=$this->toNull($obLocalidad_id);
                 $sentencia->bindParam(":localidad_id", $obLocalidad_id);
-                if($obPartido_id==""){
-                     $obPartido_id=null;
-                }
+                $obPartido_id=$this->toNull($obPartido_id);
                 $sentencia->bindParam(":partido_id",$obPartido_id);
-                if($obRegion_sanitaria_id==""){
-                    $obRegion_sanitaria_id=null;
-                }
+                $obRegion_sanitaria_id=$this->toNull($obRegion_sanitaria_id);
                 $sentencia->bindParam(":region_sanitaria_id", $obRegion_sanitaria_id);
                 $sentencia->bindParam(":domicilio", $obDomicilio);
                 $sentencia->bindParam(":genero_id", $obGenero_id);
@@ -64,17 +70,11 @@ class RepositorioPaciente
                 $sentencia->bindParam(":tipo_doc_id", $obTipo_doc_id);
                 $sentencia->bindParam(":numero", $obNumero);
                 $sentencia->bindParam(":tel", $obTel);
-                if($obNro_historia_clinica==""){
-                    $obNro_historia_clinica=0;
-                }
+                $obNro_historia_clinica=$this->cero($obNro_historia_clinica);
                 $sentencia->bindParam(":nro_historia_clinica", $obNro_historia_clinica);
-                if($obNro_carpeta==""){
-                    $obNro_carpeta=0;
-                }
+                $obNro_carpeta=$this->cero($obNro_carpeta);
                 $sentencia->bindParam(":nro_carpeta", $obNro_carpeta);
-                if($obObra_social_id==""){
-                    $obObra_social_id=null;
-                }
+                $obObra_social_id=$this->toNull($obObra_social_id);
                 $sentencia->bindParam(":obra_social_id", $obObra_social_id);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
@@ -146,47 +146,27 @@ class RepositorioPaciente
              }
              $sentencia->bindParam(":fecha_nac",$fecha_nac);
              $sentencia->bindParam(":lugar_nac",$lugar_nac);
-             if($localidad_id==""||$localidad_id==0){
-                 $localidad_id=null;
-             }
+             $localidad_id=$this->toNull($localidad_id);
              $sentencia->bindParam(":localidad_id",$localidad_id);
-             if($partido_id=="" || $partido_id==0){
-                 $partido_id=null;
-             }
+             $partido_id=$this->toNull($partido_id);
              $sentencia->bindParam(":partido_id",$partido_id);
-             if($region_sanitaria_id==""||$region_sanitaria_id==0){
-                $region_sanitaria_id=null;
-            }
+             $region_sanitaria_id=$this->toNull($region_sanitaria_id);
              $sentencia->bindParam(":region_sanitaria_id",$region_sanitaria_id);
              $sentencia->bindParam(":domicilio",$domicilio);
-             if($genero_id==""||$genero_id==0){
-                 $genero_id=null;
-             }
+             $genero_id=$this->toNull($genero_id);
              $sentencia->bindParam(":genero_id",$genero_id);
-             if($tiene_documento==""){
-                 $tiene_documento=0;
-             }
+             $tiene_documento=$this->cero($tiene_documento);
              $sentencia->bindParam(":tiene_documento",$tiene_documento);
-             if($tipo_doc_id==""||$tipo_doc_id==0){
-                 $tipo_doc_id=null;
-             }
+             $tipo_doc_id=$this->toNull($tipo_doc_id);
              $sentencia->bindParam(":tipo_doc_id",$tipo_doc_id);
-             if($numero==""){
-                 $numero=0;
-             }
+             $numero=$this->cero($numero);
              $sentencia->bindParam(":numero",$numero);
              $sentencia->bindParam(":tel",$tel);
-             if($nro_historia_clinica==""){
-                 $nro_historia_clinica=0;
-             }
+             $nro_historia_clinica=$this->cero($nro_historia_clinica);
              $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
-             if($nro_carpeta==""){
-                 $nro_carpeta=0;
-             }
+             $nro_carpeta=$this->cero($nro_carpeta);
              $sentencia->bindParam(":nro_carpeta",$nro_carpeta);
-             if($obra_social_id==""||$obra_social_id==0){
-                 $obra_social_id=null;
-             }
+             $obra_social_id=$this->toNull($obra_social_id);
              $sentencia->bindParam(":obra_social_id",$obra_social_id);
              $ok=$sentencia->execute();
          }catch(PDOException $ex){

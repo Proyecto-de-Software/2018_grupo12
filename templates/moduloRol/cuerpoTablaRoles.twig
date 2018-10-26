@@ -1,12 +1,12 @@
 {% for rol in roles %}
   <tr>
-    <td style="text-align: center">{{ rol.getNombre |capitalize }}</td>
-    <td id="{{rol.getId}}" style="text-align: end">
+    <td class="textcenter">{{ rol.getNombre |capitalize }}</td>
+    <td id="{{rol.getId}}" class="textend">
       {% for permiso in permisos %}
         {% include "moduloRol/boton_#{permiso}.twig" ignore missing %}
       {% endfor %}
     </td>
   </tr>
   {% else %}
-    <td colspan="2" style="text-align: center" >No hay roles para mostrar</td>
+    <td colspan="2" class="textcenter" >No hay roles para mostrar</td>
 {% endfor %}
