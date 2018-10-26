@@ -135,7 +135,7 @@ class UsuariosController {
 
       $id = $_POST["id"];
 
-      if ($repoUsuario->bloquear_usuario($id)) {
+      if ($repoUsuario->bloquear_activar($id,0)) {
         TwigView::jsonEncode(array('estado' => "bloqueado"));
       }else {
         TwigView::jsonEncode(array('estado' => "error"));
@@ -151,7 +151,7 @@ class UsuariosController {
 
       $id = $_POST["id"];
 
-      if ($repoUsuario->activar_usuario($id)) {
+      if ($repoUsuario->bloquear_activar($id,1)) {
         TwigView::jsonEncode(array('estado' => "activado"));
       }else {
         TwigView::jsonEncode(array('estado' => "error"));
@@ -159,6 +159,21 @@ class UsuariosController {
     } catch (\Exception $e) {
       TwigView::jsonEncode(array('estado' => "error"));
     }
+  }
+
+  public function validarCampos($nombre,$apellido,$email){
+    if (!($nombre && $apellido && $email)) {
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
+      return false;
+    }elseif(!preg_match("/^[a-zA-Z ]+$/",$nombre) || !preg_match("/^[a-zA-Z ]+$/",$apellido)){
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Nombre y apellido deben contener solo letras"));
+      return false;
+    }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Email ingresado es incorrecto"));
+      return false;
+    }
+
+    return true;
   }
 
   public function agregarUsuario(){
@@ -174,22 +189,22 @@ class UsuariosController {
       $repoUsuario = RepositorioUsuario::getInstance();
 
       //Valido que el email sea correcto y que los campos no esten vacios
-      if (!($nombre && $apellido && $nombreDeUsuario && $contrasena && $email)) {
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
-      }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Email ingresado es incorrecto"));
-      }elseif ($repoUsuario->username_existe($nombreDeUsuario)) {
-        //Valido que no exista el nombre de usuario
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El nombre de usuario ya esta registrado"));
-      }elseif (strlen($contrasena) < 8) {
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La contraseña debe tener por lo menos 8 caracteres"));
-      }else{
-        $contrasena = password_hash($contrasena,PASSWORD_DEFAULT);
-        $usuario = new Usuario("",$email,$nombreDeUsuario,$contrasena,"","","",$nombre,$apellido,"");
-        if ($repoUsuario->insertar_usuario($usuario)){
-          TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Usuario guardado correctamente"));
-        }else {
-          TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+      if ($this->validarCampos($nombre,$apellido,$email)) {
+        if (!($nombreDeUsuario && $contrasena)) {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
+        }elseif ($repoUsuario->username_existe($nombreDeUsuario)) {
+          //Valido que no exista el nombre de usuario
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El nombre de usuario ya esta registrado"));
+        }elseif (strlen($contrasena) < 8) {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La contraseña debe tener por lo menos 8 caracteres"));
+        }else{
+          $contrasena = password_hash($contrasena,PASSWORD_DEFAULT);
+          $usuario = new Usuario("",$email,$nombreDeUsuario,$contrasena,"","","",$nombre,$apellido,"");
+          if ($repoUsuario->insertar_usuario($usuario)){
+            TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Usuario guardado correctamente"));
+          }else {
+            TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+          }
         }
       }
     } catch (\Exception $e) {
@@ -223,11 +238,7 @@ class UsuariosController {
         $repoUsuario = RepositorioUsuario::getInstance();
 
         //Valido campos
-        if (!($nombre && $apellido && $email)) {
-          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
-        }elseif(! filter_var($email, FILTER_VALIDATE_EMAIL)){
-          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Email ingresado es incorrecto"));
-        }else{
+        if ($this->validarCampos($nombre,$apellido,$email)) {
           if ($contrasena){
             if (strlen($contrasena) < 8) {
               TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La contraseña debe tener al menos 8 caracteres"));
