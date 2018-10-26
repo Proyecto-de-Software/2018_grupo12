@@ -161,7 +161,7 @@ class UsuariosController {
     }
   }
 
-  public function validarCampos($nombre,$apellido,$email){
+  public function validarCampos($nombre,$apellido, $email){
     if (!($nombre && $apellido && $email)) {
       TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete todos los campos"));
       return false;
