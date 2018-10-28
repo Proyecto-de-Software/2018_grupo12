@@ -53,6 +53,7 @@ class Validador{
     public function mostrarPaginaMantenimiento(){
       $view = new PaginaMantenimiento();
       $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
+      $datos["descripcion"] = RepositorioConfiguracion::getInstance()->getDescripcion();
 
       if (Validador::getInstance()->sesion_iniciada()) {
         $repoPermisos = RepositorioPermiso::getInstance();

@@ -110,7 +110,7 @@ id 5= habilitado */
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE configuracion SET valor=0 WHERE variable='habilidato'";
+                $sql = "UPDATE configuracion SET valor=0 WHERE variable='habilitado'";
                 $sentencia = $conexion->prepare($sql);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {

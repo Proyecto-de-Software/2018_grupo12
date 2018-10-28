@@ -6,9 +6,9 @@ class Pacientes extends TwigView {
     echo self::getTwig()->render('pacientes.twig', $datos);
   }
 
-  public function cargarPagina($datos){
+  public function cargarPagina($datos,$cantPaginasRestantes){
     $contenido = self::getTwig()->render('cuerpoTablaPacientes.twig', $datos);
-    $respuesta = array('estado' => "si hay",'contenido' => $contenido);
+    $respuesta = array('estado' => "si hay",'pagRestantes' => $cantPaginasRestantes,'contenido' => $contenido);
 
     self::jsonEncode($respuesta);
   }

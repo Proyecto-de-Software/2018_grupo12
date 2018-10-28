@@ -78,11 +78,8 @@ function clickInicio(){
     $("#btnMedio")[0].innerHTML = parseInt($("#btnMedio")[0].innerHTML) - 1;
     $("#btnFinal")[0].innerHTML = parseInt($("#btnFinal")[0].innerHTML) - 1;
   }else {
-    $("#inicio")[0].className = "page-item active";
-  }
-
-  if (pagina == "1") {
     $("#anterior")[0].className = "page-item disabled";
+    $("#inicio")[0].className = "page-item active";
   }
 
   //Cosulta para cargar la pagina requerida
@@ -98,7 +95,7 @@ function clickInicio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay pacientes para mostrar</td></tr>';
           if (pagina == "1") {
             $("#medio")[0].className = "page-item disabled";
           }
@@ -112,11 +109,22 @@ function clickInicio(){
           }
           $("#final")[0].className = "page-item";
           $("#siguiente")[0].className = "page-item";
+          if (respuesta.pagRestantes <= 0) {
+            if (pagina == 1) {
+              $("#medio")[0].className = "page-item disabled";
+            }
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }else if (respuesta.pagRestantes == 1) {
+            if (pagina == 1) {
+              $("#final")[0].className = "page-item disabled";
+            }
+          }
           asignarFuncionesALasOperaciones();
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -147,7 +155,7 @@ function clickMedio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay pacientes para mostrar</td></tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -155,11 +163,15 @@ function clickMedio(){
           $("#cuerpoTablaPacientes")[0].innerHTML = respuesta.contenido;
           $("#final")[0].className = "page-item";
           $("#siguiente")[0].className = "page-item";
+          if (respuesta.pagRestantes <= 0) {
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }
           asignarFuncionesALasOperaciones();
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -195,17 +207,23 @@ function clickFinal(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No hay pacientes para mostrar</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay pacientes para mostrar</td><tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
         case "si hay":
           $("#cuerpoTablaPacientes")[0].innerHTML = respuesta.contenido;
+          $("#final")[0].className = "page-item";
+          $("#siguiente")[0].className = "page-item";
+          if (respuesta.pagRestantes <= 0) {
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }
           asignarFuncionesALasOperaciones();
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaPacientes")[0].innerHTML = '<td style="text-align: center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaPacientes")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });

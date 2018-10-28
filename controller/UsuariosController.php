@@ -99,30 +99,30 @@ class UsuariosController {
       //Identifico tipo de busqueda
       if ($username) {
         if ($estado == "no aplica") {
-          $usuarios = $repoUsuario->obtener_todos_limite_pagina_like($limite,$pagina,$username);
+          $resultado = $repoUsuario->obtener_todos_limite_pagina_like($limite,$pagina,$username);
         }else{
-          $usuarios = $repoUsuario->obtener_actblo_limite_pagina_like($limite,$pagina,$username,$estado);
+          $resultado  = $repoUsuario->obtener_actblo_limite_pagina_like($limite,$pagina,$username,$estado);
         }
       }elseif ($estado != "no aplica") {
         if ($estado == "1") {
-          $usuarios = $repoUsuario->obtener_activos_limite_pagina($limite,$pagina);
+          $resultado  = $repoUsuario->obtener_activos_limite_pagina($limite,$pagina);
         } else {
-          $usuarios = $repoUsuario->obtener_bloqueados_limite_pagina($limite,$pagina);
+          $resultado  = $repoUsuario->obtener_bloqueados_limite_pagina($limite,$pagina);
         }
       }else {
-        $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,$pagina);
+        $resultado  = $repoUsuario->obtener_todos_limite_pagina($limite,$pagina);
       }
 
-      if (empty($usuarios)) {
+      if (empty($resultado["usuarios"])) {
         $view->jsonEncode(array('estado' => "no hay"));
       }else{
         $repoRol = RepositorioRol::getInstance();
-        foreach ($usuarios as $usuario) {
+        foreach ($resultado["usuarios"] as $usuario) {
           $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
         }
 
-        $datos["usuarios"] = $usuarios;
-        $cantPaginasRestantes = (ceil( $repoUsuario->obtener_numero_usuarios() / $limite)) - $pagina;
+        $datos["usuarios"] = $resultado["usuarios"];
+        $cantPaginasRestantes = (ceil( $resultado["total_usuarios"] / $limite)) - $pagina;
         $view->cargarPagina($datos,$cantPaginasRestantes);
       }
     }catch (\Exception $e){
@@ -136,10 +136,14 @@ class UsuariosController {
 
       $id = $_POST["id"];
 
-      if ($repoUsuario->bloquear_activar($id,0)) {
-        TwigView::jsonEncode(array('estado' => "bloqueado"));
+      if ($id == $_SESSION["id"]) {
+        TwigView::jsonEncode(array('estado' => "auto_bloqueo"));
       }else {
-        TwigView::jsonEncode(array('estado' => "error"));
+        if ($repoUsuario->bloquear_activar($id,0)) {
+          TwigView::jsonEncode(array('estado' => "bloqueado"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
       }
     }catch (\Exception $e){
       TwigView::jsonEncode(array('estado' => "error"));

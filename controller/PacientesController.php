@@ -80,32 +80,32 @@ class PacientesController {
       switch ($tipoBusqueda) {
         case 'nombre_y_apellido':
           if ($nombre &&  !$apellido) {
-            $pacientes = $repoPaciente->obtener_por_nombre($nombre, $limite, $pagina);
+            $resultado = $repoPaciente->obtener_por_nombre($nombre, $limite, $pagina);
           }elseif (!$nombre && $apellido) {
-            $pacientes = $repoPaciente->obtener_por_apellido($apellido, $limite, $pagina);
+            $resultado = $repoPaciente->obtener_por_apellido($apellido, $limite, $pagina);
           }else {
-            $pacientes = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
+            $resultado = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
           }
           break;
         case 'dni':
           if (! $tipoDoc) {
-            $pacientes = $repoPaciente->obtener_por_num_doc($nroDoc,$limite,$pagina);
+            $resultado = $repoPaciente->obtener_por_num_doc($nroDoc,$limite,$pagina);
           }else {
-            $pacientes = $repoPaciente->obtener_por_datos_doc($tipoDoc,$nroDoc,$limite,$pagina);
+            $resultado = $repoPaciente->obtener_por_datos_doc($tipoDoc,$nroDoc,$limite,$pagina);
           }
           break;
         case 'historia_clinica':
-          $pacientes = $repoPaciente->obtener_por_nro_historia_clinica($nroHistoriaClinica,$limite,$pagina);
+          $resultado = $repoPaciente->obtener_por_nro_historia_clinica($nroHistoriaClinica,$limite,$pagina);
           break;
         default:
-          $pacientes = $repoPaciente->obtener_todos_limite_pagina($limite,$pagina);
+          $resultado = $repoPaciente->obtener_todos_limite_pagina($limite,$pagina);
           break;
       }
 
-      if (empty($pacientes)) {
+      if (empty($resultado["pacientes"])) {
         $view->jsonEncode(array('estado' => "no hay"));
       }else{
-        foreach ($pacientes as $paciente) {
+        foreach ($resultado["pacientes"] as $paciente) {
           $idObraSocial = $paciente->getObra_social_id();
           $idTipoDoc = $paciente->getTipo_doc_id();
 
@@ -120,10 +120,11 @@ class PacientesController {
           }
         }
 
-        $datos["pacientes"] = $pacientes;
+        $datos["pacientes"] = $resultado["pacientes"];
         $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"paciente");
 
-        $view->cargarPagina($datos);
+        $cantPaginasRestantes = (ceil( $resultado["total_pacientes"] / $limite)) - $pagina;
+        $view->cargarPagina($datos,$cantPaginasRestantes);
       }
     }catch (\Exception $e){
       TwigView::jsonEncode(array('estado' => "error"));
