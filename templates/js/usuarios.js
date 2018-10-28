@@ -74,7 +74,7 @@ function clickInicio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No hay usuarios para mostrar</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No hay usuarios para mostrar</td></tr>';
           if (pagina == "1") {
             $("#medio")[0].className = "page-item disabled";
           }
@@ -83,16 +83,22 @@ function clickInicio(){
           break;
         case "si hay":
           $("#cuerpoTablaUsuarios")[0].innerHTML = respuesta.contenido;
-          if (pagina == 1) {
-            $("#medio")[0].className = "page-item";
+          if (respuesta.pagRestantes <= 0) {
+            if (pagina == 1) {
+              $("#medio")[0].className = "page-item disabled";
+            }
+            $("#final")[0].className = "page-item disabled";
+            $("#siguiente")[0].className = "page-item disabled";
+          }else if (respuesta.pagRestantes == 1) {
+            if (pagina == 1) {
+              $("#final")[0].className = "page-item disabled";
+            }
           }
-          $("#final")[0].className = "page-item";
-          $("#siguiente")[0].className = "page-item";
           asignarFuncionesALasOperaciones();
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -122,7 +128,7 @@ function clickMedio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No hay usuarios para mostrar</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No hay usuarios para mostrar</td></tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -134,7 +140,7 @@ function clickMedio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -169,7 +175,7 @@ function clickFinal(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No hay usuarios para mostrar</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No hay usuarios para mostrar</td></tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -179,7 +185,7 @@ function clickFinal(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaUsuarios")[0].innerHTML = '<td align="center" colspan="7">No se pudo realizar la operacion solicitada</td>';
+          $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td align="center" colspan="7">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });

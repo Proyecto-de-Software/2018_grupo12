@@ -122,7 +122,8 @@ class UsuariosController {
         }
 
         $datos["usuarios"] = $usuarios;
-        $view->cargarPagina($datos);
+        $cantPaginasRestantes = (ceil( $repoUsuario->obtener_numero_usuarios() / $limite)) - $pagina;
+        $view->cargarPagina($datos,$cantPaginasRestantes);
       }
     }catch (\Exception $e){
       TwigView::jsonEncode(array('estado' => "error"));

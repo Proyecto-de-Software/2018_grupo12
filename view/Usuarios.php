@@ -7,9 +7,9 @@ class Usuarios extends TwigView {
 
   }
 
-  public function cargarPagina($datos){
+  public function cargarPagina($datos,$cantPaginasRestantes){
     $contenido = self::getTwig()->render('cuerpoTablaUsuarios.twig',$datos);
-    $datos = array('estado' => "si hay",'contenido' => $contenido);
+    $datos = array('estado' => "si hay",'pagRestantes' => $cantPaginasRestantes,'contenido' => $contenido);
 
     self::jsonEncode($datos);
   }
