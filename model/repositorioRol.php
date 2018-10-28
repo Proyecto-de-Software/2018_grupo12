@@ -36,6 +36,22 @@ class RepositorioRol
         $conexion = null;
         return $rol_existe;
     }
+    public function insertar_rol($nombre){
+        $ok=false;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="INSERT INTO rol(nombre) VALUES (:nombre)";
+                $sentencia=$conexion->prepare($sql);
+                $sentencia->bindParam(":nombre",$nombre);
+                $ok=$sentencia->execute();
+            }catch(PDOException $e){
+              throw new Exception("error insertar_rol ".$e->getMessage());
+            }
+        }
+        return $ok;
+
+    }
 
     public function obtener_por_id($id)
     {
