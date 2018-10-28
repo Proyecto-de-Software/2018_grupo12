@@ -48,7 +48,7 @@ class RepositorioPermiso
                                 INNER JOIN rol r ON (utr.rol_id=r.id)
                                 INNER JOIN rol_tiene_permiso rtp ON (r.id=rtp.rol_id)
                                 INNER JOIN permiso p ON (rtp.permiso_id=p.id)
-                 WHERE u.id=:usuario_id";
+                 WHERE u.id=:usuario_id AND utr.eliminado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":usuario_id", $usuario_id);
                 $sentencia->execute();

@@ -14,6 +14,27 @@ class RepositorioUsuario
 
         return self::$instance;
     }
+    public function obtener_numero_usuarios_estado($estado)
+    {
+        $total_usuarios = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM usuario WHERE activo=:activo";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":activo",$estado);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_usuarios = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_usuarios_estado");
+            }
+
+        }
+        $conexion = null;
+        return $total_usuarios;
+    }
     public function obtener_numero_usuarios()
     {
         $total_usuarios = null;

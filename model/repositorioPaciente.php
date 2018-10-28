@@ -26,6 +26,26 @@ class RepositorioPaciente
         }
         return $variable;
     }
+    public function obtener_numero_pacientes()
+    {
+        $total_usuarios = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE liminado=0";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_usuarios = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_paciente");
+            }
+
+        }
+        $conexion = null;
+        return $total_usuarios;
+    }
 
     public function insertar_paciente($paciente)
     {
