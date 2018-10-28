@@ -1,7 +1,7 @@
 <?php
 /*include_once "paciente.php";
 include_once "conexion.php";
-*/
+ */
 class RepositorioPaciente
 {
     private static $instance;
@@ -14,29 +14,116 @@ class RepositorioPaciente
 
         return self::$instance;
     }
-    private function toNull($variable){
-        if($variable==""||$variable==0){
-            $variable=null;
-        }
-        return $variable;
-    }
-    private function cero($variable){
-        if($variable==""){
-            $variable=0;
-        }
-        return $variable;
-    }
-    public function obtener_numero_pacientes()
+    private function toNull($variable)
     {
-        $total_usuarios = null;
+        if ($variable == "" || $variable == 0) {
+            $variable = null;
+        }
+        return $variable;
+    }
+    private function cero($variable)
+    {
+        if ($variable == "") {
+            $variable = 0;
+        }
+        return $variable;
+    }
+    public function obtener_numero_pacientes_nombre($nombre) /* %nombre%  para el like*/
+    {
+        $total_pacientes = null;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT COUNT(*) as total FROM paciente WHERE liminado=0";
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND nombre LIKE :nombre";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nombre", $nombre);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_pacientes_nombre");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_numero_pacientes_apellido($apellido) /* %apellido%  para el like*/
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND apellido LIKE :apellido";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":apellido", $apellido);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_paciente_apellido");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_numero_nombre_apellido($nombre, $apellido) /*%nombre% %apellido%  para el like*/
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND apellido LIKE :apellido AND nombre LIKE :nombre";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":apellido", $apellido);
+                $sentencia->bindParam(":nombre", $nombre);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_nombre_apellido");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_numero_pacientes_hc($nro_historia) /* %nro_historia%  para el like*/
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND nro_historia_clinica LIKE :nro";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nro", $nro_historia);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_paciente_hc" . $ex->getMessage());
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_numero_pacientes()
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->execute();
                 $resultado = $sentencia->fetch();
-                $total_usuarios = $resultado['total'];
+                $total_pacientes = $resultado['total'];
 
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_numero_paciente");
@@ -44,7 +131,50 @@ class RepositorioPaciente
 
         }
         $conexion = null;
-        return $total_usuarios;
+        return $total_pacientes;
+    }
+    public function obtener_numero_pacientes_numero($num) /* %num%  para el like*/
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND numero LIKE :num";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":num", $num);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_paciente_numero");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_numero_datos_doc($tipo, $num) /* %num%  para el like*/
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM paciente WHERE borrado=0 AND numero LIKE :num AND tipo_doc_id=:tipo_doc_id";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":num", $num);
+                $sentencia->bindParam(":tipo_doc_id", $tipo);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_datos_doc" . $ex->getMessage());
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
     }
 
     public function insertar_paciente($paciente)
@@ -63,7 +193,7 @@ class RepositorioPaciente
                 $obFecha_nac = $paciente->getFecha_nac();
                 $obLugar_nac = $paciente->getLugar_nac();
                 $obLocalidad_id = $paciente->getLocalidad_id();
-                $obPartido_id=$paciente->getPartido_id();
+                $obPartido_id = $paciente->getPartido_id();
                 $obRegion_sanitaria_id = $paciente->getRegion_sanitaria_id();
                 $obDomicilio = $paciente->getDomicilio();
                 $obGenero_id = $paciente->getGenero_id();
@@ -78,11 +208,11 @@ class RepositorioPaciente
                 $sentencia->bindParam(":nombre", $obNombre);
                 $sentencia->bindParam(":fecha_nac", $obFecha_nac);
                 $sentencia->bindParam(":lugar_nac", $obLugar_nac);
-                $obLocalidad_id=$this->toNull($obLocalidad_id);
+                $obLocalidad_id = $this->toNull($obLocalidad_id);
                 $sentencia->bindParam(":localidad_id", $obLocalidad_id);
-                $obPartido_id=$this->toNull($obPartido_id);
-                $sentencia->bindParam(":partido_id",$obPartido_id);
-                $obRegion_sanitaria_id=$this->toNull($obRegion_sanitaria_id);
+                $obPartido_id = $this->toNull($obPartido_id);
+                $sentencia->bindParam(":partido_id", $obPartido_id);
+                $obRegion_sanitaria_id = $this->toNull($obRegion_sanitaria_id);
                 $sentencia->bindParam(":region_sanitaria_id", $obRegion_sanitaria_id);
                 $sentencia->bindParam(":domicilio", $obDomicilio);
                 $sentencia->bindParam(":genero_id", $obGenero_id);
@@ -90,11 +220,11 @@ class RepositorioPaciente
                 $sentencia->bindParam(":tipo_doc_id", $obTipo_doc_id);
                 $sentencia->bindParam(":numero", $obNumero);
                 $sentencia->bindParam(":tel", $obTel);
-                $obNro_historia_clinica=$this->cero($obNro_historia_clinica);
+                $obNro_historia_clinica = $this->cero($obNro_historia_clinica);
                 $sentencia->bindParam(":nro_historia_clinica", $obNro_historia_clinica);
-                $obNro_carpeta=$this->cero($obNro_carpeta);
+                $obNro_carpeta = $this->cero($obNro_carpeta);
                 $sentencia->bindParam(":nro_carpeta", $obNro_carpeta);
-                $obObra_social_id=$this->toNull($obObra_social_id);
+                $obObra_social_id = $this->toNull($obObra_social_id);
                 $sentencia->bindParam(":obra_social_id", $obObra_social_id);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
@@ -105,23 +235,24 @@ class RepositorioPaciente
         return $ok;
 
     }
-    public function insertar_nn($nro_historia_clinica){
-     $ok=false;
-     $conexion=abrir_conexion();
-     if($conexion !==null){
-         try{
-            $sql = "INSERT INTO paciente(apellido,nombre,fecha_nac,lugar_nac,localidad_id,partido_id,region_sanitaria_id,
+    public function insertar_nn($nro_historia_clinica)
+    {
+        $ok = false;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "INSERT INTO paciente(apellido,nombre,fecha_nac,lugar_nac,localidad_id,partido_id,region_sanitaria_id,
             domicilio,genero_id,tiene_documento,tipo_doc_id,numero,tel,nro_historia_clinica,nro_carpeta,obra_social_id,borrado)
             VALUES ('NN','NN','0001-01-01',' ',null,null,null,' ',null,0,null,0,' ',:nro_historia_clinica,0,null,0)";
-            $sentencia=$conexion->prepare($sql);
-            $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
-            $ok=$sentencia->execute();
-         }catch(PDOException $ex){
-             throw new Exception("error consulta insertar NN ".$ex->getMessage());
-         }
-     }
-    $conexion=null;
-    return $ok;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nro_historia_clinica", $nro_historia_clinica);
+                $ok = $sentencia->execute();
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta insertar NN " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $ok;
 
     }
     public function eliminar_paciente($id)
@@ -143,62 +274,61 @@ class RepositorioPaciente
         return $ok;
     }
 
-    public function actualizar_informacion($id,$apellido,$nombre,$fecha_nac,$lugar_nac,$localidad_id,$partido_id,
-    $region_sanitaria_id,$domicilio,$genero_id,$tiene_documento,$tipo_doc_id,$numero,$tel,
-    $nro_historia_clinica,$nro_carpeta,$obra_social_id)
-    {
-     $ok=false;
-     $conexion=abrir_conexion();
-     if($conexion !==null){
-         try{
-             $sql= "UPDATE paciente SET apellido=:apellido ,nombre=:nombre, fecha_nac=:fecha_nac,lugar_nac=:lugar_nac,
+    public function actualizar_informacion($id, $apellido, $nombre, $fecha_nac, $lugar_nac, $localidad_id, $partido_id,
+        $region_sanitaria_id, $domicilio, $genero_id, $tiene_documento, $tipo_doc_id, $numero, $tel,
+        $nro_historia_clinica, $nro_carpeta, $obra_social_id) {
+        $ok = false;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "UPDATE paciente SET apellido=:apellido ,nombre=:nombre, fecha_nac=:fecha_nac,lugar_nac=:lugar_nac,
               localidad_id=:localidad_id, partido_id=:partido_id,region_sanitaria_id=:region_sanitaria_id, domicilio=:domicilio,
                genero_id=:genero_id, tiene_documento=:tiene_documento, tipo_doc_id=:tipo_doc_id,
                 numero=:numero, tel=:tel, nro_historia_clinica=:nro_historia_clinica,nro_carpeta=:nro_carpeta,
                 obra_social_id=:obra_social_id
                 WHERE id=:id ";
-             $sentencia=$conexion->prepare($sql);
-             $sentencia->bindParam(":id",$id);
-             $sentencia->bindParam(":apellido",$apellido);
-             $sentencia->bindParam(":nombre",$nombre);
-             if($fecha_nac=="" || $fecha_nac==0){
-                      $fecha_nac= "0001-01-01";
-             }
-             $sentencia->bindParam(":fecha_nac",$fecha_nac);
-             $sentencia->bindParam(":lugar_nac",$lugar_nac);
-             $localidad_id=$this->toNull($localidad_id);
-             $sentencia->bindParam(":localidad_id",$localidad_id);
-             $partido_id=$this->toNull($partido_id);
-             $sentencia->bindParam(":partido_id",$partido_id);
-             $region_sanitaria_id=$this->toNull($region_sanitaria_id);
-             $sentencia->bindParam(":region_sanitaria_id",$region_sanitaria_id);
-             $sentencia->bindParam(":domicilio",$domicilio);
-             $genero_id=$this->toNull($genero_id);
-             $sentencia->bindParam(":genero_id",$genero_id);
-             $tiene_documento=$this->cero($tiene_documento);
-             $sentencia->bindParam(":tiene_documento",$tiene_documento);
-             $tipo_doc_id=$this->toNull($tipo_doc_id);
-             $sentencia->bindParam(":tipo_doc_id",$tipo_doc_id);
-             $numero=$this->cero($numero);
-             $sentencia->bindParam(":numero",$numero);
-             $sentencia->bindParam(":tel",$tel);
-             $nro_historia_clinica=$this->cero($nro_historia_clinica);
-             $sentencia->bindParam(":nro_historia_clinica",$nro_historia_clinica);
-             $nro_carpeta=$this->cero($nro_carpeta);
-             $sentencia->bindParam(":nro_carpeta",$nro_carpeta);
-             $obra_social_id=$this->toNull($obra_social_id);
-             $sentencia->bindParam(":obra_social_id",$obra_social_id);
-             $ok=$sentencia->execute();
-         }catch(PDOException $ex){
-             throw new Exception ("erro consulta repositorioPaciente->actualizar_informacion ".$ex->getMessage());
-         }
-     }
-     $conexion=null;
-     return $ok;
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":id", $id);
+                $sentencia->bindParam(":apellido", $apellido);
+                $sentencia->bindParam(":nombre", $nombre);
+                if ($fecha_nac == "" || $fecha_nac == 0) {
+                    $fecha_nac = "0001-01-01";
+                }
+                $sentencia->bindParam(":fecha_nac", $fecha_nac);
+                $sentencia->bindParam(":lugar_nac", $lugar_nac);
+                $localidad_id = $this->toNull($localidad_id);
+                $sentencia->bindParam(":localidad_id", $localidad_id);
+                $partido_id = $this->toNull($partido_id);
+                $sentencia->bindParam(":partido_id", $partido_id);
+                $region_sanitaria_id = $this->toNull($region_sanitaria_id);
+                $sentencia->bindParam(":region_sanitaria_id", $region_sanitaria_id);
+                $sentencia->bindParam(":domicilio", $domicilio);
+                $genero_id = $this->toNull($genero_id);
+                $sentencia->bindParam(":genero_id", $genero_id);
+                $tiene_documento = $this->cero($tiene_documento);
+                $sentencia->bindParam(":tiene_documento", $tiene_documento);
+                $tipo_doc_id = $this->toNull($tipo_doc_id);
+                $sentencia->bindParam(":tipo_doc_id", $tipo_doc_id);
+                $numero = $this->cero($numero);
+                $sentencia->bindParam(":numero", $numero);
+                $sentencia->bindParam(":tel", $tel);
+                $nro_historia_clinica = $this->cero($nro_historia_clinica);
+                $sentencia->bindParam(":nro_historia_clinica", $nro_historia_clinica);
+                $nro_carpeta = $this->cero($nro_carpeta);
+                $sentencia->bindParam(":nro_carpeta", $nro_carpeta);
+                $obra_social_id = $this->toNull($obra_social_id);
+                $sentencia->bindParam(":obra_social_id", $obra_social_id);
+                $ok = $sentencia->execute();
+            } catch (PDOException $ex) {
+                throw new Exception("erro consulta repositorioPaciente->actualizar_informacion " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $ok;
 
     }
 
-    public function existe_doc($tipo_doc,$num)
+    public function existe_doc($tipo_doc, $num)
     { /*si no existe devuelve null */
         $paciente = array();
         $conexion = abrir_conexion();
@@ -211,7 +341,7 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $r = $sentencia->fetch();
                 if (!empty($r)) {
-                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
                 }
@@ -235,7 +365,7 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $r = $sentencia->fetch();
                 if (!empty($r)) {
-                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
                 }
@@ -247,14 +377,17 @@ class RepositorioPaciente
         return $paciente;
     }
 
-    public function obtener_por_nro_historia_clinica($nro,$limite,$pag)
+    public function obtener_por_nro_historia_clinica($nro, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $nro="%".$nro."%";
+                $nro = "%" . $nro . "%";
                 $sql = "SELECT * FROM paciente WHERE nro_historia_clinica LIKE :nro AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nro", $nro);
@@ -263,18 +396,21 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_pacientes_hc($nro);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_nro_historia_clinica " . $ex->getMessage());
 
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
 
     public function obtener_por_datos_paciente($nombre, $apellido, $tipo_doc, $num)
@@ -292,7 +428,7 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $r = $sentencia->fetch();
                 if (!empty($r)) {
-                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
                 }
@@ -303,14 +439,17 @@ class RepositorioPaciente
         $conexion = null;
         return $paciente;
     }
-    public function obtener_por_nombre($nombre,$limite,$pag)
+    public function obtener_por_nombre($nombre, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $nombre= "%".$nombre."%";
+                $nombre = "%" . $nombre . "%";
                 $sql = "SELECT * FROM paciente WHERE nombre LIKE :nombre  AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nombre", $nombre);
@@ -319,26 +458,32 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_pacientes_nombre($nombre);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_nombre " . $ex->getMessage());
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
-    public function obtener_por_apellido($apellido,$limite,$pag)
+    public function obtener_por_apellido($apellido, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $apellido= "%".$apellido."%";
+                $apellido = "%" . $apellido . "%";
                 $sql = "SELECT * FROM paciente WHERE apellido LIKE :apellido  AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":apellido", $apellido);
@@ -347,56 +492,68 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_pacientes_apellido($apellido);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_apellido" . $ex->getMessage());
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
-    public function obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pag)
+    public function obtener_por_nombre_y_apellido($nombre, $apellido, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $nombre= "%".$nombre."%";
-                $apellido= "%".$apellido."%";
+                $nombre = "%" . $nombre . "%";
+                $apellido = "%" . $apellido . "%";
                 $sql = "SELECT * FROM paciente WHERE nombre LIKE :nombre AND apellido LIKE :apellido AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nombre", $nombre);
-                $sentencia->bindParam(":apellido",$apellido);
+                $sentencia->bindParam(":apellido", $apellido);
                 $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
                 $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_nombre_apellido($nombre, $apellido);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_nombre_y_apellido " . $ex->getMessage());
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
-    public function obtener_por_num_doc($num,$limite,$pag)
+    public function obtener_por_num_doc($num, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $num="%".$num."%";
+                $num = "%" . $num . "%";
                 $sql = "SELECT * FROM paciente WHERE numero LIKE :num AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":num", $num);
@@ -405,27 +562,33 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_pacientes_numero($num);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_datos_doc " . $ex->getMessage());
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
 
-    public function obtener_por_datos_doc( $tipo_doc,$num,$limite,$pag)
+    public function obtener_por_datos_doc($tipo_doc, $num, $limite, $pag)
     { /*si no existe devuelve null */
+        $result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $paciente = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $num="%".$num."%";
+                $num = "%" . $num . "%";
                 $sql = "SELECT * FROM paciente WHERE  tipo_doc_id=:tipo_doc_id AND numero LIKE :num AND borrado=0 LIMIT :primero,:limite";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":tipo_doc_id", $tipo_doc);
@@ -435,17 +598,20 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
                 if (count($re)) {
-                    foreach($re as $r){
-                    $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
-                }}
+                    foreach ($re as $r) {
+                        $paciente[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                    }
+                    $result['pacientes'] = $paciente;
+                    $result['total_pacientes'] = $this->obtener_numero_datos_doc($tipo_doc, $num);
+                }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_por_datos_doc " . $ex->getMessage());
             }
         }
         $conexion = null;
-        return $paciente;
+        return $result;
     }
     public function obtener_por_id($id)
     { /*si no existe devuelve null */
@@ -459,7 +625,7 @@ class RepositorioPaciente
                 $sentencia->execute();
                 $r = $sentencia->fetch();
                 if (!empty($r)) {
-                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
+                    $paciente = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
                         $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
                         $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
                 }
@@ -526,7 +692,9 @@ class RepositorioPaciente
         return $r;
     }
     public function obtener_todos_limite_pagina($limite, $pag)
-    {
+    {$result = array();
+        $result['pacientes'] = array();
+        $result['total_pacientes'] = 0;
         $pacientes = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -540,11 +708,13 @@ class RepositorioPaciente
                 $resultado = $sentencia->fetchAll();
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
-                        $pacientes[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"],$r["partido_id"],
-                        $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
-                        $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
+                        $pacientes[] = new Paciente($r["id"], $r["apellido"], $r["nombre"], $r["fecha_nac"], $r["lugar_nac"], $r["localidad_id"], $r["partido_id"],
+                            $r["region_sanitaria_id"], $r["domicilio"], $r["genero_id"], $r["tiene_documento"], $r["tipo_doc_id"], $r["numero"], $r["tel"],
+                            $r["nro_historia_clinica"], $r["nro_carpeta"], $r["obra_social_id"], $r["borrado"]);
 
                     }
+                    $result['pacientes'] = $pacientes;
+                    $result['total_pacientes'] = $this->obtener_numero_pacientes();
                 }
 
             } catch (PDOException $ex) {
@@ -552,7 +722,7 @@ class RepositorioPaciente
             }
         }
         $conexion = null;
-        return $pacientes;
+        return $result;
     }
 
 }

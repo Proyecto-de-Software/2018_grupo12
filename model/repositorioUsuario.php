@@ -1,6 +1,5 @@
 <?php
 
-
 class RepositorioUsuario
 { /*instanciar como una clase normal y llamar a los metodos con la forma:  $repositorioUsuario -> funcion();
 ....ejecutar consultas dentro de un try para obtener excepciones en el catch en caso de error */
@@ -22,13 +21,56 @@ class RepositorioUsuario
             try {
                 $sql = "SELECT COUNT(*) as total FROM usuario WHERE activo=:activo";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":activo",$estado);
+                $sentencia->bindParam(":activo", $estado);
                 $sentencia->execute();
                 $resultado = $sentencia->fetch();
                 $total_usuarios = $resultado['total'];
 
             } catch (PDOException $ex) {
                 throw new Exception("error consulta obtener_numero_usuarios_estado");
+            }
+
+        }
+        $conexion = null;
+        return $total_usuarios;
+    }
+    public function obtener_numero_like($string) /*string= %algo% */
+    {
+        $total_usuarios = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM usuario WHERE username LIKE :string";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":string", $string);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_usuarios = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_like");
+            }
+
+        }
+        $conexion = null;
+        return $total_usuarios;
+    }
+    public function obtener_numero_like_estado($estado, $string) /*string= %algo% */
+    {
+        $total_usuarios = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM usuario WHERE activo=:activo AND username LIKE :string";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":activo", $estado);
+                $sentencia->bindParam(":string", $string);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_usuarios = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_like_estado");
             }
 
         }
@@ -137,7 +179,7 @@ class RepositorioUsuario
                 $sql = "UPDATE usuario SET password=:password, updated_at=NOW() WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
-                $sentencia->bindParam(":password",$password);
+                $sentencia->bindParam(":password", $password);
                 $actualizado = $sentencia->execute();
 
             } catch (PDOException $ex) {
@@ -218,7 +260,7 @@ class RepositorioUsuario
         return $usuario;
 
     }
-    public function bloquear_activar($id,$accion) 
+    public function bloquear_activar($id, $accion)
     {
         $ok = false;
         $conexion = abrir_conexion();
@@ -226,7 +268,7 @@ class RepositorioUsuario
             try {
                 $sql = "UPDATE usuario SET activo=:accion WHERE id=:id";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":accion",$accion);
+                $sentencia->bindParam(":accion", $accion);
                 $sentencia->bindParam(":id", $id);
                 $ok = $sentencia->execute();
 
@@ -238,45 +280,47 @@ class RepositorioUsuario
         return $ok;
     }
 
-    public function bloquear_usuario($id) /*bloquea usuario... ¿se debe actualizar updated_at???? */
+    /*public function bloquear_usuario($id) /*bloquea usuario... ¿se debe actualizar updated_at????
     {
-        $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE usuario SET activo=0 WHERE id=:id";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $ok = $sentencia->execute();
+    $ok = false;
+    $conexion = abrir_conexion();
+    if ($conexion !== null) {
+    try {
+    $sql = "UPDATE usuario SET activo=0 WHERE id=:id";
+    $sentencia = $conexion->prepare($sql);
+    $sentencia->bindParam(":id", $id);
+    $ok = $sentencia->execute();
 
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta bloquear_usuario");
-            }
-        }
-        $conexion = null;
-        return $ok;
+    } catch (PDOException $ex) {
+    throw new Exception("error consulta bloquear_usuario");
     }
-    public function activar_usuario($id) /*desbloquea/activa usuario... ¿se debe actualizar updated_at???? */
+    }
+    $conexion = null;
+    return $ok;
+    }
+    public function activar_usuario($id) /*desbloquea/activa usuario... ¿se debe actualizar updated_at????
     {
-        $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE usuario SET activo=1 WHERE id=:id";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $ok = $sentencia->execute();
+    $ok = false;
+    $conexion = abrir_conexion();
+    if ($conexion !== null) {
+    try {
+    $sql = "UPDATE usuario SET activo=1 WHERE id=:id";
+    $sentencia = $conexion->prepare($sql);
+    $sentencia->bindParam(":id", $id);
+    $ok = $sentencia->execute();
 
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta activar_usuario");
-            }
-        }
-        $conexion = null;
-        return $ok;
+    } catch (PDOException $ex) {
+    throw new Exception("error consulta activar_usuario");
     }
-
+    }
+    $conexion = null;
+    return $ok;
+    }
+     */
     public function obtener_todos_limite_pagina($limite, $pag)
-    {
+    {$result = array();
+        $result['usuarios'] = array();
+        $result['total_usuarios'] = 0;
         $usuarios = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -294,6 +338,9 @@ class RepositorioUsuario
                             , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name']);
 
                     }
+                    $result['usuarios'] = $usuarios;
+                    $result['total_usuarios'] = $this->obtener_numero_usuarios();
+
                 }
 
             } catch (PDOException $ex) {
@@ -301,10 +348,12 @@ class RepositorioUsuario
             }
         }
         $conexion = null;
-        return $usuarios;
+        return $result;
     }
     public function obtener_bloqueados_limite_pagina($limite, $pag)
-    {
+    {$result = array();
+        $result['usuarios'] = array();
+        $result['total_usuarios'] = 0;
         $usuarios = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -322,6 +371,8 @@ class RepositorioUsuario
                             , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name']);
 
                     }
+                    $result['usuarios'] = $usuarios;
+                    $result['total_usuarios'] = $this->obtener_numero_usuarios_estado(0);
                 }
 
             } catch (PDOException $ex) {
@@ -329,10 +380,12 @@ class RepositorioUsuario
             }
         }
         $conexion = null;
-        return $usuarios;
+        return $result;
     }
     public function obtener_activos_limite_pagina($limite, $pag)
-    {
+    {$result = array();
+        $result['usuarios'] = array();
+        $result['total_usuarios'] = 0;
         $usuarios = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -350,6 +403,8 @@ class RepositorioUsuario
                             , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name']);
 
                     }
+                    $result['usuarios'] = $usuarios;
+                    $result['total_usuarios'] = $this->obtener_numero_usuarios_estado(1);
                 }
 
             } catch (PDOException $ex) {
@@ -357,10 +412,12 @@ class RepositorioUsuario
             }
         }
         $conexion = null;
-        return $usuarios;
+        return $result;
     }
     public function obtener_todos_limite_pagina_like($limite, $pag, $string)
-    {
+    {$result = array();
+        $result['usuarios'] = array();
+        $result['total_usuarios'] = 0;
         $usuarios = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -380,6 +437,8 @@ class RepositorioUsuario
                             , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name']);
 
                     }
+                    $result['usuarios'] = $usuarios;
+                    $result['total_usuarios'] = $this->obtener_numero_like($string);
                 }
 
             } catch (PDOException $ex) {
@@ -387,10 +446,12 @@ class RepositorioUsuario
             }
         }
         $conexion = null;
-        return $usuarios;
+        return $result;
     }
     public function obtener_actblo_limite_pagina_like($limite, $pag, $string, $activo)
-    {
+    {$result = array();
+        $result['usuarios'] = array();
+        $result['total_usuarios'] = 0;
         $usuarios = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -411,6 +472,8 @@ class RepositorioUsuario
                             , $fila['updated_at'], $fila['created_at'], $fila['first_name'], $fila['last_name']);
 
                     }
+                    $result['usuarios'] = $usuarios;
+                    $result['total_usuarios'] = $this->obtener_numero_like_estado($activo, $string);
                 }
 
             } catch (PDOException $ex) {
@@ -418,7 +481,7 @@ class RepositorioUsuario
             }
         }
         $conexion = null;
-        return $usuarios;
+        return $result;
     }
 
 }
