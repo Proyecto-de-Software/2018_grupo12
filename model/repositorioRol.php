@@ -87,6 +87,9 @@ class RepositorioRol
     }
     public function obtener_todos_los_roles_pagina($limite,$pag)
     { /*array vacio si no hay roles en la BD */
+        $result = array();
+        $result['roles'] = array();
+        $result['total_roles'] = 0;
         $roles = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -102,16 +105,21 @@ class RepositorioRol
                     foreach ($resultado as $r) {
                         $roles[] = new Rol($r['id'], $r['nombre']);
                     }
+                    $result['roles']=$roles;
+                    $result['total_roles']=$this->obtener_cantidad();
                 }
             } catch (PDOException $ex) {
                 throw new Exception("erro consulta repositorioRol-> obtener_todos_los_roles_pagina");
             }
         }
         $conexion = null;
-        return $roles;
+        return $result;
     }
     public function obtener_roles_por_nombre($nombre,$limite,$pag)
     { /*array vacio si no hay roles en la BD */
+        $result = array();
+        $result['roles'] = array();
+        $result['total_roles'] = 0;
         $roles = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -129,13 +137,56 @@ class RepositorioRol
                     foreach ($resultado as $r) {
                         $roles[] = new Rol($r['id'], $r['nombre']);
                     }
+                    $result['roles']=$roles;
+                    $result['total_roles']=$this->obtener_cantidad_nombre($nombre);
                 }
             } catch (PDOException $ex) {
                 throw new Exception("erro consulta repositorioRol-> obtener_roles_por_nombre");
             }
         }
         $conexion = null;
-        return $roles;
+        return $result;
+    }
+    public function obtener_cantidad() 
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM rol ";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_cantidad (rol)");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
+    }
+    public function obtener_cantidad_nombre($nombre) 
+    {
+        $total_pacientes = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM rol WHERE nombre LIKE :nombre";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nombre", $nombre);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_pacientes = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_cantidad_nombre (rol)");
+            }
+
+        }
+        $conexion = null;
+        return $total_pacientes;
     }
     public function actualizar_rol($rol_id,$nombre){
         $result=false;
