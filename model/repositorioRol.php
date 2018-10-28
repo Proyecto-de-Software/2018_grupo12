@@ -14,6 +14,28 @@ class RepositorioRol
 
         return self::$instance;
     }
+    public function rol_existe($rol) 
+    {
+        $conexion = abrir_conexion();
+        $rol_existe = false;
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT * FROM rol WHERE nombre = :nombre";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(':nombre', $rol);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    $rol_existe = true;
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta rol_existe");
+            }
+        }
+        $conexion = null;
+        return $rol_existe;
+    }
 
     public function obtener_por_id($id)
     {

@@ -37,6 +37,29 @@ class RepositorioPermiso
         return $permiso;
     }
 
+    public function permisos_todos()
+    {
+        $permisos = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT * FROM permiso";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $permisos[] = new Permiso($r['id'], $r['nombre'],$r['admin']);
+                    }
+                }
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioPermiso->permisos_todos " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $permisos;
+    }
+
     public function permisos_id_usuario($usuario_id)
     {
         $permisos = array();
