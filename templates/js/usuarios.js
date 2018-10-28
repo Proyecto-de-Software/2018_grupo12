@@ -246,6 +246,8 @@ function bloquearUsuario(){
         document.getElementsByClassName("page-item active")[0].children[0].onclick();
       }else if (respuesta.estado == "auto_bloqueo") {
         mostrarAlerta("No puedes bloquearte a ti mismo","error");
+      }else if (respuesta.estado == "un_solo_admin") {
+        mostrarAlerta("Queda un unico administrador, no puedes bloquearlo","error");
       }else {
         mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
       }
@@ -277,6 +279,8 @@ function activarUsuario(){
       if (respuesta.estado == "activado") {
         mostrarAlerta("Usuario activado correctamente","success");
         document.getElementsByClassName("page-item active")[0].children[0].onclick();
+      }else if (respuesta.estado == "auto_activacion") {
+        mostrarAlerta("No puedes activarte a ti mismo","error");
       }else {
         mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
       }

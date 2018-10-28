@@ -26,7 +26,8 @@ class PacientesController {
 
       $id = $_SESSION["id"];
       $limite = RepositorioConfiguracion::getInstance()->getLimite();
-      $pacientes = $repoPaciente->obtener_todos_limite_pagina($limite,1);
+      $resultado = $repoPaciente->obtener_todos_limite_pagina($limite,1);
+      $pacientes = $resultado["pacientes"];
 
       foreach ($pacientes as $paciente) {
         $idObraSocial = $paciente->getObra_social_id();

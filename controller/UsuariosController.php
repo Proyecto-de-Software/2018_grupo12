@@ -61,7 +61,8 @@ class UsuariosController {
 
       $id = $_SESSION["id"];
       $limite = RepositorioConfiguracion::getInstance()->getLimite();
-      $usuarios = $repoUsuario->obtener_todos_limite_pagina($limite,1);
+      $resultado = $repoUsuario->obtener_todos_limite_pagina($limite,1);
+      $usuarios = $resultado["usuarios"];
 
       foreach ($usuarios as $usuario) {
         $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
@@ -133,11 +134,14 @@ class UsuariosController {
   public function bloquearUsuario(){
     try {
       $repoUsuario = RepositorioUsuario::getInstance();
+      $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
 
       $id = $_POST["id"];
 
       if ($id == $_SESSION["id"]) {
         TwigView::jsonEncode(array('estado' => "auto_bloqueo"));
+      }elseif ($repoUsuarioTieneRol->usuario_es_admin($id) && ($repoUsuarioTieneRol->usuarios_activos_admin() == 1)) {
+        TwigView::jsonEncode(array('estado' => "un_solo_admin"));
       }else {
         if ($repoUsuario->bloquear_activar($id,0)) {
           TwigView::jsonEncode(array('estado' => "bloqueado"));
@@ -156,10 +160,14 @@ class UsuariosController {
 
       $id = $_POST["id"];
 
-      if ($repoUsuario->bloquear_activar($id,1)) {
-        TwigView::jsonEncode(array('estado' => "activado"));
+      if ($id == $_SESSION["id"]) {
+        TwigView::jsonEncode(array('estado' => "auto_activacion"));
       }else {
-        TwigView::jsonEncode(array('estado' => "error"));
+        if ($repoUsuario->bloquear_activar($id,1)) {
+          TwigView::jsonEncode(array('estado' => "activado"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error"));
+        }
       }
     } catch (\Exception $e) {
       TwigView::jsonEncode(array('estado' => "error"));
@@ -315,11 +323,20 @@ class UsuariosController {
       $idRol = $_POST["idRol"];
 
       $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
+      $repoRol = RepositorioRol::getInstance();
+      $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
 
-      if ($repoUsuarioTieneRol->eliminarRelacion($id, $idRol)) {
-        TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Rol quitado correctamente"));
+      $rol = $repoRol->obtener_por_id($idRol);
+      $activo = RepositorioUsuario::getInstance()->obtener_usuario_por_id($id)->getActivo();
+
+      if ($activo && ($rol->getNombre() == "Administrador") && ($repoUsuarioTieneRol->usuarios_activos_admin() == 1)) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Queda un unico administrador, no puedes quitarle el rol"));
       }else {
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+        if ($repoUsuarioTieneRol->eliminarRelacion($id, $idRol)) {
+          TwigView::jsonEncode(array('estado' => "success", 'mensaje' => "Rol quitado correctamente"));
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No se pudo realizar la operacion vuelva a intentar mas tarde"));
+        }
       }
     } catch (\Exception $e) {
       TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No se pudo realizar la operacion vuelva a intentar mas tarde"));
