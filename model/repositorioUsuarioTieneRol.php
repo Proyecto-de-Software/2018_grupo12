@@ -105,4 +105,46 @@ class RepositorioUsuarioTieneRol
         $conexion = null;
         return $roles;
     }
+    public function usuarios_activos_admin(){
+        $cant=null;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT COUNT(*) as total 
+                    FROM usuario_tiene_rol ut INNER JOIN usuario u ON(ut.usuario_id=u.id)
+                                              INNER JOIN rol r ON(ut.rol_id=r.id)
+                    WHERE u.activo=1 AND r.nombre='administrador' AND ut.eliminado=0";
+                    $sentencia =$conexion->prepare($sql);
+                    $sentencia->execute();
+                    $resultado = $sentencia->fetch();
+                    $cant = $resultado['total'];
+            }catch(PDOException $ex){
+                 throw new Exception("error usuario_activos_admin ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $cant;
+    }
+    public function usuario_es_admin($id){
+        $es=false;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT * FROM
+                      usuario_tiene_rol ut INNER JOIN rol r ON(ut.rol_id=r.id)
+                      WHERE ut.eliminado=0 AND r.nombre='administrador' AND ut.usuario_id=:id";
+                $sentencia=$conexion->prepare($sql);
+                $sentencia->bindParam(":id",$id);
+                $sentencia->execute();
+                $re=$sentencia->fetchAll();
+                if(count($re)){
+                    $es=true;
+                }      
+            }catch(PDOException $ex){
+                throw new Exception("error consulta usuario es admin ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $es;
+    }
 }
