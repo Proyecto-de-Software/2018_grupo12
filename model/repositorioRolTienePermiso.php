@@ -70,20 +70,24 @@ class RepositorioRolTienePermiso
         if ($conexion !== null) {
             try {
                 $sql = "SELECT r.nombre as nom,r.id as rid, p.id as idp,p.nombre as nom2,p.admin as adm
-                FROM rol_tiene_permiso ro INNER JOIN rol r ON (r.id=ro.rol_id)
-                                          INNER JOIN permiso p ON(ro.permiso_id=p.id)
+                FROM rol r LEFT JOIN rol_tiene_permiso ro ON (r.id=ro.rol_id)
+                                          LEFT JOIN permiso p ON(ro.permiso_id=p.id)
                 WHERE r.id=:rol_id";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":rol_id", $rol_id);
                 $sentencia->execute();
                 $re = $sentencia->fetchAll();
-                $r = $re[1];
+                if(count($re)){
+                $r = $re[0];
                 $resultado["nombre"] = $r["nom"];
                 $resultado["id"] = $r['rid'];
                 foreach ($re as $r) {
+                    if(isset($r['nom2'])){
                     $permisos[] = array("nombre" => $r["nom2"], "id" => $r["idp"]);
+                    }
                 }
                 $resultado["permisos"] = $permisos;
+            }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta repositorioRolTienePermiso->info_rol " . $ex->getMessage());
             }
