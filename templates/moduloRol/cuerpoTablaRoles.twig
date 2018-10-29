@@ -1,6 +1,6 @@
 {% for rol in roles %}
   <tr>
-    <td class="textcenter">{{ rol.getNombre |capitalize }}</td>
+    <td class="textcenter">{{ rol.getNombre }}</td>
     <td id="{{rol.getId}}" class="textend">
       {% for permiso in permisos %}
         {% include "moduloRol/boton_#{permiso}.twig" ignore missing %}

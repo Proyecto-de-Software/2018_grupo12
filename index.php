@@ -259,6 +259,61 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'altaRol':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_new")) {
+          RolesController::getInstance()->agregarRol();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'infoRol':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_update")) {
+          RolesController::getInstance()->informacionRol();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'quitarPermisoAlRol':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_update")) {
+          RolesController::getInstance()->quitarPermisoAlRol();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'agregarPermisos':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_update")) {
+          RolesController::getInstance()->agregarPermisos();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'modificarRol':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("rol_update")) {
+          RolesController::getInstance()->modificarNombreRol();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }

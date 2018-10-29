@@ -1,7 +1,7 @@
 <div class="tab-pane fade" id="contenidoModificarRol" role="tabpanel" aria-labelledby="tabModificarRol">
   <div class="row justify-content-center mt-5">
     <div class="col-10">
-      <form onsubmit="return false">
+      <form id="formularioModificarRol" onsubmit="return false">
         <div class="form-inline justify-content-center">
           <div class="form-group">
             <label for="m_nombre" class="mr-2">Nombre: </label>
@@ -14,37 +14,28 @@
         <div class="form-row mt-4">
           <div class="form-group">
             <label for="m_nombre" class="sr-only">Filtrar opciones </label>
-            <input type="text" class="form-control" id="filtroOpciones" name="nombre" placeholder="Filtrar opciones" required>
+            <input type="text" class="form-control" id="filtroOpciones" name="nombre" placeholder="Filtrar opciones" autocomplete="off">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col">
-            <label for="m_permiso">Agregar permiso</label>
-            <select multiple class="form-control" id="m_permiso" name="permiso">
-              {% for permiso in permisosParaRol %}
-                <option value="{{permiso.getid}}">{{ permiso.getnombre | capitalize }}</option>
+            <label for="m_permiso">Agregar permisos</label>
+            <select multiple class="form-control" id="m_permiso" name="permiso" size="10">
+              {% for permiso in todos_los_permisos %}
+                <option value="{{permiso.getid}}">{{ permiso.getnombre }}</option>
               {% endfor %}
             </select>
           </div>
         </div>
         <div class="form-row justify-content-center">
-          <button type="submit" class="btn btn-primary mb-2 ml-2" id="btnAgregarPermiso">Agregar permiso</button>
+          <button type="submit" class="btn btn-primary mb-2 ml-2" id="btnAgregarPermiso">Agregar permisos</button>
         </div>
       </form>
       <div class="mt-2">
         <h5 class="textcenter" id="m_tituloRol"></h5>
         <hr>
         <div class="px-5" id="m_permisosDelRol">
-          {% for permiso in permisosDelRol %}
-            <div class="mb-2">
-              {{ permiso.getnombre | capitalize }}
-              <button type="button" class="close" name="btnQuitarRol" aria-label="Boton para quitar permiso {{ permiso.getnombre | capitalize }}" id="{{ permiso.getId }}">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          {% else %}
-            <div class="textcenter">No tiene</div>
-          {% endfor %}
+
         </div>
       </div>
     </div>
