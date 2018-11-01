@@ -16,7 +16,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <nav class="barraNavegacion">
           {% block panel_izquierdo %}
-          <p class="mb-lg-0 ml-lg-4"> {{tituloPag}}</p>
+          <p class="mb-0 ml-lg-4"> {{tituloPag}}</p>
+          <ul class="navbar-nav ml-lg-3">
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=buscardorInstituciones">Buscar institucion</a>
+            </li>
+          </ul>
           {% endblock %}
 
           {% block panel_central %}

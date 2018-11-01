@@ -11,7 +11,10 @@ array('username' => $username,
 {% block panel_izquierdo %}
 <ul class="navbar-nav ml-lg-5">
   <li class="nav-item">
-    <a class="nav-link" href="index.php?action=home">Inicio <span class="sr-only">(current)</span></a>
+    <a class="nav-link" href="index.php?action=home">Inicio</a>
+  </li>
+  <li>
+    <a class="nav-link" href="index.php?action=buscardorInstituciones">Buscar institucion</a>
   </li>
   {% for modulo in modulos %}
     {% include "modulosBarraNavegacion/#{modulo}.twig" %}

@@ -314,6 +314,9 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'buscardorInstituciones':
+      BuscadorInstitucionesController::getInstance()->mostrarBuscadorInstituciones();
+      break;
     default:
       InicioController::getInstance()->mostrarInicio();
   }

@@ -438,6 +438,7 @@ if ($("#contenidoModificarRol")[0]) {
     setTimeout(function() {
       $('#formularioModificarRol').trigger("reset");
       $("#m_permisosDelRol").html("");
+      $("#m_permiso option").css( "display", "block" );
       $('#btnModificarRol')[0].onclick = "";
       $("#btnModificarRol")[0].rol = "";
     }, 250);
@@ -451,6 +452,7 @@ if ($("#contenidoModificarRol")[0]) {
     setTimeout(function() {
       $('#formularioModificarRol').trigger("reset");
       $("#m_permisosDelRol").html("");
+      $("#m_permiso option").css( "display", "block" );
       $('#btnModificarRol')[0].onclick = "";
       $("#btnModificarRol")[0].rol = "";
     }, 250);

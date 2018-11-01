@@ -1,0 +1,78 @@
+{% extends pagina %}
+
+{% block titulo %}
+  Buscar Institucion
+{% endblock %}
+
+{% block cuerpo %}
+  <div class="" id="partidos_y_region">
+    <select class="" v-on:change="cargarRegionSanitaria" id="partidos">
+      <option disabled="disabled" value="" selected>Seleccionar...</option>
+      <option v-for="partido in partidos" v-bind:value="partido.id">${ partido.nombre }</option>
+    </select>
+    <input type="text" v-bind:value="nombreRegionSanitaria" class="form-control" readonly>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Institución</th>
+            <th scope="col">Director/a</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Telefono</th>
+          </tr>
+        </thead>
+        <tbody id="cuerpoTablaRoles">
+          <tr v-if="instituciones" vue-for="institucion in instituciones">
+            <td class="textcenter">${institucion.id}</td>
+            <td class="textcenter">${institucion.nombre}</td>
+            <td class="textcenter">${institucion.director}</td>
+            <td class="textcenter"></td>
+            <td class="textcenter">${institucion.telefono}</td>
+          </tr>
+          <tr v-else>
+            <tr><td colspan="5" align="center">No hay instituciones para mostrar</td></tr>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="templates/js/vue.js"></script>
+  <script src="templates/js/axios.min.js"></script>
+  <script>
+    var partidos = new Vue({
+      delimiters: ['${', '}'],
+      el: '#partidos_y_region',
+      data: {
+        partidos: [],
+        nombreRegionSanitaria: '',
+        instituciones: ['asd','asd']
+      },
+      created() {
+        axios.get('https://api-referencias.proyecto2018.linti.unlp.edu.ar/partido')
+        .then(response => {
+          this.partidos = response.data
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
+      },
+      methods: {
+        cargarRegionSanitaria: function () {
+          var idPartido = $("#partidos").val();
+          var regId = this.partidos.find(partido => partido.id === idPartido).region_sanitaria_id
+          axios.get('https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + regId)
+          .then(response => {
+            this.nombreRegionSanitaria = response.data.nombre;
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
+        }
+      }
+    })
+  </script>
+{% endblock %}
