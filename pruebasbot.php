@@ -7,7 +7,7 @@ $id_del_chat = $response['message']['chat']['id'];
 
  
 // Obtener comando (y sus posibles parametros)
-$regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i';
+$regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i:';
 
 
 $tmp = preg_match($regExp, $response['message']['text'], $aResults);
