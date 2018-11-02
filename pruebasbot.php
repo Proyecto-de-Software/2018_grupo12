@@ -32,7 +32,7 @@ $msg['reply_markup'] = null;
 switch ($cmd) {
     case '/start':
         $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . PHP_EOL;
-        $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, praa conocer los comandos validos envia /help';
+        $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, para conocer los comandos validos envía /help';
         $msg['reply_to_message_id'] = null;
         break;
  
@@ -50,13 +50,18 @@ switch ($cmd) {
     $array = json_decode($json,true);
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
     foreach($array as $a){
-        $msg['text']  = 'Institucion: '.$a['nombre'].' Direccion: '.$a['direccion'].' Telefono'. $a['telefono']. PHP_EOL;
+        $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono']. PHP_EOL;
     }
      break;
  
-    case '/instituciones-region-sanitaria:{region-sanitaria}':
-        $msg['text']  = json_encode($response);
-        break;
+    case '/instituciones-region-sanitaria:':
+    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.$cmd_params;
+    $json = file_get_contents($url);
+    $array = json_decode($json,true);
+    $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
+    foreach($array as $a){
+        $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono']. PHP_EOL;
+    }
  
     default:
         $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $cmd . '] no es un comando válido.' . PHP_EOL;
