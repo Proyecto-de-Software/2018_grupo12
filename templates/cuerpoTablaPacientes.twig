@@ -18,7 +18,7 @@ array('pacientes' => array( Paciente ),
         {% include "moduloPaciente/boton_#{permiso}.twig" ignore missing %}
       {% endfor %}
     </td>
-  </tr> 
+  </tr>
   {% else %}
-    <td colspan="7" class="textcenter" >No hay pacientes para mostrar</td>
+    <tr><td colspan="7" class="textcenter" >No hay pacientes para mostrar</td></tr>
 {% endfor %}

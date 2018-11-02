@@ -189,6 +189,9 @@ class PacientesController {
     }elseif ($fechaIngresada > $date) {
       TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "La fecha tiene que ser menor a la actual"));
       return false;
+    }elseif($nroTel_cel && !preg_match("/^[0-9 +]+$/",$nroTel_cel)){
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "numero de telefono/celular incorrecto"));
+      return false;
     }elseif (($pac = $repoPaciente->existe_doc($tipoDoc, $nroDoc)) && ((!$id) || $pac->getId() != $id)) {
       TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "El numero de documento ya existe"));
       return false;

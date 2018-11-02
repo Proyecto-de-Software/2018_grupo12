@@ -359,7 +359,7 @@ class RepositorioPaciente
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "SELECT * FROM paciente WHERE nro_historia_clinica =:nro";
+                $sql = "SELECT * FROM paciente WHERE nro_historia_clinica =:nro AND borrado = 0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nro", $nro);
                 $sentencia->execute();
