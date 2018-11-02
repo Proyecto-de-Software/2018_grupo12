@@ -381,18 +381,18 @@ INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (10,"Chivilco
 INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (11,"Ensenada",11);
 INSERT INTO `partido` (`id`,`nombre`,`region_sanitaria_id`) VALUES (12,"La Matanza",12);
 
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (1,"Bahía Blanca",1);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (2,"Pehuajó",2);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (3,"Junín",3);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (4,"Pergamino",4);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (5,"General San Martín",5);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (6,"Lomas de Zamora",6);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (7,"General Rodríguez",7);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (8,"Mar de Plata",8);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (9,"Azul",9);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (10,"Chivilcoy",10);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (11,"Ensenada",11);
-INSERT INTO `localidad` (`id`,`nombre`,`partido_id`) VALUES (12,"La Matanza",12);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (1,"Bahía Blanca","-38.737580,-62.261030",1);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (2,"Pehuajó","-35.824986,-61.894783",2);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (3,"Junín","-34.592618,-60.950547",3);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (4,"Pergamino","-33.895489,-60.577274",4);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (5,"General San Martín","-34.580379,-58.538680",5);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (6,"Lomas de Zamora","-34.763051,-58.433061",6);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (7,"General Rodríguez","-34.616907,-58.940653",7);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (8,"Mar de Plata","-38.028766,-57.604634",8);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (9,"Azul","-36.779428,-59.854858",9);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (10,"Chivilcoy","-34.891956,-60.037713",10);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (11,"Ensenada","-34.843834,-57.941167",11);
+INSERT INTO `localidad` (`id`,`nombre`,`coordenadas`,`partido_id`) VALUES (12,"La Matanza","-34.773338,-58.644947",12);
 
 
 INSERT INTO `motivo_consulta` (`id`, `nombre`) VALUES (1, 'Receta Médica');
