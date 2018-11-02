@@ -7,7 +7,7 @@ $id_del_chat = $response['message']['chat']['id'];
 
  
 // Obtener comando (y sus posibles parametros)
-$regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i:';
+$regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i';
 
 
 $tmp = preg_match($regExp, $response['message']['text'], $aResults);
@@ -54,8 +54,8 @@ switch ($cmd) {
     }
      break;
  
-    case '/instituciones-region-sanitaria:':
-    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.$cmd_params;
+    case '/instituciones-region-sanitaria':
+    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/1';
     $json = file_get_contents($url);
     $array = json_decode($json,true);
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
