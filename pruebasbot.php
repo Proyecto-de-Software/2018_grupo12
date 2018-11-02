@@ -9,7 +9,7 @@ $id_del_chat = $response['message']['chat']['id'];
 // Obtener comando (y sus posibles parametros)
 
 
-$tmp = $response['message']['text']);
+$tmp = $response['message']['text'];
 
  
 // Mensaje de respuesta
