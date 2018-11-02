@@ -3,11 +3,13 @@
 class Localidad{
     private $id;
     private $nombre;
+    private $coordenadas;
     private $partido_id;
 
-    public function __construct($id,$nombre,$partido_id){
+    public function __construct($id,$nombre,$coordenadas,$partido_id){
         $this -> id =$id;
         $this -> nombre=$nombre;
+        $this -> coordenadas=$coordenadas;
         $this -> partido_id=$partido_id;
     }
 
@@ -67,6 +69,26 @@ class Localidad{
     public function setPartido_id($partido_id)
     {
         $this->partido_id = $partido_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of coordenadas
+     */ 
+    public function getCoordenadas()
+    {
+        return $this->coordenadas;
+    }
+
+    /**
+     * Set the value of coordenadas
+     *
+     * @return  self
+     */ 
+    public function setCoordenadas($coordenadas)
+    {
+        $this->coordenadas = $coordenadas;
 
         return $this;
     }

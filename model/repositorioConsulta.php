@@ -100,7 +100,7 @@ class RepositorioConsulta
                 if(!empty($re)){
                     $consulta=new Consulta($re['id'],$re['paciente_id'],$re['fecha'],$re['motivo_id'],$re['derivacion_id'],
                     $re['articulacion_con_instituciones'],$re['internacion'],$re['diagnostico'],$re['observaciones'],$re['tratamiento_farmacologico_id'],
-                    $re['acompanamiento_id']);
+                    $re['acompanamiento_id'],$re['borrado']);
                 }
             }catch(PDOException $ex){
                 throw new Exception("erro consulta repositorioConsutla->obtener_por_id ".$ex->getMessage());
@@ -121,7 +121,7 @@ class RepositorioConsulta
                                 LEFT JOIN institucion i ON (c.derivacion_id=i.id)
                                 LEFT JOIN tratamiento_farmacologico tf ON(c.tratamiento_farmacologico_id=tf.id)
                                 LEFT JOIN acompanamiento a ON(c.acompanamiento_id=a.id)
-                WHERE c.id=:id";
+                WHERE c.id=:id AND c.borrado=0";
                 $sentencia=$conexion->prepare($sql);
                 $sentencia->bindParam(":id",$id);
                 $sentencia->execute();

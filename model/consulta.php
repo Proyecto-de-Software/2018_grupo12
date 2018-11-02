@@ -12,9 +12,10 @@ class Consulta{
     private $observaciones;
     private $tratamiento_farmacologico_id;
     private $acompanamiento_id;
+    private $borrado;
 
     public function __construct($id,$paciente_id,$fecha,$motivo_id,$derivacion_id,$articulacion_con_instituciones,
-    $internacion,$diagnostico,$observaciones,$tratamiento_farmacologico_id,$acompanamiento_id){
+    $internacion,$diagnostico,$observaciones,$tratamiento_farmacologico_id,$acompanamiento_id,$borrado){
         $this -> id=$id;
         $this-> paciente_id=$paciente_id;
         $this -> fecha=$fecha;
@@ -26,6 +27,7 @@ class Consulta{
         $this -> observaciones =$observaciones;
         $this -> tratamiento_farmacologico_id=$tratamiento_farmacologico_id;
         $this -> acompanamiento_id=$acompanamiento_id;
+        $this -> borrado=$borrado;
     }
 
     /**
@@ -244,6 +246,26 @@ class Consulta{
     public function setAcompanamiento_id($acompanamiento_id)
     {
         $this->acompanamiento_id = $acompanamiento_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of borrado
+     */ 
+    public function getBorrado()
+    {
+        return $this->borrado;
+    }
+
+    /**
+     * Set the value of borrado
+     *
+     * @return  self
+     */ 
+    public function setBorrado($borrado)
+    {
+        $this->borrado = $borrado;
 
         return $this;
     }

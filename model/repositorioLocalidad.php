@@ -28,7 +28,7 @@ class RepositorioLocalidad
                 $sentencia->execute();
                 $r = $sentencia->fetch();
                 if (!empty($r)) {
-                    $Localidad = new Localidad($r["id"], $r["nombre"], $r["partido_id"]);
+                    $Localidad = new Localidad($r["id"], $r["nombre"],$r['coordenadas'], $r["partido_id"]);
                 }
             } catch (PDOException $ex) {
                 throw new Exception("error consulta repositorioLocalidad::obtener_por_id " . $ex->getMessage());
@@ -49,7 +49,7 @@ class RepositorioLocalidad
                 $re=$sentencia ->fetchAll();
                 if(count($re)){
                     foreach($re as $r){
-                        $todos[]= new Localidad($r['id'],$r['nombre'],$r['partido_id']);
+                        $todos[]= new Localidad($r['id'],$r['nombre'],$r['coordenadas'],$r['partido_id']);
                     }
                 }
             }catch(PDOException $ex){

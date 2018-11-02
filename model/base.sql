@@ -106,6 +106,7 @@ CREATE TABLE `institucion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `director` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `direccion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `telefono` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `region_sanitaria_id` int(11) NOT NULL,
   `tipo_institucion_id` int(11) NOT NULL,
