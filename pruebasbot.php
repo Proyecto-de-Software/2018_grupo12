@@ -31,24 +31,30 @@ $msg['reply_markup'] = null;
 // Comandos
 switch ($cmd) {
     case '/start':
-        $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . " Usuario: " . $response['message']['from']['username'] . '!' . PHP_EOL;
-        $msg['text'] .= '¿Como puedo ayudarte? Puedes ver una lista de las opciones disponibles con el comando /help';
+        $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . PHP_EOL;
+        $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, praa conocer los comandos validos envia /help';
         $msg['reply_to_message_id'] = null;
         break;
  
     case '/help':
         $msg['text']  = 'Los comandos disponibles son estos:' . PHP_EOL;
         $msg['text'] .= '/start Inicializa el bot' . PHP_EOL;
-        $msg['text'] .= '/menú Muestra el menú del día' . PHP_EOL;
-        $msg['text'] .= '/help Muestra esta ayuda media flaca';
+        $msg['text'] .= '/instituciones Muestra lista de instituciones con su informacion' . PHP_EOL;
+        $msg['text'] .= '/instituciones-region-sanitaria:region-sanitaria Lista de instituciones para es region sanitaria';
         $msg['reply_to_message_id'] = null;
         break;
  
-    case '/menú':
-        $msg['text']  = 'El menú del día es ensalada tropical';
-        break;
+    case '/instituciones':
+    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones';
+    $json = file_get_contents($url);
+    $array = json_decode($json,true);
+    $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
+    foreach($array as $a){
+        $msg['text']  = 'Institucion: '.$a['nombre'].' Direccion: '.$a['direccion'].' Telefono'. $a['telefono']. PHP_EOL;
+    }
+     break;
  
-    case '/info':
+    case '/instituciones-region-sanitaria:{region-sanitaria}':
         $msg['text']  = json_encode($response);
         break;
  
