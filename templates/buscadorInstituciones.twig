@@ -5,36 +5,57 @@
 {% endblock %}
 
 {% block cuerpo %}
-  <div class="" id="partidos_y_region">
-    <select class="" v-on:change="cargarRegionSanitaria" id="partidos">
-      <option disabled="disabled" value="" selected>Seleccionar...</option>
-      <option v-for="partido in partidos" v-bind:value="partido.id">${ partido.nombre }</option>
-    </select>
-    <input type="text" v-bind:value="nombreRegionSanitaria" class="form-control" readonly>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Institución</th>
-            <th scope="col">Director/a</th>
-            <th scope="col">Direccion</th>
-            <th scope="col">Telefono</th>
-          </tr>
-        </thead>
-        <tbody id="cuerpoTablaRoles">
-          <tr v-if="instituciones" vue-for="institucion in instituciones">
-            <td class="textcenter">${institucion.id}</td>
-            <td class="textcenter">${institucion.nombre}</td>
-            <td class="textcenter">${institucion.director}</td>
-            <td class="textcenter"></td>
-            <td class="textcenter">${institucion.telefono}</td>
-          </tr>
-          <tr v-else>
-            <tr><td colspan="5" align="center">No hay instituciones para mostrar</td></tr>
-          </tr>
-        </tbody>
-      </table>
+  <div class="container" id="main">
+    <div class="row mt-3">
+      <div class="col textcenter">
+        <h1>Buscador de instituciones</h1>
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col">
+        <div class="form-row align-items-center mt-2">
+          <div class="col-md-auto mb-2">
+            <label class="" for="partidos">Partidos: </label>
+          </div>
+          <div class="col-md-auto mb-2">
+            <select class="custom-select mr-sm-2" v-on:change="cargarRegionSanitaria" id="partidos">
+              <option disabled="disabled" value="" selected>Seleccionar...</option>
+              <option v-for="partido in partidos" v-bind:value="partido.id">${ partido.nombre }</option>
+            </select>
+          </div>
+          <div class="col-md-auto mb-2">
+            <label class="mr-sm-2" for="regionSanitaria">Region Sanitaria:</label>
+          </div>
+          <div class="col-md-auto">
+            <input id="regionSanitaria" type="text" class="form-control mb-2" v-bind:value="nombreRegionSanitaria" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col" class="textcenter">#</th>
+                <th scope="col" class="textcenter">Institución</th>
+                <th scope="col" class="textcenter">Director/a</th>
+                <th scope="col" class="textcenter">Direccion</th>
+                <th scope="col" class="textcenter">Telefono</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTablaRoles">
+              <tr v-for="insti in instituciones">
+                <td class="textcenter">${insti.id}</td>
+                <td class="textcenter">${insti.nombre}</td>
+                <td class="textcenter">${insti.director}</td>
+                <td class="textcenter">${insti.direccion}</td>
+                <td class="textcenter">${insti.telefono}</td>
+              </tr>
+              <tr v-if="instituciones.length == 0">
+                <td colspan="5" class="textcenter">No hay instituciones para mostrar</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
@@ -45,11 +66,11 @@
   <script>
     var partidos = new Vue({
       delimiters: ['${', '}'],
-      el: '#partidos_y_region',
+      el: '#main',
       data: {
         partidos: [],
         nombreRegionSanitaria: '',
-        instituciones: ['asd','asd']
+        instituciones: []
       },
       created() {
         axios.get('https://api-referencias.proyecto2018.linti.unlp.edu.ar/partido')
@@ -70,7 +91,14 @@
           })
           .catch(e => {
             this.errors.push(e)
+          });
+          axios.get('https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/' + regId)
+          .then(response => {
+            this.instituciones = response.data;
           })
+          .catch(e => {
+            this.errors.push(e)
+          });
         }
       }
     })
