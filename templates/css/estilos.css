@@ -1,3 +1,11 @@
+html {
+  min-height: 96.70%;
+  position: relative;
+}
+body {
+  margin: 0;
+  margin-bottom: 40px !important;
+}
 .contentsclass{
   display: contents;
 }
@@ -38,6 +46,10 @@
 
 .pieDePagina{
   line-height: 3.75em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
 }
 
 .barraNavegacion{
