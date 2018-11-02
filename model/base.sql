@@ -96,30 +96,6 @@ CREATE TABLE `tipo_institucion` (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
--- --------------------------------------------------------
---
--- Estructura de tabla para la tabla `institucion`
---
-
-CREATE TABLE `institucion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `director` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `direccion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `telefono` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `region_sanitaria_id` int(11) NOT NULL,
-  `tipo_institucion_id` int(11) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT FK_institucion_region_sanitaria_id FOREIGN KEY (region_sanitaria_id) REFERENCES region_sanitaria(id),
-  CONSTRAINT FK_tipo_institucion_id FOREIGN KEY (tipo_institucion_id) REFERENCES tipo_institucion(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
---
--- Estructura de tabla para la tabla `partido`
---
-
 CREATE TABLE `partido` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -136,10 +112,37 @@ CREATE TABLE `partido` (
 CREATE TABLE `localidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `coordenadas` varchar(255) NOT NULL,
   `partido_id` int(11) NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_localidad_partido_id FOREIGN KEY (partido_id) REFERENCES partido(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `institucion`
+--
+
+CREATE TABLE `institucion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `director` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `direccion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `telefono` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `localidad_id` int(11) NOT NULL,
+  `tipo_institucion_id` int(11) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT FK_institucion_localidad_id FOREIGN KEY (localidad_id) REFERENCES localidad(id),
+  CONSTRAINT FK_tipo_institucion_id FOREIGN KEY (tipo_institucion_id) REFERENCES tipo_institucion(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `partido`
+--
+
+
 
 -- --------------------------------------------------------
 --
@@ -204,6 +207,7 @@ CREATE TABLE `consulta` (
   `observaciones` varchar(255) DEFAULT NULL,
   `tratamiento_farmacologico_id` int(11) NULL,
   `acompanamiento_id` int(11) NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   CONSTRAINT FK_paciente_id FOREIGN KEY (paciente_id) REFERENCES paciente(id),
   CONSTRAINT FK_motivo_id FOREIGN KEY (motivo_id) REFERENCES motivo_consulta(id),
