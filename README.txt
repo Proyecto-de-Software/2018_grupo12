@@ -24,3 +24,5 @@ Usuario para ingresar al sismtema:
 + Algunas claves foraneas en la tabla "paciente" fueron cambiadas para que puedan tener el valor null: esto es para poder permitir la carga de pacientes "NN".
 
 
+ 
+link api intituciones:https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones
