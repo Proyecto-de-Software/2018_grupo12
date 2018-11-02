@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 include_once "../vendor/autoload.php";
 include_once "repositorio.php";
 
