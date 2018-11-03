@@ -62,7 +62,7 @@ switch ($result[0]) {
       break;
     default:
         $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $result[0] . '] no es un comando válido.' . PHP_EOL;
-        $msg['text'] .= 'Prueba /help para ver la lista de comandos disponibles';
+        $msg['text'] .= 'Prueba /ayuda para ver la lista de comandos disponibles';
         break;
 }
 
