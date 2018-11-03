@@ -21,11 +21,11 @@ $msg['reply_markup'] = null;
 switch ($result[0]) {
     case '/start':
         $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . PHP_EOL;
-        $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, para conocer los comandos validos envía /help';
+        $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, para conocer los comandos validos envía /ayuda';
         $msg['reply_to_message_id'] = null;
         break;
  
-    case '/help':
+    case '/ayuda':
         $msg['text']  = 'Los comandos disponibles son estos:' . PHP_EOL;
         $msg['text'] .= '/start Inicializa el bot' . PHP_EOL;
         $msg['text'] .= '/instituciones Muestra lista de instituciones con su informacion' . PHP_EOL;

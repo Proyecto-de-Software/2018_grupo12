@@ -19,7 +19,7 @@ $app->get('/instituciones/{id}', function ($request, $response, $args) {
 });
 
 $app->get('/instituciones/region-sanitaria/{region-sanitaria}', function ($request, $response, $args) {
-	return $response->withJson(Repositorio::getInstance()->region_id($args['region-sanitaria']), 200);
+	return $response->withJson(Repositorio::getInstance()->region_nombre($args['region-sanitaria']), 200);
 });
 
 $app->run();

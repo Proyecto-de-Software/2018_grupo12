@@ -48,7 +48,7 @@ class Repositorio
             }
         }
     }
-    public function region_id($id)
+    public function region_nombre($nombre)
     {
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -58,9 +58,9 @@ class Repositorio
                                        INNER JOIN partido p ON (l.partido_id=p.id)
                                        INNER JOIN region_sanitaria r ON (p.region_sanitaria_id=r.id)
                                    INNER JOIN tipo_institucion t ON(i.tipo_institucion_id=t.id)
-                                   WHERE r.id=:id";
+                                   WHERE r.nombre=:nombre";
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
+                $sentencia->bindParam(":nombre", $nombre);
                 $sentencia->execute();
                 return $sentencia->FetchAll(PDO::FETCH_OBJ);
             } catch (PDOException $ex) {
