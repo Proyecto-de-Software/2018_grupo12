@@ -54,7 +54,7 @@ switch ($cmd) {
      break;
  
     case '/instituciones-region-sanitaria':
-    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/1';
+    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.$cmd_params;
     $json = file_get_contents($url);
     $array = json_decode($json,true);
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
