@@ -10,15 +10,8 @@ $id_del_chat = $response['message']['chat']['id'];
 $regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i';
 
 
-$tmp = preg_match($regExp, $response['message']['text'], $aResults);
+$tmp = $response['message']['text'];
 
-if (isset($aResults[1])) {
-    $cmd = trim($aResults[1]);
-    $cmd_params = trim($aResults[2]);
-} else {
-    $cmd = trim($response['message']['text']);
-    $cmd_params = '';
-}
  
 // Mensaje de respuesta
 $msg = array();
@@ -29,7 +22,7 @@ $msg['reply_to_message_id'] = (int)$response['message']['message_id'];
 $msg['reply_markup'] = null;
  
 // Comandos
-switch ($cmd) {
+switch ($tmp) {
     case '/start':
         $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . PHP_EOL;
         $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, para conocer los comandos validos envía /help';
