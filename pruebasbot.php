@@ -62,7 +62,7 @@ switch ($cmd) {
     foreach($array as $a){
         $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono']. PHP_EOL;
     }
- 
+      break;
     default:
         $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $cmd . '] no es un comando válido.' . PHP_EOL;
         $msg['text'] .= 'Prueba /help para ver la lista de comandos disponibles';
