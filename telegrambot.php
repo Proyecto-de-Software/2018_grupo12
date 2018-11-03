@@ -29,7 +29,7 @@ switch ($result[0]) {
         $msg['text']  = 'Los comandos disponibles son estos:' . PHP_EOL;
         $msg['text'] .= '/start Inicializa el bot' . PHP_EOL;
         $msg['text'] .= '/instituciones Muestra lista de instituciones con su informacion' . PHP_EOL;
-        $msg['text'] .= '/instituciones-region-sanitaria:region-sanitaria Lista de instituciones para es region sanitaria';
+        $msg['text'] .= '/instituciones-region-sanitaria:region-sanitaria Lista de instituciones para esa region sanitaria';
         $msg['reply_to_message_id'] = null;
         break;
  
@@ -61,7 +61,7 @@ switch ($result[0]) {
 }
       break;
     default:
-        $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $cmd . '] no es un comando válido.' . PHP_EOL;
+        $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $result[0] . '] no es un comando válido.' . PHP_EOL;
         $msg['text'] .= 'Prueba /help para ver la lista de comandos disponibles';
         break;
 }
