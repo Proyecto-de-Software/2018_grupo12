@@ -4,20 +4,6 @@ $rawData = file_get_contents('php://input');
 $response = json_decode($rawData, true);
 $id_del_chat = $response['message']['chat']['id'];
 
- 
-// Obtener comando (y sus posibles parametros)
-$regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i';
-
-
-/*$tmp = preg_match($regExp, $response['message']['text'], $aResults);
-
-if (isset($aResults[1])) {
-    $cmd = trim($aResults[1]);
-    $cmd_params = trim($aResults[2]);
-} else {
-    $cmd = trim($response['message']['text']);
-    $cmd_params = '';
-}*/
 $result[0]=$response['message']['text'];
 if(strpos($result[0], ':') !== false){
     $result=explode(":",$response['message']['text']);
@@ -65,10 +51,14 @@ switch ($result[0]) {
     $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.$result[1];
     $json = file_get_contents($url);
     $array = json_decode($json,true);
+    if(!empty($array)){
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
     foreach($array as $a){
         $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono']. PHP_EOL;
     }
+}else{
+    $msg['text']  = 'No hay instituciones en esa region o la region no existe'. PHP_EOL;
+}
       break;
     default:
         $msg['text']  = 'Lo siento ' . $response['message']['from']['first_name'] . ', pero [' . $cmd . '] no es un comando válido.' . PHP_EOL;
@@ -76,12 +66,6 @@ switch ($result[0]) {
         break;
 }
 
-//Descomentar para ver todo lo que envía telegram
-/////////////$msg['text']= json_encode($response);
-
-
-
-//Realizamos el envío
 $url = 'https://api.telegram.org/bot638602251:AAGa0wlJbnEAqBMGPviutDkKulMxG0wHIaA/sendMessage';
 
 $options = array(
