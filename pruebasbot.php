@@ -10,8 +10,15 @@ $id_del_chat = $response['message']['chat']['id'];
 $regExp = '#^(\/[a-zA-Z0-9\/]+?)(\ .*?)$#i';
 
 
-$tmp = $response['message']['text'];
+$tmp = preg_match($regExp, $response['message']['text'], $aResults);
 
+if (isset($aResults[1])) {
+    $cmd = trim($aResults[1]);
+    $cmd_params = trim($aResults[2]);
+} else {
+    $cmd = trim($response['message']['text']);
+    $cmd_params = '';
+}
  
 // Mensaje de respuesta
 $msg = array();
@@ -22,7 +29,7 @@ $msg['reply_to_message_id'] = (int)$response['message']['message_id'];
 $msg['reply_markup'] = null;
  
 // Comandos
-switch ($tmp) {
+switch ($cmd) {
     case '/start':
         $msg['text']  = 'Hola ' . $response['message']['from']['first_name'] . PHP_EOL;
         $msg['text'] .= 'este es el bot del hospital Dr.Alejandro Korn para consultar la informacion sobre instituciones, para conocer los comandos validos envía /help';
@@ -47,7 +54,7 @@ switch ($tmp) {
     }
      break;
  
-    case '/instituciones_region_sanitaria':
+    case '/institucionesRegionSanitaria':
     $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/1';
     $json = file_get_contents($url);
     $array = json_decode($json,true);
