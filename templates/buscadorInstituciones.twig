@@ -92,7 +92,7 @@
           .catch(e => {
             this.errors.push(e)
           });
-          axios.get('https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/' + regId)
+          axios.get('https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/' + this.nombreRegionSanitaria)
           .then(response => {
             this.instituciones = response.data;
           })
