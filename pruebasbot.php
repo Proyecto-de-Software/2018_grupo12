@@ -1,8 +1,7 @@
 <?php
   
-$returnArray = true;
 $rawData = file_get_contents('php://input');
-$response = json_decode($rawData, $returnArray);
+$response = json_decode($rawData, true);
 $id_del_chat = $response['message']['chat']['id'];
 
  
@@ -54,7 +53,7 @@ switch ($cmd) {
     }
      break;
  
-    case '/institucionesRegionSanitaria':
+    case '/instituciones-region-sanitaria':
     $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/1';
     $json = file_get_contents($url);
     $array = json_decode($json,true);
