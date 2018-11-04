@@ -48,7 +48,7 @@ switch ($result[0]) {
      break;
  
     case '/instituciones-region-sanitaria':
-    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.$result[1];
+    $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.trim($result[1]);
     $json = file_get_contents($url);
     $array = json_decode($json,true);
     if(!empty($array)){
