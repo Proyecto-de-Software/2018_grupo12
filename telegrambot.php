@@ -40,7 +40,7 @@ switch ($result[0]) {
     if(!empty($array)){
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
     foreach($array as $a){
-        $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono'].'. '. PHP_EOL;
+        $msg['text']  .= "-".$a['tipo_institucion_nombre']." ".$a['nombre'].' en '.$a['direccion'].', Telefono: '. $a['telefono'].'. '. PHP_EOL;
     }
 }else{
     $msg['text']  = 'No hay instituciones'. PHP_EOL;
@@ -54,7 +54,7 @@ switch ($result[0]) {
     if(!empty($array)){
     $msg['text']  = 'Las instituciones disponibles son:'. PHP_EOL;
     foreach($array as $a){
-        $msg['text']  .= 'Institucion: '.$a['nombre'].', Direccion: '.$a['direccion'].', Telefono: '. $a['telefono'].'. '. PHP_EOL;
+        $msg['text']  .= "-".$a['tipo_institucion_nombre']." ".$a['nombre'].' en '.$a['direccion'].', Telefono: '. $a['telefono'].'. '. PHP_EOL;
     }
 }else{
     $msg['text']  = 'No hay instituciones en esa region o la region no existe'. PHP_EOL;
