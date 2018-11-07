@@ -435,8 +435,9 @@ INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 16,"permiso_index",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 17,"permiso_new",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 18,"permiso_update",1);
 INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 19,"permiso_destroy",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 20,"configuracion_index",1);
-INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 21,"configuracion_update",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 20,"reporte_index",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 21,"configuracion_index",1);
+INSERT INTO `permiso` (`id`,`nombre`,`admin`) VALUES ( 22,"configuracion_update",1);
 
 INSERT INTO `usuario` (`id`,`email`,`username`,`password`, `activo`, `first_name`,`last_name`)
 VALUES ( 1,"admin@admin.com","admin","$2y$10$7hB/B/cLnnDf0e2Bk2tnC.oUDrb1LDYd.ctTXsW6Tu0yQo5sIKA7i","1","admin","admin");
@@ -473,8 +474,8 @@ INSERT INTO `rol_tiene_permiso` VALUES(1,18);
 INSERT INTO `rol_tiene_permiso` VALUES(1,19);
 INSERT INTO `rol_tiene_permiso` VALUES(1,20);
 INSERT INTO `rol_tiene_permiso` VALUES(1,21);
+INSERT INTO `rol_tiene_permiso` VALUES(1,22);
 INSERT INTO `rol_tiene_permiso` VALUES(2,2);
 INSERT INTO `rol_tiene_permiso` VALUES(2,3);
 INSERT INTO `rol_tiene_permiso` VALUES(2,4);
 INSERT INTO `rol_tiene_permiso` VALUES(2,5);
-

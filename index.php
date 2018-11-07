@@ -314,6 +314,13 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'reportes':
+      if ($validador->sesion_modulo("reporte")){
+        ReportesController::getInstance()->redirectReportes();
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     case 'buscardorInstituciones':
       BuscadorInstitucionesController::getInstance()->mostrarBuscadorInstituciones();
       break;

@@ -1,0 +1,94 @@
+{% extends 'layoutLogueado.twig' %}
+{% block cuerpo %}
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div id="container1" class="container"></div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="templates/js/highcharts.src.js"></script>
+<script src="templates/js/exporting.js"></script>
+<script src="templates/js/export-data.js"></script>
+<script>
+var listado = [{
+    name: 'Chrome',
+    y: 61.41,
+}, {
+    name: 'Internet Explorer',
+    y: 11.84
+}, {
+    name: 'Firefox',
+    y: 10.85
+}, {
+    name: 'Edge',
+    y: 4.67
+}, {
+    name: 'Safari',
+    y: 4.18
+}, {
+    name: 'Sogou Explorer',
+    y: 1.64
+}, {
+    name: 'Opera',
+    y: 1.6
+}, {
+    name: 'QQ',
+    y: 1.2
+}, {
+    name: 'Other',
+    y: 2.61
+}]
+var chart1 = Highcharts.chart('container1', {
+
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+
+    title: {
+        text: 'Browser market shares in January, 2018'
+    },
+
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+
+    plotOptions: {
+        pie: {
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+
+    series: [{
+        name: 'Brands1',
+        size: 150,
+        colorByPoint: true,
+        data: listado
+    }]
+});
+
+//Para actualizar estadisticas!!
+chart1.update({
+        series: [{
+        name: 'Brands1',
+        size: 150,
+        colorByPoint: true,
+        data: listado
+    }],
+        title: {
+            text: 'Lsitado'
+        },
+    });
+</script>
+{% endblock %}
