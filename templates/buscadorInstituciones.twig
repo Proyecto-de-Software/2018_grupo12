@@ -88,13 +88,13 @@
           axios.get('https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + regId)
           .then(response => {
             this.nombreRegionSanitaria = response.data.nombre;
-          })
-          .catch(e => {
-            this.errors.push(e)
-          });
-          axios.get('https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/' + this.nombreRegionSanitaria)
-          .then(response => {
-            this.instituciones = response.data;
+            axios.get('https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/' + this.nombreRegionSanitaria.split(" ")[1])
+            .then(response => {
+              this.instituciones = response.data;
+            })
+            .catch(e => {
+              this.errors.push(e)
+            });
           })
           .catch(e => {
             this.errors.push(e)

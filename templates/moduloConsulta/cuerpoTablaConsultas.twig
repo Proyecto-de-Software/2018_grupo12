@@ -1,0 +1,18 @@
+{% set estado = {"0": "No", "1": "Si" } %}
+
+{% for consulta in consultas %}
+  <tr>
+    <td class="textcenter" >{{ "#{consulta.tipoDoc} #{consulta.numeroDoc}" |capitalize }}</td>
+    <td class="textcenter" >{{ consulta.historiaClinica }}</td>
+    <td class="textcenter" >{{ consulta.Fecha }}</td>
+    <td class="textcenter" >{{ consulta.motivo }}</td>
+    <td class="textcenter" >{{ estado[consulta.internacion] }}</td>
+    <td id="{{ consulta.id }}">
+      {% for permiso in permisos %}
+        {% include "moduloConsulta/boton_#{permiso}.twig" ignore missing %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% else %}
+    <tr><td colspan="6" class="textcenter" >No hay consultas para mostrar</td></tr>
+{% endfor %}
