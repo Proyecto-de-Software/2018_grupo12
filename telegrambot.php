@@ -29,7 +29,7 @@ switch ($result[0]) {
         $msg['text']  = 'Los comandos disponibles son estos:' . PHP_EOL;
         $msg['text'] .= '/start Inicializa el bot' . PHP_EOL;
         $msg['text'] .= '/instituciones Muestra lista de instituciones con su informacion' . PHP_EOL;
-        $msg['text'] .= '/instituciones-region-sanitaria:region-sanitaria Lista de instituciones para esa region sanitaria';
+        $msg['text'] .= '/instituciones_region_sanitaria:region-sanitaria Lista de instituciones para esa region sanitaria';
         $msg['reply_to_message_id'] = null;
         break;
  
@@ -47,7 +47,7 @@ switch ($result[0]) {
 }
      break;
  
-    case '/instituciones-region-sanitaria':
+    case '/instituciones_region_sanitaria':
     $url ='https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones/region-sanitaria/'.trim($result[1]);
     $json = file_get_contents($url);
     $array = json_decode($json,true);

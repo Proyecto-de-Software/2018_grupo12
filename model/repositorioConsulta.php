@@ -20,6 +20,26 @@ class RepositorioConsulta
         }
         return $variable;
     }
+    public function obtener_numero_consultas()
+    {
+        $total_consultas = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM consulta WHERE borrado=0";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_consultas = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_consultas");
+            }
+
+        }
+        $conexion = null;
+        return $total_consultas;
+    }
 
     public function insertar_consulta($paciente_id, $fecha, $motivo_id, $derivacion_id, $articulacion_con_instituciones,
         $internacion, $diagnostico, $observaciones, $tratamiento_farmacologico_id, $acompanamiento_id) {
@@ -28,9 +48,9 @@ class RepositorioConsulta
         if ($conexion !== null) {
             try {
                 $sql = "INSERT INTO consulta (paciente_id,fecha,motivo_id,derivacion_id,articulacion_con_instituciones,
-                internacion,diagnostico,observaciones,tratamiento_farmacologico_id,acompanamiento_id) VALUES
+                internacion,diagnostico,observaciones,tratamiento_farmacologico_id,acompanamiento_id,borrado) VALUES
                 (:paciente_id,:fecha,:motivo_id,:derivacion_id,:articulacion_con_institucion,
-                :internacion,:diagnostico,:observaciones,:tratamiento_farmacologico_id,:acompanamiento_id)";
+                :internacion,:diagnostico,:observaciones,:tratamiento_farmacologico_id,:acompanamiento_id,0)";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":paciente_id", $paciente_id);
                 $sentencia->bindParam(":fecha", $fecha);
@@ -63,7 +83,7 @@ class RepositorioConsulta
                 , derivacion_id=:derivacion_id, articulacion_con_instituciones=:articulacion_con_institucion,
                  internacion=:internacion, diagnostico=:diagnostico, observaciones=:observaciones, tratamiento_farmacologico_id=:tratamiento_farmacologico_id,
                  acompanamiento_id=:acompanamiento_id
-                WHERE id=:id";
+                WHERE id=:id AND borrado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
                 $sentencia->bindParam(":paciente_id", $paciente_id);
@@ -92,7 +112,7 @@ class RepositorioConsulta
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try{
-                $sql="SELECT * FROM consulta WHERE id=:id";
+                $sql="SELECT * FROM consulta WHERE id=:id AND borrado=0";
                 $sentencia=$conexion->prepare($sql);
                 $sentencia->bindParam(":id",$id);
                 $sentencia->execute();
@@ -111,16 +131,37 @@ class RepositorioConsulta
         return $consulta;
     }
     public function obtener_info_completa($id){
+        /*
+        id
+        paciente_id
+        nombre 
+        apellido
+        fecha
+        motivo
+        institucion
+        articulacion_con_institucion
+        internacion
+        diagnostico
+        observaciones
+        tratamiento_Farmacologico
+        acompanamiento
+        tipo_documento
+        documento
+        historia_clinica
+        */
         $resultado = null;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try{
-                $sql="SELECT Distinct c.id,c.paciente_id,c.fecha,m.nombre as motivo,i.nombre as institucion,c.articulacion_con_instituciones,c.internacion,
-                c.diagnostico,c.observaciones,tf.nombre as tratamiento_farmacologico,a.nombre as acompanamiento
+                $sql="SELECT Distinct c.id,c.paciente_id,p.nombre as nombre,p.apellido as apellido,c.fecha,m.nombre as motivo,i.nombre as institucion,c.articulacion_con_instituciones,c.internacion,
+                c.diagnostico,c.observaciones,tf.nombre as tratamiento_farmacologico,a.nombre as acompanamiento,td.nombre as tipo_documento,p.numero as documento,
+                p.nro_historia_clinica as historia_clinica
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 LEFT JOIN institucion i ON (c.derivacion_id=i.id)
                                 LEFT JOIN tratamiento_farmacologico tf ON(c.tratamiento_farmacologico_id=tf.id)
                                 LEFT JOIN acompanamiento a ON(c.acompanamiento_id=a.id)
+                                INNER JOIN paciente p ON(c.paciente_id=p.id)
+                                LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
                 WHERE c.id=:id AND c.borrado=0";
                 $sentencia=$conexion->prepare($sql);
                 $sentencia->bindParam(":id",$id);
@@ -133,4 +174,66 @@ class RepositorioConsulta
     $conexion=null;
     return $resultado;
 }
+    public function eliminar_consulta($id){
+        $ok=false;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="UPDATE consulta SET borrado=1 WHERE id=:id";
+                $s=$conexion->prepare($sql);
+                $s->bindParam(":id",$id);
+                $ok=$s->execute();
+            }catch(PDOException $ex){
+                throw new Exception ("error consulta eliminar_consulta ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $ok;
+    }
+    public function obtener_todos_limite_pagina($limite, $pag)
+    /*
+     tipo_documento
+     documento
+     historia_clinica
+     fecha
+     motivo
+     internacion
+     */
+    {$result = array();
+        $result['consultas'] = array();
+        $result['total_consultas'] = 0;
+        $consultas = array();
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $sql="SELECT  td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
+                c.fecha,m.nombre as motivo,c.internacion
+                FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
+                                INNER JOIN paciente p ON(c.paciente_id=p.id)
+                                LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
+                WHERE c.borrado=0
+                LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $consultas[] = array("tipo_documento"=>$r["tipo_documento"],"documento"=>$r["documento"],"historia_clinica"=>$r["historia_clinica"],
+                        "fecha"=>$r["fecha"],"motivo"=>$r["motivo"],"interacion"=>$r["internacion"]);
+
+                    }
+                    $result['consultas'] = $consultas;
+                    $result['total_consultas'] = $this->obtener_numero_consultas();
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioconsultas->obtener_todos_limite_pagina " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $result;
+    } 
 }
