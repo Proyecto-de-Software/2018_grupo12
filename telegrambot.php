@@ -29,7 +29,7 @@ switch ($result[0]) {
         $msg['text']  = 'Los comandos disponibles son estos:' . PHP_EOL;
         $msg['text'] .= '/start Inicializa el bot' . PHP_EOL;
         $msg['text'] .= '/instituciones Muestra lista de instituciones con su informacion' . PHP_EOL;
-        $msg['text'] .= '/instituciones_region_sanitaria:region-sanitaria Lista de instituciones para esa region sanitaria';
+        $msg['text'] .= '/instituciones_region_sanitaria:region_sanitaria Lista de instituciones para esa region sanitaria';
         $msg['reply_to_message_id'] = null;
         break;
  
