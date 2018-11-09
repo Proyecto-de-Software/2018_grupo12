@@ -1,5 +1,5 @@
 <?php
-
+/*asd */
  function abrir_conexion(){
                 include_once 'config.php';
                 try{
