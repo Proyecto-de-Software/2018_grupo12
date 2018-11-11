@@ -88,7 +88,24 @@ id 5= habilitado */
         $conexion = null;
         return $ok;
     }
-    public function habilitar()
+    public function habilitacion($valor)
+    {
+        $ok = false;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='habilitado'";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia -> bindParam(":valor",$valor);
+                $ok = $sentencia->execute();
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta habilitar " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $ok;
+    }
+    /*public function habilitar()
     {
         $ok = false;
         $conexion = abrir_conexion();
@@ -120,7 +137,7 @@ id 5= habilitado */
         $conexion = null;
         return $ok;
     }
-
+    */
     public function getTitulo()
     {
         $titulo = null;

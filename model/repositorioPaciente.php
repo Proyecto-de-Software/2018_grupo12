@@ -265,6 +265,9 @@ class RepositorioPaciente
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
                 $ok = $sentencia->execute();
+                if($ok){
+                    RepositorioConsulta::getInstance()->eliminar_consultas_id_paciente($id);
+                }
 
             } catch (PDOException $ex) {
                 throw new Exception("error consulta eliminar_paciente " . $ex->getMessage());

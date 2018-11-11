@@ -190,6 +190,22 @@ class RepositorioConsulta
         $conexion=null;
         return $ok;
     }
+    public function eliminar_consultas_id_paciente($id){
+        $ok=false;
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="UPDATE consulta SET borrado=1 WHERE paciente_id=:id";
+                $s=$conexion->prepare($sql);
+                $s->bindParam(":id",$id);
+                $ok=$s->execute();
+            }catch(PDOException $ex){
+                throw new Exception ("error consulta eliminar_consultas_id_paciente ".$ex->getMessage());
+            }
+        }
+        $conexion=null;
+        return $ok;
+    }
     public function obtener_todos_limite_pagina($limite, $pag)
     /*
      tipo_documento
