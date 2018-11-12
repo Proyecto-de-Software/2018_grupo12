@@ -1,4 +1,47 @@
 <div class="tab-pane fade show active" id="contenidoConsultas" role="tabpanel" aria-labelledby="tabConsultas">
+  <div>
+    <div class="form-row align-items-center mt-2">
+      <div class="contentsclass">
+        <div class="col-md-auto mb-2 pr-md-0">
+          <label for="tipoBusqueda">Buscar por:</label>
+        </div>
+        <div class="col-md-auto mb-2">
+          <select class="custom-select inputBuscadorPaciente" id="tipoBusqueda" >
+            <option id="opcionPorDefecto" value="no_aplica" selected>Ninguno</option>
+            <option value="dni">Documento</option>
+            <option value="historia_clinica">Historia clinica</option>
+          </select>
+        </div>
+      </div>
+      <div id="dni" class="noneclass">
+        <div class="col-md-auto mb-2 ml-auto px-md-0">
+          <label for="bus_tipoDoc">Tipo:</label>
+        </div>
+        <div class="col-md-auto">
+          <select class="custom-select mb-2 inputBuscadorPaciente" id="bus_tipoDoc" >
+
+          </select>
+        </div>
+        <div class="col-md-auto mb-2 ml-2 px-md-0">
+          <label for="bus_nroDoc">Numero: </label>
+        </div>
+        <div class="col-md-auto">
+          <input type="number" class="form-control mb-2 inputBuscadorPaciente" id="bus_nroDoc" min="0">
+        </div>
+      </div>
+      <div id="historia_clinica" class="noneclass">
+        <div class="col-md-auto mb-2 ml-auto px-md-0">
+          <label for="bus_nroHistoriaClinica">Historia clinica:</label>
+        </div>
+        <div class="col-md-auto">
+          <input type="number" class="form-control mb-2" id="bus_nroHistoriaClinica" min="0" max="999999">
+        </div>
+      </div>
+      <div class="col-md-auto textcenter" >
+        <button type="button" id="btnBuscar" class="btn btn-outline-primary mb-2">Buscar</button>
+      </div>
+    </div>
+  </div>
   <div id="pagina" class="">
     <div class="table-responsive">
       <table class="table table-striped">

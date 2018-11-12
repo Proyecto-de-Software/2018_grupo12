@@ -14,7 +14,7 @@ class Consultas extends TwigView {
   }
 
   public function detalleConsulta($consulta){
-    $respuesta["contenido"] = self::getTwig()->render('moduloConsulta/detalleConsulta.twig',$paciente);
+    $respuesta["contenido"] = self::getTwig()->render('moduloConsulta/detalleConsulta.twig',$consulta);
     $respuesta["estado"] = "success";
 
     self::jsonEncode($respuesta);

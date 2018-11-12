@@ -1,0 +1,119 @@
+{% set opcion = {"0": "No", "1": "Si" } %}
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-5">
+    <div class="col-12 col-md-10 col-lg-6">
+      <div class="row p-1 mb-1 bordeclass">
+        <div class="">
+          Nombre:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ nombre | capitalize }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Apellido:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ apellido | capitalize }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Fecha:
+        </div>
+        <div class="ml-auto">
+          {{ fecha |date("d/m/Y")}}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Motivo:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ motivo }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Institucion:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ institucion | title }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Articulacion con instituciones:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ articulacion_con_institucion }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Internacion:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ opcion[internacion] }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Diagnostico:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ diagnostico }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Observaciones:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ observaciones }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Tratamiento farmacologico:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ tratamiento_Farmacologico }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Acompañamiento:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ acompanamiento }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Tipo de documento:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ tipo_documento }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 mb-1 bordeclass">
+        <div class="">
+          Numero de documento:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ documento }}
+        </div>
+      </div>
+      <div class="row p-1 mb-1 bordeclass">
+        <div class="">
+          Numero de historia clinica:
+        </div>
+        <div class="ml-auto breakclass">
+          {{ historia_clinica }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

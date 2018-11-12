@@ -19,8 +19,11 @@ class BuscadorInstitucionesController {
 
   public function mostrarBuscadorInstituciones(){
     $view = new BuscadorInstituciones();
-    $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
-    $datos["descripcion"] = RepositorioConfiguracion::getInstance()->getDescripcion();
+    $config = RepositorioConfiguracion::getInstance();
+
+    $datos["tituloPag"] = $config->getTitulo();
+    $datos["descripcion"] = $config->getDescripcion();
+    $datos["limite"] = $config->getLimite();
 
     if (Validador::getInstance()->sesion_iniciada()) {
       $repoPermisos = RepositorioPermiso::getInstance();

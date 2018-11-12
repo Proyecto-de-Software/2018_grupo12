@@ -2,12 +2,12 @@
 
 {% for consulta in consultas %}
   <tr>
-    <td class="textcenter" >{{ "#{consulta.tipoDoc} #{consulta.numeroDoc}" |capitalize }}</td>
-    <td class="textcenter" >{{ consulta.historiaClinica }}</td>
-    <td class="textcenter" >{{ consulta.Fecha }}</td>
+    <td class="textcenter" >{{ "#{consulta.tipo_documento} #{consulta.documento}" |capitalize }}</td>
+    <td class="textcenter" >{{ consulta.historia_clinica }}</td>
+    <td class="textcenter" >{{ consulta.fecha }}</td>
     <td class="textcenter" >{{ consulta.motivo }}</td>
     <td class="textcenter" >{{ estado[consulta.internacion] }}</td>
-    <td id="{{ consulta.id }}">
+    <td class="textcenter" id="{{ consulta.id }}">
       {% for permiso in permisos %}
         {% include "moduloConsulta/boton_#{permiso}.twig" ignore missing %}
       {% endfor %}

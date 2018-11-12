@@ -44,16 +44,12 @@ class ConsultasController {
   public function cargarPagina(){
     try {
       $config = RepositorioConfiguracion::getInstance();
-      $repoPaciente = RepositorioPaciente::getInstance();
-      $repoObraSocial = RepositorioObraSocial::getInstance();
-      $repoTipoDoc = RepositorioTipoDocumento::getInstance();
       $repoPermisos = RepositorioPermiso::getInstance();
-      $view = new Pacientes();
+      $repoConsultas = RepositorioConsulta::getInstance();
+      $view = new Consultas();
 
       $pagina = $_POST["pagina"];
       $tipoBusqueda = $_POST["tipoBusqueda"];
-      $nombre = strtolower($_POST["nombre"]);
-      $apellido = strtolower($_POST["apellido"]);
       $tipoDoc = $_POST["tipoDoc"];
       $nroDoc = $_POST["nroDoc"];
       $nroHistoriaClinica = $_POST["nroHistoriaClinica"];
@@ -62,52 +58,29 @@ class ConsultasController {
 
       //Identifico tipo de busqueda
       switch ($tipoBusqueda) {
-        case 'nombre_y_apellido':
-          if ($nombre &&  !$apellido) {
-            $resultado = $repoPaciente->obtener_por_nombre($nombre, $limite, $pagina);
-          }elseif (!$nombre && $apellido) {
-            $resultado = $repoPaciente->obtener_por_apellido($apellido, $limite, $pagina);
-          }else {
-            $resultado = $repoPaciente->obtener_por_nombre_y_apellido($nombre,$apellido,$limite,$pagina);
-          }
-          break;
         case 'dni':
           if (! $tipoDoc) {
-            $resultado = $repoPaciente->obtener_por_num_doc($nroDoc,$limite,$pagina);
+            $resultado = $repoConsultas->obtener_por_num_doc($nroDoc,$limite,$pagina);
           }else {
-            $resultado = $repoPaciente->obtener_por_datos_doc($tipoDoc,$nroDoc,$limite,$pagina);
+            $resultado = $repoConsultas->obtener_por_datos_doc($tipoDoc,$nroDoc,$limite,$pagina);
           }
           break;
         case 'historia_clinica':
-          $resultado = $repoPaciente->obtener_por_nro_historia_clinica($nroHistoriaClinica,$limite,$pagina);
+          $resultado = $repoConsultas->obtener_por_nro_historia_clinica($nroHistoriaClinica,$limite,$pagina);
           break;
         default:
-          $resultado = $repoPaciente->obtener_todos_limite_pagina($limite,$pagina);
+          $resultado = $repoConsultas->obtener_todos_limite_pagina($limite,$pagina);
           break;
       }
 
-      if (empty($resultado["pacientes"])) {
+      if (empty($resultado["consultas"])) {
         $view->jsonEncode(array('estado' => "no hay"));
       }else{
-        foreach ($resultado["pacientes"] as $paciente) {
-          $idObraSocial = $paciente->getObra_social_id();
-          $idTipoDoc = $paciente->getTipo_doc_id();
 
-          $obraSocialPaciente = $repoObraSocial->obtener_por_id($idObraSocial);
-          if ($obraSocialPaciente) {
-            $paciente->setNombreObraSocial($obraSocialPaciente->getNombre());
-          }
+        $datos["consultas"] = $resultado["consultas"];
+        $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"consulta");
 
-          $tipoDocPaciente = $repoTipoDoc->obtener_por_id($idTipoDoc);
-          if ($tipoDocPaciente) {
-            $paciente->setNombreTipoDocumento($tipoDocPaciente->getNombre());
-          }
-        }
-
-        $datos["pacientes"] = $resultado["pacientes"];
-        $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"paciente");
-
-        $cantPaginasRestantes = (ceil( $resultado["total_pacientes"] / $limite)) - $pagina;
+        $cantPaginasRestantes = (ceil( $resultado["total_consultas"] / $limite)) - $pagina;
         $view->cargarPagina($datos,$cantPaginasRestantes);
       }
     }catch (\Exception $e){
@@ -115,14 +88,14 @@ class ConsultasController {
     }
   }
 
-  public function eliminarPaciente(){
+  public function eliminarConsulta(){
     try {
-      $repoPaciente = RepositorioPaciente::getInstance();
+      $repoConsulta = RepositorioConsulta::getInstance();
 
       $id = $_POST["id"];
 
-      if ($repoPaciente->eliminar_paciente($id)) {
-        TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Paciente eliminado correctamente"));
+      if ($repoConsulta->eliminar_consulta($id)) {
+        TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Cnonsulta eliminada correctamente"));
       }else {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
       }
@@ -131,14 +104,14 @@ class ConsultasController {
     }
   }
 
-  public function detallePaciente(){
+  public function detalleConsulta(){
     try {
-      $repoPaciente = RepositorioPaciente::getInstance();
-      $view = new Pacientes();
+      $repoConsulta = RepositorioConsulta::getInstance();
+      $view = new Consultas();
 
       $id = $_POST["id"];
 
-      $view->detallePaciente($repoPaciente->obtener_por_id_info_completa($id));
+      $view->detalleConsulta($repoConsulta->obtener_info_completa($id));
     }catch (\Exception $e){
       TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
     }

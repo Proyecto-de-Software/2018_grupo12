@@ -1,5 +1,8 @@
 if ($("#tabConsultas")[0]) {
-
+  var tipoBusqueda = document.getElementById("opcionPorDefecto").value;
+  var tipoDoc = "";
+  var nroDoc = "";
+  var nroHistoriaClinica = "";
 }
 
 // ------------------ Alertas ------------------
@@ -11,7 +14,7 @@ function mostrarAlerta(texto, tipo){
     class : 'alerta'
   }).show();
 }
-/*
+
 // ------------------ Busqueda y Paginado ------------------
 
 //Para mostrar el formulario correspondiente al tipo de Busqueda
@@ -32,8 +35,6 @@ function mostrarFormBusqueda() {
 function buscar(){
   //Actualizo criterios de busqueda
   tipoBusqueda = $("#tipoBusqueda")[0].value;
-  nombre = $("#bus_nombre")[0].value;
-  apellido = $("#bus_apellido")[0].value;
   tipoDoc = $("#bus_tipoDoc")[0].value;
   nroDoc = $("#bus_nroDoc")[0].value;
   nroHistoriaClinica = $("#bus_nroHistoriaClinica")[0].value;
@@ -56,7 +57,7 @@ function buscar(){
   //Click al  boton "1" para disparar la busqueda
   $("#btnInicio")[0].onclick();
 }
-*/
+
 //Se ejecuta cuando se clickea la pagina izquierda
 function clickInicio(){
   //Desactivo pagina actual
@@ -80,7 +81,8 @@ function clickInicio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaConsultas',
-    data : { pagina : pagina },
+    data : { pagina: pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -139,7 +141,8 @@ function clickMedio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaConsultas',
-    data : { pagina : pagina },
+    data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -190,7 +193,8 @@ function clickFinal(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaConsultas',
-    data : { pagina : pagina },
+    data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -235,6 +239,30 @@ function siguiente(){
   }else {
     $("#btnFinal")[0].onclick()
   }
+}
+//------------------ Carga de inputs de los formularios ------------------
+//Recibo el id del select a cargar
+function cargarTiposDocumentos() {
+  $.ajax({
+    url : 'https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento',
+    data : {},
+    type : 'GET',
+    dataType: 'json',
+    // código a ejecutar si la petición es satisfactoria;
+    // la respuesta es pasada como argumento a la función
+    success : function(tiposDocumentos) {
+      //Pregunto si se realizo la operacion correctamente
+      var select = $("#bus_tipoDoc");
+      select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
+
+      for (var i = 0; i < tiposDocumentos.length; i++) {
+        var option = $('<option/>')[0];
+        option.value = tiposDocumentos[i].id;
+        option.innerHTML = tiposDocumentos[i].nombre
+        select.append(option);
+      }
+    }
+  });
 }
 //------------------ Baja de consultas ------------------
 function mostrarMensajeEliminacion(){
@@ -464,52 +492,57 @@ function mostrarDetalle() {
   });
 }
 //------------------ Inicializar ------------------
+//Borrar datos del mensaje cuando se oculte
+$('#mensajeConfirmacion').on('hidden.bs.modal', function (e) {
+  $("#botonMensaje")[0].consulta = "";
+  $("#botonMensaje")[0].onclick = "";
+})
 //Pregunto si tiene dicha funcionalidad
-if ($("#contenidoModificarPaciente")[0]) {
-  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Pacientes"
-  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
+if ($("#contenidoModificarConsulta")[0]) {
+  // Para quitar el formulario para modificar la consulta cuando se clickee la pestaña "Consultas"
+  $('#menuTabs a[href="#contenidoConsultas"]').bind('click', function (e) {
     e.preventDefault()
-    $("#tabModificarPaciente").css({"display":"none"});
+    $("#tabModificarConsulta").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $('#formularioModificarPaciente').trigger("reset");
-      $('#btnModificarPaciente')[0].onclick = "";
-      $("#btnModificarPaciente")[0].paciente = "";
+      $('#formularioModificarConsulta').trigger("reset");
+      $('#btnModificarConsulta')[0].onclick = "";
+      $("#btnModificarConsulta")[0].consulta = "";
     }, 250);
   })
 
-  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
-  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
+  // Para quitar el formulario para modificar la consulta cuando se clickee la pestaña "Agregar consulta"
+  $('#menuTabs a[href="#contenidoAgregarConsulta"]').bind('click', function (e) {
     e.preventDefault()
-    $("#tabModificarPaciente").css({"display":"none"});
+    $("#tabModificarConstula").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $('#formularioModificarPaciente').trigger("reset");
-      $('#btnModificarPaciente')[0].onclick = "";
-      $("#btnModificarPaciente")[0].paciente = "";
+      $('#formularioModificarConsulta').trigger("reset");
+      $('#btnModificarConsulta')[0].onclick = "";
+      $("#btnModificarConsulta")[0].paciente = "";
     }, 250);
   })
 }
 
 //Pregunto si tiene dicha funcionalidad
-if ($("#contenidoVerPaciente")[0]) {
-  // Para quitar el detalle del paciente clickee la pestaña "Pacientes"
-  $('#menuTabs a[href="#contenidoPacientes"]').bind('click', function (e) {
+if ($("#contenidoVerConsulta")[0]) {
+  // Para quitar el detalle de la consulta clickee la pestaña "Consultas"
+  $('#menuTabs a[href="#contenidoConsultas"]').bind('click', function (e) {
     e.preventDefault()
-    $("#tabVerPaciente").css({"display":"none"});
+    $("#tabVerConsulta").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $("#contenidoVerPaciente").html("...");
+      $("#contenidoVerConsulta").html("...");
     }, 250);
   })
 
-  // Para quitar el formulario para modificar el paciente cuando se clickee la pestaña "Agregar"
-  $('#menuTabs a[href="#contenidoAgregarPaciente"]').bind('click', function (e) {
+  // Para quitar el formulario para modificar la consulta cuando se clickee la pestaña "Agregar consulta"
+  $('#menuTabs a[href="#contenidoAgregarConsulta"]').bind('click', function (e) {
     e.preventDefault()
-    $("#tabVerPaciente").css({"display":"none"});
+    $("#tabVerConsulta").css({"display":"none"});
     $(this).tab('show');
     setTimeout(function() {
-      $("#contenidoVerPaciente").html("...");
+      $("#contenidoVerConsulta").html("...");
     }, 250);
   })
 }
@@ -550,9 +583,6 @@ function initialize(){
 
   //pregunto por modulo de Modificacion
   if ($("#tabModificarPaciente")[0]) {
-    cargarTiposDocumentos("#m_tipoDoc");
-    cargarPartidos("#m_partido");
-    cargarObrasSociales("#m_obraSocial");
     $("#m_partido").bind('change', function(){ cargarRegionSanitaria("#m_partido", "#m_regionSanitaria") });
     $("#m_partido").bind('change', function(){ cargarLocalidades("#m_partido", "#m_localidad") });
     $("#m_regionSanitaria")[0].reg = "";
@@ -560,26 +590,26 @@ function initialize(){
 
   //Pregunto por modulo de listado (contiene baja y show)
   if ($("#tabConsultas")[0]) {
+    cargarTiposDocumentos();
+
     $("#btnAnterior")[0].onclick = anterior;
     $("#btnInicio")[0].onclick = clickInicio;
     $("#btnMedio")[0].onclick = clickMedio;
     $("#btnFinal")[0].onclick = clickFinal;
     $("#btnSiguiente")[0].onclick = siguiente;
 
-    /*
+
     $("#btnBuscar")[0].onclick = buscar;
     $("#tipoBusqueda")[0].value = "no_aplica";
     $("#tipoBusqueda")[0].onchange = mostrarFormBusqueda;
-    $("#bus_nombre")[0].value = "";
-    $("#bus_apellido")[0].value = "";
     $("#bus_tipoDoc")[0].value = "";
     $("#bus_nroDoc")[0].value = "";
     $("#bus_nroHistoriaClinica")[0].value = "";
-    */
+
     //Disparo para cargar la pagina inicial
     $("#btnInicio")[0].onclick();
   }else {
-    $('#menuTabs a[href="#contenidoAgregarPaciente"]').click();
+    $('#menuTabs a[href="#contenidoAgregarConsulta"]').click();
   }
 }
 

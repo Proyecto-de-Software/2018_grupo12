@@ -134,7 +134,7 @@ class RepositorioConsulta
         /*
         id
         paciente_id
-        nombre 
+        nombre
         apellido
         fecha
         motivo
@@ -223,7 +223,7 @@ class RepositorioConsulta
         if ($conexion !== null) {
             try {
                 $primero = $limite * ($pag - 1);
-                $sql="SELECT  td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
+                $sql="SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
                 c.fecha,m.nombre as motivo,c.internacion
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
@@ -237,8 +237,8 @@ class RepositorioConsulta
                 $resultado = $sentencia->fetchAll();
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
-                        $consultas[] = array("tipo_documento"=>$r["tipo_documento"],"documento"=>$r["documento"],"historia_clinica"=>$r["historia_clinica"],
-                        "fecha"=>$r["fecha"],"motivo"=>$r["motivo"],"interacion"=>$r["internacion"]);
+                        $consultas[] = array("id"=>$r["id"],"tipo_documento"=>$r["tipo_documento"],"documento"=>$r["documento"],"historia_clinica"=>$r["historia_clinica"],
+                        "fecha"=>$r["fecha"],"motivo"=>$r["motivo"],"internacion"=>$r["internacion"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -251,5 +251,5 @@ class RepositorioConsulta
         }
         $conexion = null;
         return $result;
-    } 
+    }
 }

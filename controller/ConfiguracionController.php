@@ -64,12 +64,7 @@ class ConfiguracionController {
           $config->setDescripcion($descripcion);
           $config->setEmail($email);
           $config->setLimite($limite);
-
-          if ($habilitado == 1) {
-            $config->habilitar();
-          }else {
-            $config->deshabilitar();
-          }
+          $config->habilitacion($habilitado);
 
           TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Los datos se guardaron correctamente"));
         }

@@ -328,6 +328,39 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'cargarPaginaConsultas':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_index")) {
+          ConsultasController::getInstance()->cargarPagina();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'eliminarConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_destroy")) {
+          ConsultasController::getInstance()->eliminarConsulta();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'detalleConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_show")) {
+          ConsultasController::getInstance()->detalleConsulta();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     case 'buscardorInstituciones':
       BuscadorInstitucionesController::getInstance()->mostrarBuscadorInstituciones();
       break;
