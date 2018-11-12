@@ -31,7 +31,7 @@ class BuscadorInstitucionesController {
       $datos["username"] = $_SESSION["userName"];
       $datos["pagina"] = 'layoutLogueado.twig';
     }else {
-      $datos["pagina"] = 'layout.twig';
+      $datos["pagina"] = 'inicio.twig';
     }
     $view->show($datos);
   }
