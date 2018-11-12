@@ -78,7 +78,7 @@ class RepositorioConsulta
                 $total_consultas = $resultado['total'];
 
             } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_numero_consultas_historia");
+                throw new Exception("error consulta obtener_numero_consultas_doc");
             }
 
         }
@@ -372,7 +372,7 @@ class RepositorioConsulta
                 }
 
             } catch (PDOException $ex) {
-                throw new Exception("error consulta repositorioconsultas->obtener_todos_limite_pagina " . $ex->getMessage());
+                throw new Exception("error consulta repositorioconsultas->obtener_documento_limite_pagina " . $ex->getMessage());
             }
         }
         $conexion = null;
