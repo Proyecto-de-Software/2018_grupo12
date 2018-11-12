@@ -1,16 +1,59 @@
 {% extends 'layoutLogueado.twig' %}
+
 {% block cuerpo %}
-<div class="row justify-content-center">
-  <div class="col-6">
-    <div id="container1" class="container"></div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div id="toPdf" class="container"></div>
+    </div>
+  </div>
+  <button type="button" id="imprimir" onclick="print()">Imprimir</button>
+  <table id="datatable">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Jane</th>
+            <th>John</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Apples</th>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <th>Pears</th>
+            <td>2</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <th>Plums</th>
+            <td>5</td>
+            <td>11</td>
+        </tr>
+        <tr>
+            <th>Bananas</th>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <th>Oranges</th>
+            <td>2</td>
+            <td>4</td>
+        </tr>
+    </tbody>
+  </table>
+  <div id="ca">
+
   </div>
 </div>
-
 {% endblock %}
+
 {% block scripts %}
+<script src="templates/js/html2canvas.min.js"></script>
+<script src="templates/js/jspdf.min.js"></script>
 <script src="templates/js/highcharts.src.js"></script>
-<script src="templates/js/exporting.js"></script>
-<script src="templates/js/export-data.js"></script>
 <script>
 var listado = [{
     name: 'Chrome',
@@ -40,7 +83,7 @@ var listado = [{
     name: 'Other',
     y: 2.61
 }]
-var chart1 = Highcharts.chart('container1', {
+var chart1 = Highcharts.chart('toPdf', {
 
     chart: {
         plotBackgroundColor: null,
@@ -79,6 +122,7 @@ var chart1 = Highcharts.chart('container1', {
 });
 
 //Para actualizar estadisticas!!
+/*
 chart1.update({
         series: [{
         name: 'Brands1',
@@ -90,5 +134,23 @@ chart1.update({
             text: 'Listado'
         },
     });
+*/
+function print() {
+    html2canvas(document.body,{
+      onrendered:function(canvas){
+        var img=canvas.toDataURL("image/png");
+        var doc = new jsPDF();
+        doc.addImage(img,'JPEG',20,20);
+        doc.save('test.pdf');
+      }
+    });
+    /*
+		const filename  = 'ThisIsYourPDFFilename.pdf';
+		html2canvas(document.getElementById('par')).then(canvas => {
+			let pdf = new jsPDF('p', 'mm', 'a4');
+			pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+			pdf.save(filename);
+		});*/
+}
 </script>
 {% endblock %}
