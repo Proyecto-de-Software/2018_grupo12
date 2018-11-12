@@ -40,6 +40,51 @@ class RepositorioConsulta
         $conexion = null;
         return $total_consultas;
     }
+    public function obtener_numero_consultas_historia($nro)
+    {
+        $total_consultas = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM consulta c INNER JOIN paciente p ON(c.paciente_id=p.id) 
+                WHERE c.borrado=0 AND p.nro_historia_clinica LIKE :num";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":num",$nro);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_consultas = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_consultas_historia");
+            }
+
+        }
+        $conexion = null;
+        return $total_consultas;
+    }
+    public function obtener_numero_consultas_doc($tipo_doc,$doc)
+    {
+        $total_consultas = null;
+        $conexion = abrir_conexion();
+        if ($conexion !== null) {
+            try {
+                $sql = "SELECT COUNT(*) as total FROM consulta c INNER JOIN paciente p ON(c.paciente_id=p.id) 
+                WHERE c.borrado=0 AND p.tipo_doc_id=:tipo_doc AND p.numero LIKE :doc";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":tipo_doc",$tipo_doc);
+                $sentencia->bindParam(":doc",$doc);
+                $sentencia->execute();
+                $resultado = $sentencia->fetch();
+                $total_consultas = $resultado['total'];
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta obtener_numero_consultas_historia");
+            }
+
+        }
+        $conexion = null;
+        return $total_consultas;
+    }
 
     public function insertar_consulta($paciente_id, $fecha, $motivo_id, $derivacion_id, $articulacion_con_instituciones,
         $internacion, $diagnostico, $observaciones, $tratamiento_farmacologico_id, $acompanamiento_id) {
@@ -243,6 +288,87 @@ class RepositorioConsulta
                     }
                     $result['consultas'] = $consultas;
                     $result['total_consultas'] = $this->obtener_numero_consultas();
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioconsultas->obtener_todos_limite_pagina " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $result;
+    }
+    public function obtener_historia_limite_pagina($nro,$limite, $pag)
+    {$result = array();
+        $result['consultas'] = array();
+        $result['total_consultas'] = 0;
+        $consultas = array();
+        $conexion = abrir_conexion();
+        $nro="%".$nro."%";
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $sql="SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
+                c.fecha,m.nombre as motivo,c.internacion
+                FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
+                                INNER JOIN paciente p ON(c.paciente_id=p.id)
+                                LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
+                WHERE c.borrado=0 AND p.nro_historia_clinica LIKE :nro
+                LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":nro",$nro); 
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $consultas[] = array("id"=>$r["id"],"tipo_documento"=>$r["tipo_documento"],"documento"=>$r["documento"],"historia_clinica"=>$r["historia_clinica"],
+                        "fecha"=>$r["fecha"],"motivo"=>$r["motivo"],"internacion"=>$r["internacion"]);
+
+                    }
+                    $result['consultas'] = $consultas;
+                    $result['total_consultas'] = $this->obtener_numero_consultas_historia($nro);
+                }
+
+            } catch (PDOException $ex) {
+                throw new Exception("error consulta repositorioconsultas->obtener_historia_limite_pagina " . $ex->getMessage());
+            }
+        }
+        $conexion = null;
+        return $result;
+    }
+    public function obtener_documento_limite_pagina($tipo_doc,$doc,$limite, $pag)
+    {$result = array();
+        $result['consultas'] = array();
+        $result['total_consultas'] = 0;
+        $consultas = array();
+        $conexion = abrir_conexion();
+        $doc="%".$doc."%";
+        if ($conexion !== null) {
+            try {
+                $primero = $limite * ($pag - 1);
+                $sql="SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
+                c.fecha,m.nombre as motivo,c.internacion
+                FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
+                                INNER JOIN paciente p ON(c.paciente_id=p.id)
+                                LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
+                WHERE c.borrado=0 AND p.tipo_doc_id=:tipo_doc AND p.numero LIKE :num
+                LIMIT :primero,:limite";
+                $sentencia = $conexion->prepare($sql);
+                $sentencia->bindParam(":tipo_doc",$tipo_doc);
+                $sentencia->bindParam(":num",$doc);
+                $sentencia->bindParam(":primero", $primero, PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite, PDO::PARAM_INT);
+                $sentencia->execute();
+                $resultado = $sentencia->fetchAll();
+                if (count($resultado)) {
+                    foreach ($resultado as $r) {
+                        $consultas[] = array("id"=>$r["id"],"tipo_documento"=>$r["tipo_documento"],"documento"=>$r["documento"],"historia_clinica"=>$r["historia_clinica"],
+                        "fecha"=>$r["fecha"],"motivo"=>$r["motivo"],"internacion"=>$r["internacion"]);
+
+                    }
+                    $result['consultas'] = $consultas;
+                    $result['total_consultas'] = $this->obtener_numero_consultas_doc($tipo_doc,$doc);
                 }
 
             } catch (PDOException $ex) {
