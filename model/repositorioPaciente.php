@@ -727,5 +727,29 @@ class RepositorioPaciente
         $conexion = null;
         return $result;
     }
+    public function coordenadas_derivaciones($id){
+        $result=array();
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT distinct l.coordenadas as coordenadas
+                      FROM paciente p INNER JOIN consulta c ON (p.id=c.paciente_id)
+                                      INNER JOIN institucion i ON (c.derivacion_id=i.id)
+                                      INNER JOIN localidad l ON (i.localidad_id=l.id)
+                       WHERE p.id=:id AND c.borrado=0";
+                $s=$conexion->prepare($sql);
+                $s->bindParam(":id",$id);
+                $s->execute();
+                $re=$s->fetchAll();
+                foreach($re as $r){
+                    $result[]=$r["coordenadas"];
+                }       
+            }catch(PDOException $e){
+                throw new Exception("error coordenadas_derivaciones ".$e->getMessage());
+            }
+        }
+        $conexion=null;
+        return $result;
+    }
 
 }

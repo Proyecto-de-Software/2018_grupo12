@@ -378,4 +378,97 @@ class RepositorioConsulta
         $conexion = null;
         return $result;
     }
+    public function genero_porcentaje(){
+        $result=array();
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT distinct g.nombre as nombre ,COUNT(g.nombre) as cantidad 
+                    FROM consulta c INNER JOIN paciente p ON (c.paciente_id=p.id)
+                                    INNER JOIN genero g ON (p.genero_id=g.id)
+                    WHERE c.borrado=0
+                    GROUP BY g.nombre";
+                 $s=$conexion->prepare($sql);
+                 $s->execute();
+                 $re=$s->fetchAll();
+                 $total=$this->obtener_numero_consultas();
+                 $cant=0;
+                 foreach($re as $r){
+                     $porcentaje=($r['cantidad']*100)/$total;
+                     $porcentaje=bcdiv($porcentaje,'1',2);
+                     $result[]=array("nombre"=>$r['nombre'],"porcentaje"=> $porcentaje);
+                     $cant=$cant+$r['cantidad'];
+                 }
+                 if($cant<$total){
+                     $porcentaje=((($total-$cant)*100)/$total);
+                     $porcentaje=bcdiv($porcentaje,'1',2);
+                     $result[]=array("nombre"=>"no se conoce","porcentaje"=>$porcentaje);
+                 }   
+            }catch(PDOException $e){
+                throw new Exception("error genero_porcentaje ".$e->getMessage());
+            }
+        }
+        $conexion=null;
+        return $result;
+    }
+    public function motivo_porcentaje(){
+        $result=array();
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT distinct m.nombre as nombre ,COUNT(m.nombre) as cantidad 
+                    FROM consulta c INNER JOIN motivo_consulta m ON (c.motivo_id=m.id)
+                    WHERE c.borrado=0
+                    GROUP BY m.nombre";
+                 $s=$conexion->prepare($sql);
+                 $s->execute();
+                 $re=$s->fetchAll();
+                 $total=$this->obtener_numero_consultas();
+                 $cant=0;
+                 foreach($re as $r){
+                     $porcentaje=($r['cantidad']*100)/$total;
+                     $porcentaje=bcdiv($porcentaje,'1',2);
+                     $result[]=array("nombre"=>$r['nombre'],"porcentaje"=> $porcentaje);
+                 }
+                  
+            }catch(PDOException $e){
+                throw new Exception("error motivo_porcentaje ".$e->getMessage());
+            }
+        }
+        $conexion=null;
+        return $result;
+    }
+    public function localidad_porcentaje(){
+        $result=array();
+        $conexion=abrir_conexion();
+        if($conexion!==null){
+            try{
+                $sql="SELECT distinct l.nombre as nombre ,COUNT(l.nombre) as cantidad 
+                    FROM consulta c INNER JOIN paciente p ON (c.paciente_id=p.id)
+                                    INNER JOIN localidad l ON (p.localidad_id=l.id)
+                    WHERE c.borrado=0
+                    GROUP BY l.nombre";
+                 $s=$conexion->prepare($sql);
+                 $s->execute();
+                 $re=$s->fetchAll();
+                 $total=$this->obtener_numero_consultas();
+                 $cant=0;
+                 foreach($re as $r){
+                     $porcentaje=($r['cantidad']*100)/$total;
+                     $porcentaje=bcdiv($porcentaje,'1',2);
+                     $result[]=array("nombre"=>$r['nombre'],"porcentaje"=> $porcentaje);
+                     $cant=$cant+$r['cantidad'];
+                 }
+                 if($cant<$total){
+                     $porcentaje=((($total-$cant)*100)/$total);
+                     $porcentaje=bcdiv($porcentaje,'1',2);
+                     $result[]=array("nombre"=>"no se conoce localidad","porcentaje"=>$porcentaje);
+                 }   
+            }catch(PDOException $e){
+                throw new Exception("error localidad_porcentaje ".$e->getMessage());
+            }
+        }
+        $conexion=null;
+        return $result;
+    }
 }
