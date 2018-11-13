@@ -1,0 +1,33 @@
+<html>
+
+<body>
+    <div id="mapdiv" style="width:400px;height:400px"></div>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script>
+        /*este arreglo es el que recibirias de una peticion ajax
+        bahia blanca,pergamino,junin,pehuajo*/var a=["-38.737580,-62.261030","-35.824986,-61.894783","-34.592618,-60.950547","-33.895489,-60.577274"];
+        map = new OpenLayers.Map("mapdiv");
+        map.addLayer(new OpenLayers.Layer.OSM());
+        var c=[];
+        for (var i=0;i<a.length;i++){
+            var b=a[i].split(",");
+            c[i] = new OpenLayers.LonLat(b[1], b[0])
+            .transform(
+                new OpenLayers.Projection("EPSG:4326"), 
+                map.getProjectionObject() 
+            );
+        }
+        var zoom = 5;
+
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        map.addLayer(markers);
+        
+        for(var i=0;i<c.length;i++){
+            markers.addMarker(new OpenLayers.Marker(c[i]));
+        }
+
+        map.setCenter(c[0], zoom);
+    </script>
+</body>
+
+</html>
