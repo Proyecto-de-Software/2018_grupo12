@@ -24,14 +24,11 @@ class ConsultasController {
 
       $id = $_SESSION["id"];
       $limite = RepositorioConfiguracion::getInstance()->getLimite();
-      //$resultado = $repoConsultas->obtener_todos_limite_pagina($limite,1);
-      //$consultas = $resultado["consultas"];
 
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
       $datos["username"] = $_SESSION["userName"];
       $datos["permisos"] = $repoPermisos->permisos_id_usuario_modulo($id,"consulta");
-      //$datos["consultas"] = $consultas;
       $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
 
       $view->show($datos);
@@ -60,13 +57,13 @@ class ConsultasController {
       switch ($tipoBusqueda) {
         case 'dni':
           if (! $tipoDoc) {
-            $resultado = $repoConsultas->obtener_por_num_doc($nroDoc,$limite,$pagina);
+            $resultado = $repoConsultas->obtener_numero_limite_pagina($nroDoc,$limite,$pagina);
           }else {
-            $resultado = $repoConsultas->obtener_por_datos_doc($tipoDoc,$nroDoc,$limite,$pagina);
+            $resultado = $repoConsultas->obtener_documento_limite_pagina($tipoDoc,$nroDoc,$limite,$pagina);
           }
           break;
         case 'historia_clinica':
-          $resultado = $repoConsultas->obtener_por_nro_historia_clinica($nroHistoriaClinica,$limite,$pagina);
+          $resultado = $repoConsultas->obtener_historia_limite_pagina($nroHistoriaClinica,$limite,$pagina);
           break;
         default:
           $resultado = $repoConsultas->obtener_todos_limite_pagina($limite,$pagina);

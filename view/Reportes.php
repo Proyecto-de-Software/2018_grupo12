@@ -2,9 +2,9 @@
 
 class Reportes extends TwigView {
 
-    public function show() {
+    public function show($datos) {
 
-        echo self::getTwig()->render('reportes.twig');
+        echo self::getTwig()->render('reportes.twig',$datos);
 
 
     }
