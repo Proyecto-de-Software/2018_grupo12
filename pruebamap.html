@@ -17,7 +17,7 @@
                 map.getProjectionObject() 
             );
         }
-        var zoom = 5;
+        var zoom = 6;
 
         var markers = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(markers);
@@ -25,9 +25,14 @@
         for(var i=0;i<c.length;i++){
             markers.addMarker(new OpenLayers.Marker(c[i]));
         }
-
-        map.setCenter(c[0], zoom);
+        var centro=new OpenLayers.LonLat(-60.029436,-36.319530)
+            .transform(
+                new OpenLayers.Projection("EPSG:4326"), 
+                map.getProjectionObject() 
+            );
+        map.setCenter(centro, zoom);
     </script>
 </body>
 
 </html>
+
