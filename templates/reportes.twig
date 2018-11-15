@@ -1,89 +1,80 @@
 {% extends 'layoutLogueado.twig' %}
 
+{% block titulo %} Reportes {% endblock %}
+
 {% block cuerpo %}
-<div class="container">
+<div class="container mt-3">
   <div class="row justify-content-center">
-    <div class="col-6">
-      <div id="toPdf" class="container"></div>
+    <div class="col">
+      <div id="grafico" class="container"></div>
     </div>
   </div>
-  <button type="button" id="imprimir" onclick="print()">Imprimir</button>
-  <table id="datatable">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Jane</th>
-            <th>John</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>Apples</th>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <th>Pears</th>
-            <td>2</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <th>Plums</th>
-            <td>5</td>
-            <td>11</td>
-        </tr>
-        <tr>
-            <th>Bananas</th>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <th>Oranges</th>
-            <td>2</td>
-            <td>4</td>
-        </tr>
-    </tbody>
-  </table>
-  <div id="ca">
-
+  <div class="form-row justify-content-center mt-2">
+      <div class="col-md-auto mt-1 pr-md-0">
+        <label for="agrupar">Agrupar por:</label>
+      </div>
+      <div class="col-md-5 mb-2">
+        <select class="custom-select" id="agrupar" >
+          <option value="motivo" selected>Motivo</option>
+          <option value="genero">Genero</option>
+          <option value="localidad">Localidad</option>
+        </select>
+      </div>
   </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="templates/js/html2canvas.min.js"></script>
-<script src="templates/js/jspdf.min.js"></script>
 <script src="templates/js/highcharts.src.js"></script>
+<script src="templates/js/chartExporting.js"></script>
 <script>
-var listado = [{
-    name: 'Chrome',
-    y: 61.41,
-}, {
-    name: 'Internet Explorer',
-    y: 11.84
-}, {
-    name: 'Firefox',
-    y: 10.85
-}, {
-    name: 'Edge',
-    y: 4.67
-}, {
-    name: 'Safari',
-    y: 4.18
-}, {
-    name: 'Sogou Explorer',
-    y: 1.64
-}, {
-    name: 'Opera',
-    y: 1.6
-}, {
-    name: 'QQ',
-    y: 1.2
-}, {
-    name: 'Other',
-    y: 2.61
-}]
-var chart1 = Highcharts.chart('toPdf', {
+var porMotivo = [
+  {% for porcentajeMotivo in porcentajesMotivo %}
+    {
+      name: "{{ porcentajeMotivo.nombre }}",
+      y: {{ porcentajeMotivo.porcentaje }},
+    },
+  {%else%}
+    {
+      name: "No hay consultas para mostrar",
+      y: 100,
+    }
+  {% endfor %}
+]
+var porGenero = [
+  {% for porcentajeGenero in porcentajesGenero %}
+    {
+      name: "{{ porcentajeGenero.nombre }}",
+      y: {{ porcentajeGenero.porcentaje }},
+    },
+  {%else%}
+    {
+      name: "No hay consultas para mostrar",
+      y: 100,
+    }
+  {% endfor %}
+]
+var porLocalidad = [
+  {% for porcentajeLocalidad in porcentajesLocalidad %}
+    {
+      name: "{{ porcentajeLocalidad.nombre }}",
+      y: {{ porcentajeLocalidad.porcentaje }},
+    },
+  {%else%}
+    {
+      name: "No hay consultas para mostrar",
+      y: 100,
+    }
+  {% endfor %}
+]
+
+var agruparPor = {
+  motivo: porMotivo,
+  genero: porGenero,
+  localidad: porLocalidad
+}
+
+var chart1 = Highcharts.chart('grafico', {
 
     chart: {
         plotBackgroundColor: null,
@@ -93,7 +84,7 @@ var chart1 = Highcharts.chart('toPdf', {
     },
 
     title: {
-        text: 'Browser market shares in January, 2018'
+        text: 'Reportes de consultas agrupadas por motivo'
     },
 
     tooltip: {
@@ -114,43 +105,33 @@ var chart1 = Highcharts.chart('toPdf', {
     },
 
     series: [{
-        name: 'Brands1',
+        name: 'porcentaje',
         size: 150,
         colorByPoint: true,
-        data: listado
-    }]
+        data: agruparPor.motivo
+    }],
+
+    exporting:{
+      filename: 'reporte'
+    }
 });
 
-//Para actualizar estadisticas!!
-/*
-chart1.update({
-        series: [{
-        name: 'Brands1',
-        size: 150,
-        colorByPoint: true,
-        data: listado
+function actualizarGrafico() {
+  var tipo = this.value;
+
+  chart1.update({
+    series: [{
+      name: 'procentaje',
+      size: 150,
+      colorByPoint: true,
+      data: agruparPor[tipo]
     }],
-        title: {
-            text: 'Listado'
-        },
-    });
-*/
-function print() {
-    html2canvas(document.body,{
-      onrendered:function(canvas){
-        var img=canvas.toDataURL("image/png");
-        var doc = new jsPDF();
-        doc.addImage(img,'JPEG',20,20);
-        doc.save('test.pdf');
-      }
-    });
-    /*
-		const filename  = 'ThisIsYourPDFFilename.pdf';
-		html2canvas(document.getElementById('par')).then(canvas => {
-			let pdf = new jsPDF('p', 'mm', 'a4');
-			pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-			pdf.save(filename);
-		});*/
+    title: {
+      text: ('Reportes de consultas agrupadas por ' + tipo)
+    },
+  });
 }
+
+$("#agrupar").bind('change',actualizarGrafico);
 </script>
 {% endblock %}
