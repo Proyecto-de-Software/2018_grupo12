@@ -321,6 +321,13 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'pdfConsultas':
+      if ($validador->sesion_permiso("reporte_index")) {
+        ReportesController::getInstance()->pdfConsultas();
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     case 'consultas':
       if ($validador->sesion_modulo("consulta")){
         ConsultasController::getInstance()->redirectConsultas();
@@ -361,7 +368,7 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
-    case 'buscardorInstituciones':
+    case 'buscadorInstituciones':
       BuscadorInstitucionesController::getInstance()->mostrarBuscadorInstituciones();
       break;
     default:

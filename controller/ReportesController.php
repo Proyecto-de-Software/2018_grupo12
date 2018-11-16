@@ -1,5 +1,5 @@
 <?php
-
+require('fpdf/PDFConsultas.php');
 class ReportesController {
 
   private static $instance;
@@ -36,4 +36,18 @@ class ReportesController {
     $view->show($datos);
   }
 
+  public function pdfConsultas(){
+    $pdf = new PDFConsultas();
+    $pdf->AliasNbPages();
+    // Carga de datos
+    $data[] = array('Dni 12345678', 123456, '2018-11-14', 'Control por Guardia', 0);
+    $pdf->SetFont('Arial','',14);
+    $pdf->AddPage();
+    $pdf->FancyTable($data);
+    $pdf->AddPage();
+    $pdf->FancyTable($data);
+    $pdf->AddPage();
+    $pdf->FancyTable($data);
+    $pdf->Output("D","reporteDeConsultas.pdf",true);
+  }
 }
