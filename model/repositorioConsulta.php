@@ -312,7 +312,7 @@ class RepositorioConsulta
         $conexion = null;
         return $result;
     }
-    public function obtener_todos_orden($campo)
+    public function obtener_todos_orden($campo,$limite,$pag)
     /*
     tipo_documento
     documento
@@ -351,9 +351,13 @@ class RepositorioConsulta
                                 LEFT JOIN localidad l ON(p.localidad_id=l.id)
                                 LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
                 WHERE c.borrado=0";
+                $li=" LIMIT :primero,:limite";
                 $sql = $sql . $or;
+                $sql=$sql. $li;
+                $primero = $limite * ($pag - 1);
                 $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":campo", $campo);
+                $sentencia->bindParam(":primero", $primero,PDO::PARAM_INT);
+                $sentencia->bindParam(":limite", $limite,PDO::PARAM_INT);
                 $sentencia->execute();
                 $resultado = $sentencia->fetchAll();
                 if (count($resultado)) {
