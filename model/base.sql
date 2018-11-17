@@ -488,3 +488,76 @@ INSERT INTO `rol_tiene_permiso` VALUES(2,6);
 INSERT INTO `rol_tiene_permiso` VALUES(2,7);
 INSERT INTO `rol_tiene_permiso` VALUES(2,8);
 INSERT INTO `rol_tiene_permiso` VALUES(2,9);
+
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Bahía blanca inst 1","director Bahía1","calle 1 y 1","123457891",1,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Bahía blanca inst 2","director Bahía2","calle 1 y 2","123457892",1,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Bahía blanca inst 3","director Bahía3","calle 1 y 3","123457893",1,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Bahía blanca inst 4","director Bahía4","calle 1 y 4","123457894",1,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Bahía blanca inst 5","director Bahía5","calle 1 y 5","123457895",1,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pehuajó inst 1","director Pehua1","calle 2 y 1","123457891",2,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pehuajó inst 2","director Pehua2","calle 2 y 2","123457892",2,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pehuajó inst 3","director Pehua3","calle 2 y 3","123457893",2,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pehuajó inst 4","director Pehua4","calle 2 y 4","123457894",2,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pehuajó inst 5","director Pehua5","calle 2 y 5","123457895",2,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Junín inst 1","director Ju1","calle 3 y 1","123457891",3,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Junín inst 2","director Ju2","calle 3 y 2","123457892",3,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Junín inst 3","director Ju3","calle 3 y 3","123457893",3,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Junín inst 4","director Ju4","calle 3 y 4","123457894",3,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Junín inst 5","director Ju5","calle 3 y 5","123457895",3,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pergamino inst 1","director Per1","calle 4 y 1","123457891",4,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pergamino inst 2","director Per2","calle 4 y 2","123457892",4,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pergamino inst 3","director Per3","calle 4 y 3","123457893",4,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pergamino inst 4","director Per4","calle 4 y 4","123457894",4,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Pergamino inst 5","director Per5","calle 4 y 5","123457895",4,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General San Martín inst 1","director Martín1","calle 5 y 1","123457891",5,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General San Martín inst 2","director Martín2","calle 5 y 2","123457892",5,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General San Martín inst 3","director Martín3","calle 5 y 3","123457893",5,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General San Martín inst 4","director Martín4","calle 5 y 4","123457894",5,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General San Martín inst 5","director Martín5","calle 5 y 5","123457895",5,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Lomas de Zamora inst 1","director Zamora1","calle 6 y 1","123457891",6,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Lomas de Zamora inst 2","director Zamora2","calle 6 y 2","123457892",6,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Lomas de Zamora inst 3","director Zamora3","calle 6 y 3","123457893",6,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Lomas de Zamora inst 4","director Zamora4","calle 6 y 4","123457894",6,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Lomas de Zamora inst 5","director Zamora5","calle 6 y 5","123457895",6,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General Rodríguez inst 1","director Rodríguez1","calle 7 y 1","123457891",7,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General Rodríguez inst 2","director Rodríguez2","calle 7 y 2","123457892",7,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General Rodríguez inst 3","director Rodríguez3","calle 7 y 3","123457893",7,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General Rodríguez inst 4","director Rodríguez4","calle 7 y 4","123457894",7,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("General Rodríguez inst 5","director Rodríguez5","calle 7 y 5","123457895",7,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Mar de Plata inst 1","director Plata1","calle 8 y 1","123457891",8,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Mar de Plata inst 2","director Plata2","calle 8 y 2","123457892",8,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Mar de Plata inst 3","director Plata3","calle 8 y 3","123457893",8,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Mar de Plata inst 4","director Plata4","calle 8 y 4","123457894",8,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Mar de Plata inst 5","director Plata5","calle 8 y 5","123457895",8,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Azul inst 1","director Azul1","calle 9 y 1","123457891",9,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Azul inst 2","director Azul2","calle 9 y 2","123457892",9,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Azul inst 3","director Azul3","calle 9 y 3","123457893",9,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Azul inst 4","director Azul4","calle 9 y 4","123457894",9,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Azul inst 5","director Azul5","calle 9 y 5","123457895",9,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Chivilcoy inst 1","director Chi1","calle 10 y 1","123457891",10,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Chivilcoy inst 2","director Chi2","calle 10 y 2","123457892",10,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Chivilcoy inst 3","director Chi3","calle 10 y 3","123457893",10,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Chivilcoy inst 4","director Chi4","calle 10 y 4","123457894",10,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Chivilcoy inst 5","director Chi5","calle 10 y 5","123457895",10,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Ensenada inst 1","director Sena1","calle 11 y 1","123457891",11,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Ensenada inst 2","director Sena2","calle 11 y 2","123457892",11,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Ensenada inst 3","director Sena3","calle 11 y 3","123457893",11,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Ensenada inst 4","director Sena4","calle 11 y 4","123457894",11,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("Ensenada inst 5","director Sena5","calle 11 y 5","123457895",11,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("La Matanza inst 1","director Mata1","calle 12 y 1","123457891",12,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("La Matanza inst 2","director Mata2","calle 12 y 2","123457892",12,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("La Matanza inst 3","director Mata3","calle 12 y 3","123457893",12,1);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("La Matanza inst 4","director Mata4","calle 12 y 4","123457894",12,2);
+INSERT INTO `institucion`(`nombre`,`director`,`direccion`,`telefono`,`localidad_id`,`tipo_institucion_id`) VALUES ("La Matanza inst 5","director Mata5","calle 12 y 5","123457895",12,1);
+
+
+
+
+
+
+
+
+
+
+
+

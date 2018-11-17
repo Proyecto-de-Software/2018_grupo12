@@ -21,7 +21,8 @@ class Repositorio
                     FROM institucion i INNER JOIN localidad l ON(i.localidad_id=l.id)
                                        INNER JOIN partido p ON (l.partido_id=p.id)
                                        INNER JOIN region_sanitaria r ON (p.region_sanitaria_id=r.id)
-                                       INNER JOIN tipo_institucion t ON(i.tipo_institucion_id=t.id)";
+                                       INNER JOIN tipo_institucion t ON(i.tipo_institucion_id=t.id)
+                                       ORDER BY i.id";
                 $sentencia = $conexion->query($sql);
                 return $sentencia->fetchAll(PDO::FETCH_OBJ);
             } catch (PDOException $ex) {}
@@ -58,7 +59,8 @@ class Repositorio
                                        INNER JOIN partido p ON (l.partido_id=p.id)
                                        INNER JOIN region_sanitaria r ON (p.region_sanitaria_id=r.id)
                                    INNER JOIN tipo_institucion t ON(i.tipo_institucion_id=t.id)
-                                   WHERE r.nombre=:nombre";
+                                   WHERE r.nombre=:nombre
+                                   ORDER BY i.id";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":nombre", $nombre);
                 $sentencia->execute();
