@@ -751,5 +751,27 @@ class RepositorioPaciente
         $conexion=null;
         return $result;
     }
+    public function paciente_tiene_consultas($id){
+      $ok=false;
+      $conexion=abrir_conexion();
+      if($conexion!==null){
+          try{
+              $sql="SELECT COUNT(c.id) as result
+                    FROM consulta c INNER JOIN paciente p ON (c.paciente_id=p.id)
+                    WHERE p.id=:id";
+              $s=$conexion->prepare($sql);
+              $s->bindParam(":id",$id);
+              $s->execute();
+              $re=$s->fetch();
+              if($re['result']>0){
+                  $ok=true;
+              }      
+          }catch(PDOException $e){
+              throw new Exception("error paciente_tiene_consulta ".$e->getMessage());
+          }
+      }
+      $conexion=null;
+      return $ok;
+    }
 
 }
