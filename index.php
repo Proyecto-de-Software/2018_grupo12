@@ -9,7 +9,10 @@ require_once './controller/autoCargador.php';
 try{
 if(isset($_GET["action"])){
   $validador = Validador::getInstance();
+  $validPostToken = $validador->check_valid_post();
   $isAjax = $validador->isAjax();
+
+  $validador->sanitizePostAndGet();
   switch ($_GET["action"]) {
     case 'login':
       if ($validador->sesion_iniciada()) {
@@ -23,7 +26,9 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }elseif($validador->sesion_iniciada()) {
         TwigView::jsonEncode(array('estado' => "sesion ya iniciada"));
-      }else {
+      }elseif (! $validPostToken) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+      }else{
         UsuariosController::getInstance()->loguear();
       }
       break;
@@ -42,7 +47,7 @@ if(isset($_GET["action"])){
       break;
     case 'guardarConfiguracion':
       if ($isAjax) {
-        if ($validador->sesion_permiso("configuracion_update")) {
+        if ($validador->sesion_permiso("configuracion_update") && $validPostToken) {
           ConfiguracionController::getInstance()->guardarConfiguracion();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -60,7 +65,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaUsuarios':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_index")) {
+        if ($validador->sesion_permiso("usuario_index") && $validPostToken) {
           UsuariosController::getInstance()->cargarPagina();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -71,7 +76,7 @@ if(isset($_GET["action"])){
       break;
     case 'bloquearUsuario':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_activarBloquear")) {
+        if ($validador->sesion_permiso("usuario_activarBloquear") && $validPostToken) {
           UsuariosController::getInstance()->bloquearUsuario();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -82,7 +87,7 @@ if(isset($_GET["action"])){
       break;
     case 'activarUsuario':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_activarBloquear")) {
+        if ($validador->sesion_permiso("usuario_activarBloquear") && $validPostToken) {
           UsuariosController::getInstance()->activarUsuario();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -93,7 +98,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarUsuario':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_new")) {
+        if ($validador->sesion_permiso("usuario_new") && $validPostToken) {
           UsuariosController::getInstance()->agregarUsuario();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -104,7 +109,7 @@ if(isset($_GET["action"])){
       break;
     case 'formularioModificacionUsuario':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_update")) {
+        if ($validador->sesion_permiso("usuario_update") && $validPostToken) {
           UsuariosController::getInstance()->formularioModificacionUsuario();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -115,7 +120,7 @@ if(isset($_GET["action"])){
       break;
     case 'modificarUsuario':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_update")) {
+        if ($validador->sesion_permiso("usuario_update") && $validPostToken) {
           UsuariosController::getInstance()->modificarUsuario();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -126,7 +131,7 @@ if(isset($_GET["action"])){
       break;
     case 'cuerpoPanelAdministracionRoles':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_administrarRoles")) {
+        if ($validador->sesion_permiso("usuario_administrarRoles") && $validPostToken) {
           UsuariosController::getInstance()->cuerpoPanelAdministracionRoles();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -137,7 +142,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_administrarRoles")) {
+        if ($validador->sesion_permiso("usuario_administrarRoles") && $validPostToken) {
           UsuariosController::getInstance()->agregarRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -148,7 +153,7 @@ if(isset($_GET["action"])){
       break;
     case 'quitarRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("usuario_administrarRoles")) {
+        if ($validador->sesion_permiso("usuario_administrarRoles") && $validPostToken) {
           UsuariosController::getInstance()->quitarRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -166,7 +171,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaPacientes':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_index")) {
+        if ($validador->sesion_permiso("paciente_index") && $validPostToken) {
           PacientesController::getInstance()->cargarPagina();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -177,7 +182,7 @@ if(isset($_GET["action"])){
       break;
     case 'eliminarPaciente':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_destroy")) {
+        if ($validador->sesion_permiso("paciente_destroy") && $validPostToken) {
           PacientesController::getInstance()->eliminarPaciente();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -188,7 +193,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarPacienteSimple':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_new")) {
+        if ($validador->sesion_permiso("paciente_new") && $validPostToken) {
           PacientesController::getInstance()->agregarPacienteSimple();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -199,7 +204,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarPacienteCompleto':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_new")) {
+        if ($validador->sesion_permiso("paciente_new") && $validPostToken) {
           PacientesController::getInstance()->agregarPacienteCompleto();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -210,7 +215,7 @@ if(isset($_GET["action"])){
       break;
     case 'detallePaciente':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_show")) {
+        if ($validador->sesion_permiso("paciente_show") && $validPostToken) {
           PacientesController::getInstance()->detallePaciente();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -221,7 +226,7 @@ if(isset($_GET["action"])){
       break;
     case 'formularioModificacionPaciente':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_update")) {
+        if ($validador->sesion_permiso("paciente_update") && $validPostToken) {
           PacientesController::getInstance()->formularioModificacionPaciente();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -232,7 +237,7 @@ if(isset($_GET["action"])){
       break;
     case 'modificarPaciente':
       if ($isAjax) {
-        if ($validador->sesion_permiso("paciente_update")) {
+        if ($validador->sesion_permiso("paciente_update") && $validPostToken) {
           PacientesController::getInstance()->modificarPaciente();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -250,7 +255,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaRoles':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_index")) {
+        if ($validador->sesion_permiso("rol_index") && $validPostToken) {
           RolesController::getInstance()->cargarPagina();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -261,7 +266,7 @@ if(isset($_GET["action"])){
       break;
     case 'altaRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_new")) {
+        if ($validador->sesion_permiso("rol_new") && $validPostToken) {
           RolesController::getInstance()->agregarRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -272,7 +277,7 @@ if(isset($_GET["action"])){
       break;
     case 'infoRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_update")) {
+        if ($validador->sesion_permiso("rol_update") && $validPostToken) {
           RolesController::getInstance()->informacionRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -283,7 +288,7 @@ if(isset($_GET["action"])){
       break;
     case 'quitarPermisoAlRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_update")) {
+        if ($validador->sesion_permiso("rol_update") && $validPostToken) {
           RolesController::getInstance()->quitarPermisoAlRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -294,7 +299,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarPermisos':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_update")) {
+        if ($validador->sesion_permiso("rol_update") && $validPostToken) {
           RolesController::getInstance()->agregarPermisos();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -305,7 +310,7 @@ if(isset($_GET["action"])){
       break;
     case 'modificarRol':
       if ($isAjax) {
-        if ($validador->sesion_permiso("rol_update")) {
+        if ($validador->sesion_permiso("rol_update") && $validPostToken) {
           RolesController::getInstance()->modificarNombreRol();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -323,7 +328,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaReporte':
       if ($isAjax) {
-        if ($validador->sesion_permiso("reporte_index")) {
+        if ($validador->sesion_permiso("reporte_index") && $validPostToken) {
           ReportesController::getInstance()->cargarPagina();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -348,7 +353,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaConsultas':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_index")) {
+        if ($validador->sesion_permiso("consulta_index") && $validPostToken) {
           ConsultasController::getInstance()->cargarPagina();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -359,7 +364,7 @@ if(isset($_GET["action"])){
       break;
     case 'cargarPaginaPacientesParaConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_new")) {
+        if ($validador->sesion_permiso("consulta_new") && $validPostToken) {
           ConsultasController::getInstance()->cargarPaginaPacientesParaConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -370,7 +375,7 @@ if(isset($_GET["action"])){
       break;
     case 'obtenerCoordenadasDerivaciones':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_new")) {
+        if ($validador->sesion_permiso("consulta_new") && $validPostToken) {
           ConsultasController::getInstance()->obtenerCoordenadasDerivaciones();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -381,7 +386,7 @@ if(isset($_GET["action"])){
       break;
     case 'agregarConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_new")) {
+        if ($validador->sesion_permiso("consulta_new") && $validPostToken) {
           ConsultasController::getInstance()->agregarConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -392,7 +397,7 @@ if(isset($_GET["action"])){
       break;
     case 'formularioModificacionConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_update")) {
+        if ($validador->sesion_permiso("consulta_update") && $validPostToken) {
           ConsultasController::getInstance()->formularioModificacionConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -403,7 +408,7 @@ if(isset($_GET["action"])){
       break;
     case 'modificarConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_update")) {
+        if ($validador->sesion_permiso("consulta_update") && $validPostToken) {
           ConsultasController::getInstance()->modificarConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -414,7 +419,7 @@ if(isset($_GET["action"])){
       break;
     case 'eliminarConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_destroy")) {
+        if ($validador->sesion_permiso("consulta_destroy") && $validPostToken) {
           ConsultasController::getInstance()->eliminarConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -425,7 +430,7 @@ if(isset($_GET["action"])){
       break;
     case 'detalleConsulta':
       if ($isAjax) {
-        if ($validador->sesion_permiso("consulta_show")) {
+        if ($validador->sesion_permiso("consulta_show") && $validPostToken) {
           ConsultasController::getInstance()->detalleConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
@@ -444,6 +449,7 @@ if(isset($_GET["action"])){
   InicioController::getInstance()->mostrarInicio();
 }
 } catch (\Exception $e) {
+  $datos["csrf_token"] = Validador::getInstance()->get_token();
   $view = new PaginaError();
-  $view->show();
+  $view->show($datos);
 }

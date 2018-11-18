@@ -17,6 +17,7 @@ class LoginController {
   }
 
   public function mostrarLogin(){
+    $datos["csrf_token"] = Validador::getInstance()->get_token();
     $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
     $view = new Login();
     $view->show($datos);
@@ -27,6 +28,7 @@ class LoginController {
     $repoPermisos = RepositorioPermiso::getInstance();
     $id = $_SESSION["id"];
 
+    $datos["csrf_token"] = Validador::getInstance()->get_token();
     $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
     $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
     $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);

@@ -42,6 +42,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -58,7 +59,7 @@ function clickInicio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaReporte',
-    data : { pagina: pagina, agrupacion: agrupacion },
+    data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -108,6 +109,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#anterior")[0].className = "page-item";
@@ -116,7 +118,7 @@ function clickMedio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaReporte',
-    data : { pagina: pagina, agrupacion: agrupacion },
+    data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -153,6 +155,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#medio")[0].className = "page-item active";
@@ -166,7 +169,7 @@ function clickFinal(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaReporte',
-    data : { pagina: pagina, agrupacion: agrupacion },
+    data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

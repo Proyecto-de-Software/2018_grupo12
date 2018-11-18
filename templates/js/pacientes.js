@@ -69,6 +69,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -86,7 +87,7 @@ function clickInicio(){
   $.ajax({
     url : '?action=cargarPaginaPacientes',
     data : { tipoBusqueda : tipoBusqueda, nombre : nombre, apellido : apellido, pagina : pagina,
-             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica },
+             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -137,6 +138,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#anterior")[0].className = "page-item";
@@ -146,7 +148,7 @@ function clickMedio(){
   $.ajax({
     url : '?action=cargarPaginaPacientes',
     data : { tipoBusqueda : tipoBusqueda, nombre : nombre, apellido : apellido, pagina : pagina,
-             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica },
+             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -184,6 +186,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#medio")[0].className = "page-item active";
@@ -198,7 +201,7 @@ function clickFinal(){
   $.ajax({
     url : '?action=cargarPaginaPacientes',
     data : { tipoBusqueda : tipoBusqueda, nombre : nombre, apellido : apellido, pagina : pagina,
-             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica },
+             tipoDoc : tipoDoc, nroDoc : nroDoc, nroHistoriaClinica : nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -257,9 +260,11 @@ function mostrarMensajeEliminacion(){
 
 function eliminarPaciente(){
   var id = this.paciente;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=eliminarPaciente',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -427,10 +432,11 @@ function mostrarFormAlta() {
 //Funcion para agregar paciente "NN"
 function agregarPacienteSimple() {
   var nroHC = $("#as_nroHC").val();
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarPacienteSimple',
-    data : {nroHC: nroHC},
+    data : {nroHC: nroHC, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -471,13 +477,14 @@ function agregarPacienteCompleto() {
   var nroTel_cel = $("#ac_nroTel_cel").val();
   var obraSocial = $("#ac_obraSocial").val();
   var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarPacienteCompleto',
     data : { nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
       partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
-      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
-      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
+      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC, nroCarpeta: nroCarpeta,
+      nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -502,9 +509,11 @@ function agregarPacienteCompleto() {
 //------------------ Moficacion de pacientes ------------------
 function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=formularioModificacionPaciente',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -560,13 +569,14 @@ function modificarPaciente(){
   var nroTel_cel = $("#m_nroTel_cel").val();
   var obraSocial = $("#m_obraSocial").val();
   var regionSanitaria = $("#m_regionSanitaria")[0].reg;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=modificarPaciente',
     data : { id:id, nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
       partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
-      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,
-      nroCarpeta: nroCarpeta, nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria },
+      tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,nroCarpeta: nroCarpeta,
+      nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -592,9 +602,11 @@ function modificarPaciente(){
 //------------------ Ver informacion completa de pacientes ------------------
 function mostrarDetalle() {
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=detallePaciente',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

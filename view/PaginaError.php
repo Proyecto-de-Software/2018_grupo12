@@ -2,8 +2,8 @@
 
 class PaginaError extends TwigView {
 
-  public function show() {
-    echo self::getTwig()->render('paginaError.twig');
+  public function show($datos) {
+    echo self::getTwig()->render('paginaError.twig',$datos);
   }
 
 }

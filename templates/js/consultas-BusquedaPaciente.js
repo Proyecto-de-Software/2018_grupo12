@@ -68,6 +68,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -85,7 +86,7 @@ function clickInicio(){
   $.ajax({
     url : '?action=cargarPaginaPacientesParaConsulta',
     data : { pagina: pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -136,6 +137,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#a_anterior")[0].className = "page-item";
@@ -145,7 +147,7 @@ function clickMedio(){
   $.ajax({
     url : '?action=cargarPaginaPacientesParaConsulta',
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -183,6 +185,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#a_medio")[0].className = "page-item active";
@@ -197,7 +200,7 @@ function clickFinal(){
   $.ajax({
     url : '?action=cargarPaginaPacientesParaConsulta',
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -271,6 +274,7 @@ function cargarTiposDocumentos() {
 function autocompletar() {
   var row = this.parentNode.parentNode.cells;
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
 
   $("#a_nombre").val(row[0].innerHTML);
   $("#a_apellido").val(row[1].innerHTML);
@@ -280,7 +284,7 @@ function autocompletar() {
 
   $.ajax({
     url : '?action=obtenerCoordenadasDerivaciones',
-    data : {id: id},
+    data : {id: id, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

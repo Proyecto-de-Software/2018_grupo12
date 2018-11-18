@@ -16,11 +16,12 @@ function guardarDatos() {
   var email = $("#email")[0].value;
   var limite = $("#limite")[0].value;
   var habilitado = $("#habilitado")[0].value;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=guardarConfiguracion',
     data : { titulo : titulo, descripcion : descripcion, email : email,
-             limite : limite, habilitado : habilitado},
+             limite : limite, habilitado : habilitado, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

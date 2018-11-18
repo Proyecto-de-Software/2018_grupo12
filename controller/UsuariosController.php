@@ -47,7 +47,9 @@ class UsuariosController {
 
   public function logout() {
     session_destroy();
+    $_SESSION = [];
     $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
+    $datos["csrf_token"] = Validador::getInstance()->get_token();
     $view = new Inicio();
     $view->show($datos);
   }
@@ -68,6 +70,7 @@ class UsuariosController {
         $usuario->setRoles($repoRol->obtener_por_id_usuario($usuario->getId()));
       }
 
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
       $datos["username"] = $_SESSION["userName"];
@@ -77,8 +80,9 @@ class UsuariosController {
 
       $view->show($datos);
     } catch (\Exception $e) {
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $view = new PaginaError();
-      $view->show();
+      $view->show($datos);
     }
   }
 

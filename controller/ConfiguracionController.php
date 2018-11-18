@@ -23,6 +23,7 @@ class ConfiguracionController {
       $id = $_SESSION["id"];
 
       $datos = $config->obtener_configuracion();
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $datos["tituloPag"] = $config->getTitulo();
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
@@ -32,15 +33,15 @@ class ConfiguracionController {
       $view = new Configuracion();
       $view->show($datos);
     } catch (\Exception $e) {
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $view = new PaginaError();
-      $view->show();
+      $view->show($datos);
     }
   }
 
   public function guardarConfiguracion(){
     try {
       $config = RepositorioConfiguracion::getInstance();
-      $view = new Configuracion();
 
       //intentan hacer un envio vacio por ende redirecciono
       if (! (isset($_POST["titulo"]) && isset($_POST["descripcion"]) && isset($_POST["email"]) && isset($_POST["limite"]) && isset($_POST["habilitado"]))) {

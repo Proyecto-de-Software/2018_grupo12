@@ -46,6 +46,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -62,7 +63,7 @@ function clickInicio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaUsuarios',
-    data : { username : username, estado : estado, pagina : pagina },
+    data : { username : username, estado : estado, pagina : pagina, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -113,6 +114,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#anterior")[0].className = "page-item";
@@ -121,7 +123,7 @@ function clickMedio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaUsuarios',
-    data : { username : username, estado : estado, pagina : pagina },
+    data : { username : username, estado : estado, pagina : pagina, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -159,6 +161,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#medio")[0].className = "page-item active";
@@ -172,7 +175,7 @@ function clickFinal(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaUsuarios',
-    data : { username : username, estado : estado, pagina : pagina },
+    data : { username : username, estado : estado, pagina : pagina, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -232,9 +235,11 @@ function mostrarMensajeBloqueo(){
 
 function bloquearUsuario(){
   var id = this.usuario;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=bloquearUsuario',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -267,9 +272,11 @@ function mostrarMensajeActivacion(){
 
 function activarUsuario(){
   var id = this.usuario;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=activarUsuario',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -296,10 +303,11 @@ function agregarUsuario(){
   var nombreDeUsuario = $("#nombreDeUsuario")[0].value;
   var contrasena = $("#contrasena")[0].value;
   var email = $("#email")[0].value;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarUsuario',
-    data : { nombre: nombre, apellido:apellido, nombreDeUsuario:nombreDeUsuario, contrasena:contrasena, email:email },
+    data : { nombre: nombre, apellido:apellido, nombreDeUsuario:nombreDeUsuario, contrasena:contrasena, email:email, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -325,9 +333,11 @@ function agregarUsuario(){
 //------------------ Modificar usuario ------------------
 function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=formularioModificacionUsuario',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -355,10 +365,11 @@ function modificarUsuario(){
   var apellido = $("#apellidoModificacion")[0].value;
   var contrasena = $("#contrasenaModificacion")[0].value;
   var email = $("#emailModificacion")[0].value;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=modificarUsuario',
-    data : { id:id, nombre:nombre, apellido:apellido, contrasena:contrasena, email:email },
+    data : { id:id, nombre:nombre, apellido:apellido, contrasena:contrasena, email:email, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -391,9 +402,11 @@ function mostrarPanelAdministracionRoles() {
 
 //Usado para actualizar el contenido del modal
 function actualizarPanelAdministracionRoles(id) {
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=cuerpoPanelAdministracionRoles',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -419,10 +432,11 @@ function actualizarPanelAdministracionRoles(id) {
 function agregarRol() {
   var id = this.usuario;
   var idRol = $("#rol")[0].value;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarRol',
-    data : { id: id, idRol: idRol },
+    data : { id: id, idRol: idRol, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -449,10 +463,11 @@ function agregarRol() {
 function quitarRol() {
   var id = $("#btnAgregarRol")[0].usuario;
   var idRol = this.id;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=quitarRol',
-    data : { id: id, idRol: idRol },
+    data : { id: id, idRol: idRol, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

@@ -21,6 +21,7 @@ class BuscadorInstitucionesController {
     $view = new BuscadorInstituciones();
     $config = RepositorioConfiguracion::getInstance();
 
+    $datos["csrf_token"] = Validador::getInstance()->get_token();
     $datos["tituloPag"] = $config->getTitulo();
     $datos["descripcion"] = $config->getDescripcion();
     $datos["limite"] = $config->getLimite();

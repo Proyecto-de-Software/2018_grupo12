@@ -23,6 +23,7 @@ class InicioController {
     }elseif (Validador::getInstance()->sesion_iniciada()){
       LoginController::getInstance()->redirectHome();
     }else{
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $datos["tituloPag"] = RepositorioConfiguracion::getInstance()->getTitulo();
       $view = new Inicio();
       $view->show($datos);

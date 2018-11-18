@@ -44,6 +44,7 @@ class PacientesController {
         }
       }
 
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
       $datos["username"] = $_SESSION["userName"];
@@ -53,8 +54,9 @@ class PacientesController {
 
       $view->show($datos);
     } catch (\Exception $e) {
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $view = new PaginaError();
-      $view->show();
+      $view->show($datos);
     }
   }
 

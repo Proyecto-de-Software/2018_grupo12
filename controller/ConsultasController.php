@@ -28,6 +28,7 @@ class ConsultasController {
       $id = $_SESSION["id"];
       $limite = RepositorioConfiguracion::getInstance()->getLimite();
 
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
       $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
       $datos["username"] = $_SESSION["userName"];
@@ -39,8 +40,9 @@ class ConsultasController {
 
       $view->show($datos);
     } catch (\Exception $e) {
+      $datos["csrf_token"] = Validador::getInstance()->get_token();
       $view = new PaginaError();
-      $view->show();
+      $view->show($datos);
     }
   }
 
@@ -171,7 +173,7 @@ class ConsultasController {
       $id = $_POST["id"];
 
       if ($repoConsulta->eliminar_consulta($id)) {
-        TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Cnonsulta eliminada correctamente"));
+        TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Consulta eliminada correctamente"));
       }else {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
       }

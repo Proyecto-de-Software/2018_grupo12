@@ -45,6 +45,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -61,7 +62,7 @@ function clickInicio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : {nombre : nombre, pagina: pagina},
+    data : {nombre : nombre, pagina: pagina, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -112,6 +113,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#anterior")[0].className = "page-item";
@@ -120,7 +122,7 @@ function clickMedio(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : {nombre : nombre, pagina: pagina},
+    data : {nombre : nombre, pagina: pagina, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -158,6 +160,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#medio")[0].className = "page-item active";
@@ -171,7 +174,7 @@ function clickFinal(){
   //Cosulta para cargar la pagina requerida
   $.ajax({
     url : '?action=cargarPaginaRoles',
-    data : {nombre : nombre, pagina: pagina},
+    data : {nombre : nombre, pagina: pagina, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -259,10 +262,11 @@ function eliminarRol(){
 //Funcion para agregar rol
 function agregarRol(){
   var nombre = $("#a_nombre").val();
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=altaRol',
-    data : {nombre: nombre},
+    data : {nombre: nombre, token: token},
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -289,9 +293,11 @@ function mostrarFormularioModificacion() {
   mostrarFormulario(this.parentNode.id, false);
 }
 function mostrarFormulario(id, actualizar){
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=infoRol',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -348,10 +354,11 @@ function modificarRol(){
   //id del paciente a modificar
   var id = this.rol;
   var nombre = $("#m_nombre").val();
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=modificarRol',
-    data : { id:id, nombre: nombre },
+    data : { id:id, nombre: nombre, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -376,10 +383,11 @@ function modificarRol(){
 function eliminarPermiso() {
   var idRol = this.idRol;
   var idPermiso = this.id.split("_")[1];
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=quitarPermisoAlRol',
-    data : { idRol: idRol, idPermiso: idPermiso },
+    data : { idRol: idRol, idPermiso: idPermiso, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -403,10 +411,11 @@ function eliminarPermiso() {
 function agregarPermisos(){
   var idPermisos = $("#m_permiso").val();
   var idRol = this.rol;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarPermisos',
-    data : { idRol: idRol, idPermisos: idPermisos },
+    data : { idRol: idRol, idPermisos: idPermisos, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

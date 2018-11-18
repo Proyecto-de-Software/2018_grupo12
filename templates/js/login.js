@@ -13,10 +13,11 @@ function mostrarAlerta(texto, tipo){
 function validarDatos() {
   var usuario = $("#usuario")[0].value;
   var contrasena = $("#contrasena")[0].value;
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=validar',
-    data : { usuario : usuario, contrasena : contrasena },
+    data : { usuario : usuario, contrasena : contrasena, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;

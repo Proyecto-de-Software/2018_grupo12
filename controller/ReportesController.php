@@ -23,6 +23,7 @@ class ReportesController {
 
     $id = $_SESSION["id"];
 
+    $datos["csrf_token"] = Validador::getInstance()->get_token();
     $datos["modulos"] = $repoPermisos->modulos_id_usuario_admin($id,0);
     $datos["modulosAdministracion"] = $repoPermisos->modulos_id_usuario_admin($id,1);
     $datos["username"] = $_SESSION["userName"];

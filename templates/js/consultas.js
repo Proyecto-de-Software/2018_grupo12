@@ -65,6 +65,7 @@ function clickInicio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   if (pagina != "1") {
@@ -82,7 +83,7 @@ function clickInicio(){
   $.ajax({
     url : '?action=cargarPaginaConsultas',
     data : { pagina: pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -133,6 +134,7 @@ function clickMedio(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#anterior")[0].className = "page-item";
@@ -142,7 +144,7 @@ function clickMedio(){
   $.ajax({
     url : '?action=cargarPaginaConsultas',
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -180,6 +182,7 @@ function clickFinal(){
 
   //Guardo pagina requerida
   var pagina = this.innerHTML;
+  var token = $('meta[name="token"]').attr('content');
 
   //Actualizo indice segun corresponda
   $("#medio")[0].className = "page-item active";
@@ -194,7 +197,7 @@ function clickFinal(){
   $.ajax({
     url : '?action=cargarPaginaConsultas',
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
-             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
+             nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -267,9 +270,11 @@ function cargarTiposDocumentos() {
 //------------------ Baja de consultas ------------------
 function eliminarConsulta(){
   var id = this.consulta;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=eliminarConsulta',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -338,12 +343,13 @@ function agregarConsulta() {
   var articulacion = $("#a_articulacion").val();
   var diagnostico = $("#a_diagnostico").val();
   var observaciones = $("#a_observaciones").val();
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=agregarConsulta',
     data : { id: id, fecha: fecha, motivo: motivo, derivacion: derivacion,
       internacion: internacion, tratamiento: tratamiento, acompanamiento: acompanamiento,
-      articulacion: articulacion, diagnostico: diagnostico, observaciones: observaciones },
+      articulacion: articulacion, diagnostico: diagnostico, observaciones: observaciones, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -370,9 +376,11 @@ function agregarConsulta() {
 //------------------ Moficacion de pacientes ------------------
 function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=formularioModificacionConsulta',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -404,11 +412,12 @@ function modificarConsulta(){
   var articulacion = $("#m_articulacion").val();
   var diagnostico = $("#m_diagnostico").val();
   var observaciones = $("#m_observaciones").val();
+  var token = $('meta[name="token"]').attr('content');
 
   $.ajax({
     url : '?action=modificarConsulta',
     data : { id:id, tratamiento: tratamiento, articulacion: articulacion,
-             diagnostico: diagnostico, observaciones: observaciones },
+             diagnostico: diagnostico, observaciones: observaciones, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
@@ -437,9 +446,11 @@ function modificarConsulta(){
 //------------------ Ver informacion completa de pacientes ------------------
 function mostrarDetalle() {
   var id = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
+
   $.ajax({
     url : '?action=detalleConsulta',
-    data : { id: id },
+    data : { id: id, token: token },
     type : 'POST',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
