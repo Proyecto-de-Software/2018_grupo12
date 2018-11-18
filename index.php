@@ -321,6 +321,17 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'cargarPaginaReporte':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("reporte_index")) {
+          ReportesController::getInstance()->cargarPagina();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     case 'pdfConsultas':
       if ($validador->sesion_permiso("reporte_index")) {
         ReportesController::getInstance()->pdfConsultas();
@@ -339,6 +350,61 @@ if(isset($_GET["action"])){
       if ($isAjax) {
         if ($validador->sesion_permiso("consulta_index")) {
           ConsultasController::getInstance()->cargarPagina();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'cargarPaginaPacientesParaConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_new")) {
+          ConsultasController::getInstance()->cargarPaginaPacientesParaConsulta();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'obtenerCoordenadasDerivaciones':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_new")) {
+          ConsultasController::getInstance()->obtenerCoordenadasDerivaciones();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'agregarConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_new")) {
+          ConsultasController::getInstance()->agregarConsulta();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'formularioModificacionConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_update")) {
+          ConsultasController::getInstance()->formularioModificacionConsulta();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
+    case 'modificarConsulta':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("consulta_update")) {
+          ConsultasController::getInstance()->modificarConsulta();
         }else {
           TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
         }

@@ -37,17 +37,47 @@ class ReportesController {
   }
 
   public function pdfConsultas(){
+    $repoConsulta = RepositorioConsulta::getInstance();
+
     $pdf = new PDFConsultas();
     $pdf->AliasNbPages();
     // Carga de datos
-    $data[] = array('Dni 12345678', 123456, '2018-11-14', 'Control por Guardia', 0);
+    $data = $repoConsulta->obtener_todos();
     $pdf->SetFont('Arial','',14);
     $pdf->AddPage();
-    $pdf->FancyTable($data);
-    $pdf->AddPage();
-    $pdf->FancyTable($data);
-    $pdf->AddPage();
-    $pdf->FancyTable($data);
+    $pdf->FancyTable($data["consultas"]);
     $pdf->Output("D","reporteDeConsultas.pdf",true);
+  }
+
+  public function cargarPagina(){
+    try {
+      $config = RepositorioConfiguracion::getInstance();
+      $repoConsulta = RepositorioConsulta::getInstance();
+      $view = new Reportes();
+
+      $pagina = $_POST["pagina"];
+      $agrupacion = $_POST["agrupacion"];
+      $limite = $config->getLimite();
+      $id = $_SESSION["id"];
+
+      if ($agrupacion != "motivo" && $agrupacion != "genero" && $agrupacion != "localidad") {
+        $agrupacion = "motivo";
+      }
+
+      //Identifico tipo de busqueda
+      $resultado = $repoConsulta->obtener_todos_orden($agrupacion,$limite,$pagina);
+
+      if (empty($resultado["consultas"])) {
+        $view->jsonEncode(array('estado' => "no hay"));
+      }else{
+
+        $datos["consultas"] = $resultado["consultas"];
+
+        $cantPaginasRestantes = (ceil( $resultado["total_consultas"] / $limite)) - $pagina;
+        $view->cargarPagina($datos,$cantPaginasRestantes);
+      }
+    }catch (\Exception $e){
+      TwigView::jsonEncode(array('estado' => "error"));
+    }
   }
 }

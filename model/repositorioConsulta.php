@@ -140,38 +140,29 @@ class RepositorioConsulta
         $conexion = null;
         return $ok;
     }
-    public function actualizar_consulta($id, $paciente_id, $fecha, $motivo_id, $derivacion_id, $articulacion_con_instituciones,
-        $internacion, $diagnostico, $observaciones, $tratamiento_farmacologico_id, $acompanamiento_id) {
+    public function actualizar_consulta($id, $tratamiento_farmacologico_id, $articulacion_con_instituciones,
+        $diagnostico, $observaciones) {
         $ok = false;
         $conexion = abrir_conexion();
         if ($conexion !== null) {
             try {
-                $sql = "UPDATE consulta SET paciente_id=:paciente_id, fecha=:fecha, motivo_id=:motivo_id
-                , derivacion_id=:derivacion_id, articulacion_con_instituciones=:articulacion_con_institucion,
-                 internacion=:internacion, diagnostico=:diagnostico, observaciones=:observaciones, tratamiento_farmacologico_id=:tratamiento_farmacologico_id,
-                 acompanamiento_id=:acompanamiento_id
+                $sql = "UPDATE consulta SET articulacion_con_instituciones=:articulacion_con_institucion,
+                 diagnostico=:diagnostico, observaciones=:observaciones, tratamiento_farmacologico_id=:tratamiento_farmacologico_id
                 WHERE id=:id AND borrado=0";
                 $sentencia = $conexion->prepare($sql);
                 $sentencia->bindParam(":id", $id);
-                $sentencia->bindParam(":paciente_id", $paciente_id);
-                $sentencia->bindParam(":fecha", $fecha);
-                $sentencia->bindParam(":motivo_id", $motivo_id);
-                $derivacion_id = $this->toNull($derivacion_id);
-                $sentencia->bindParam(":derivacion_id", $derivacion_id);
                 $sentencia->bindParam(":articulacion_con_institucion", $articulacion_con_instituciones);
-                $sentencia->bindParam(":internacion", $internacion);
                 $sentencia->bindParam(":diagnostico", $diagnostico);
                 $sentencia->bindParam(":observaciones", $observaciones);
                 $tratamiento_farmacologico_id = $this->toNull($tratamiento_farmacologico_id);
-                $acompanamiento_id = $this->toNull($acompanamiento_id);
                 $sentencia->bindParam(":tratamiento_farmacologico_id", $tratamiento_farmacologico_id);
-                $sentencia->bindParam(":acompanamiento_id", $acompanamiento_id);
                 $ok = $sentencia->execute();
             } catch (PDOException $ex) {
                 throw new Exception("error repositorioConsulta->actualizar_consulta " . $ex->getMessage());
             }
-
         }
+        $conexion = null;
+        return $ok;
     }
     public function obtener_por_id($id)
     {
@@ -207,11 +198,12 @@ class RepositorioConsulta
         fecha
         motivo
         institucion
-        articulacion_con_institucion
+        articulacion_con_instituciones
         internacion
         diagnostico
         observaciones
-        tratamiento_Farmacologico
+        tratamiento_farmacologico
+        tratamiento_farmacologico_id
         acompanamiento
         tipo_documento
         documento
@@ -222,7 +214,7 @@ class RepositorioConsulta
         if ($conexion !== null) {
             try {
                 $sql = "SELECT Distinct c.id,c.paciente_id,p.nombre as nombre,p.apellido as apellido,c.fecha,m.nombre as motivo,i.nombre as institucion,c.articulacion_con_instituciones,c.internacion,
-                c.diagnostico,c.observaciones,tf.nombre as tratamiento_farmacologico,a.nombre as acompanamiento,td.nombre as tipo_documento,p.numero as documento,
+                c.diagnostico,c.observaciones,tf.nombre as tratamiento_farmacologico,tf.id as tratamiento_farmacologico_id,a.nombre as acompanamiento,td.nombre as tipo_documento,p.numero as documento,
                 p.nro_historia_clinica as historia_clinica
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 LEFT JOIN institucion i ON (c.derivacion_id=i.id)

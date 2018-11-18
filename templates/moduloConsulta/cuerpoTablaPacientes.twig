@@ -1,0 +1,14 @@
+{% for paciente in pacientes %}
+  <tr>
+    <td class="textcenter" >{{ paciente.getNombre |capitalize }}</td>
+    <td class="textcenter" >{{ paciente.getApellido |capitalize }}</td>
+    <td class="textcenter" >{{ "#{paciente.getNombreTipoDocumento} #{paciente.getNumero}" }}</td>
+    <td class="textcenter" >{{ paciente.getNro_historia_clinica }}</td>
+    <td class="textcenter" >{{ paciente.getNombreObraSocial }}</td>
+    <td id="{{ paciente.getId }}" class="textcenter">
+      <button type="button" name="autocomplete" class="btn btn-sm btn-primary mb-1">Seleccionar</button>
+    </td>
+  </tr>
+  {% else %}
+    <tr><td colspan="6" class="textcenter" >No hay pacientes para mostrar</td></tr>
+{% endfor %}

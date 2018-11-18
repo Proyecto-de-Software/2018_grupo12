@@ -5,7 +5,8 @@
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script>
         /*este arreglo es el que recibirias de una peticion ajax
-        bahia blanca,pergamino,junin,pehuajo*/var a=["-38.737580,-62.261030","-35.824986,-61.894783","-34.592618,-60.950547","-33.895489,-60.577274"];
+        bahia blanca,pergamino,junin,pehuajo*/
+        var a=["-38.737580,-62.261030","-35.824986,-61.894783","-34.592618,-60.950547","-33.895489,-60.577274"];
         map = new OpenLayers.Map("mapdiv");
         map.addLayer(new OpenLayers.Layer.OSM());
         var c=[];
@@ -13,26 +14,25 @@
             var b=a[i].split(",");
             c[i] = new OpenLayers.LonLat(b[1], b[0])
             .transform(
-                new OpenLayers.Projection("EPSG:4326"), 
-                map.getProjectionObject() 
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject()
             );
         }
         var zoom = 6;
 
         var markers = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(markers);
-        
+
         for(var i=0;i<c.length;i++){
             markers.addMarker(new OpenLayers.Marker(c[i]));
         }
         var centro=new OpenLayers.LonLat(-60.029436,-36.319530)
             .transform(
-                new OpenLayers.Projection("EPSG:4326"), 
-                map.getProjectionObject() 
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject()
             );
         map.setCenter(centro, zoom);
     </script>
 </body>
 
 </html>
-

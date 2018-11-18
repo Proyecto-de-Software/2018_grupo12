@@ -19,4 +19,11 @@ class Consultas extends TwigView {
 
     self::jsonEncode($respuesta);
   }
+
+  public function cargarPaginaPacientesParaConsulta($datos,$cantPaginasRestantes){
+    $contenido = self::getTwig()->render('moduloConsulta/cuerpoTablaPacientes.twig', $datos);
+    $respuesta = array('estado' => "si hay",'pagRestantes' => $cantPaginasRestantes,'contenido' => $contenido);
+
+    self::jsonEncode($respuesta);
+  }
 }
