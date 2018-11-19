@@ -180,6 +180,17 @@ if(isset($_GET["action"])){
         InicioController::getInstance()->mostrarInicio();
       }
       break;
+    case 'pacienteTieneConsultas':
+      if ($isAjax) {
+        if ($validador->sesion_permiso("paciente_destroy") && $validPostToken) {
+          PacientesController::getInstance()->pacienteTieneConsultas();
+        }else {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "No posee permisos para realizar la acción"));
+        }
+      }else {
+        InicioController::getInstance()->mostrarInicio();
+      }
+      break;
     case 'eliminarPaciente':
       if ($isAjax) {
         if ($validador->sesion_permiso("paciente_destroy") && $validPostToken) {

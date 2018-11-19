@@ -134,6 +134,19 @@ class PacientesController {
     }
   }
 
+  public function pacienteTieneConsultas(){
+    try {
+      $repoPaciente = RepositorioPaciente::getInstance();
+
+      $idPaciente = $_POST["idPaciente"];
+
+      TwigView::jsonEncode(array('estado' => "success", 'tieneConsultas'=> $repoPaciente->paciente_tiene_consultas($idPaciente)));
+
+    }catch (\Exception $e){
+      TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "No se pudo realizar la operacion, vuelva a intentar mas tarde"));
+    }
+  }
+
   public function eliminarPaciente(){
     try {
       $repoPaciente = RepositorioPaciente::getInstance();

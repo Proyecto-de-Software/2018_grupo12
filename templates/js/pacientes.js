@@ -249,13 +249,36 @@ function siguiente(){
 }
 //------------------ Baja de pacientes ------------------
 function mostrarMensajeEliminacion(){
-  $("#tituloMensaje").html("Eliminar paciente");
-  $("#cuerpoMensaje").html("¿Esta seguro de que desea eliminar este paciente?")
+  var idPaciente = this.parentNode.id;
+  var token = $('meta[name="token"]').attr('content');
 
-  $("#botonMensaje")[0].paciente = this.parentNode.id;
-  $("#botonMensaje")[0].onclick = eliminarPaciente;
+  $.ajax({
+    url : '?action=pacienteTieneConsultas',
+    data : { idPaciente: idPaciente, token: token },
+    type : 'POST',
+    dataType: 'json',
+    success : function(respuesta) {
+      switch (respuesta.estado) {
+        case "success":
+          $("#tituloMensaje").html("Eliminar paciente");
+          $("#cuerpoMensaje").html("¿Esta seguro de que desea eliminar este paciente?");
+          if (respuesta.tieneConsultas) {
+            $("#cuerpoMensaje").append(' <br> <div class="rojo"> El paciente posee consultas, estas tambien se eliminaran </div>');
+          }
 
-  $("#mensajeConfirmacion").modal();
+          $("#botonMensaje")[0].paciente = idPaciente;
+          $("#botonMensaje")[0].onclick = eliminarPaciente;
+
+          $("#mensajeConfirmacion").modal();
+          break;
+        case "error":
+          mostrarAlerta(respuesta.mensaje,respuesta.estado);
+          break;
+        default:
+          mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
+      }
+    }
+  });
 }
 
 function eliminarPaciente(){
