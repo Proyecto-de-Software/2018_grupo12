@@ -758,7 +758,7 @@ class RepositorioPaciente
           try{
               $sql="SELECT COUNT(c.id) as result
                     FROM consulta c INNER JOIN paciente p ON (c.paciente_id=p.id)
-                    WHERE p.id=:id";
+                    WHERE p.id=:id AND c.borrado=0";
               $s=$conexion->prepare($sql);
               $s->bindParam(":id",$id);
               $s->execute();
