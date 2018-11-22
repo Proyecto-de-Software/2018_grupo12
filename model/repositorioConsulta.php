@@ -554,13 +554,11 @@ class RepositorioConsulta
                 $cant = 0;
                 foreach ($re as $r) {
                     $porcentaje = ($r['cantidad'] * 100) / $total;
-                    $porcentaje = bcdiv($porcentaje, '1', 2);
                     $result[] = array("nombre" => $r['nombre'], "porcentaje" => $porcentaje);
                     $cant = $cant + $r['cantidad'];
                 }
                 if ($cant < $total) {
                     $porcentaje = ((($total - $cant) * 100) / $total);
-                    $porcentaje = bcdiv($porcentaje, '1', 2);
                     $result[] = array("nombre" => "no se conoce", "porcentaje" => $porcentaje);
                 }
             } catch (PDOException $e) {
@@ -571,7 +569,7 @@ class RepositorioConsulta
         return $result;
     }
     public function motivo_porcentaje()
-    {
+    {    
         $result = array();
         $conexion = abrir_conexion();
         if ($conexion !== null) {
@@ -587,7 +585,6 @@ class RepositorioConsulta
                 $cant = 0;
                 foreach ($re as $r) {
                     $porcentaje = ($r['cantidad'] * 100) / $total;
-                    $porcentaje = bcdiv($porcentaje, '1', 2);
                     $result[] = array("nombre" => $r['nombre'], "porcentaje" => $porcentaje);
                 }
 
@@ -616,13 +613,11 @@ class RepositorioConsulta
                 $cant = 0;
                 foreach ($re as $r) {
                     $porcentaje = ($r['cantidad'] * 100) / $total;
-                    $porcentaje = bcdiv($porcentaje, '1', 2);
                     $result[] = array("nombre" => $r['nombre'], "porcentaje" => $porcentaje);
                     $cant = $cant + $r['cantidad'];
                 }
                 if ($cant < $total) {
                     $porcentaje = ((($total - $cant) * 100) / $total);
-                    $porcentaje = bcdiv($porcentaje, '1', 2);
                     $result[] = array("nombre" => "no se conoce localidad", "porcentaje" => $porcentaje);
                 }
             } catch (PDOException $e) {
