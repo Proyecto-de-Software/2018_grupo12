@@ -15,6 +15,11 @@ function validarDatos() {
   var contrasena = $("#contrasena")[0].value;
   var token = $('meta[name="token"]').attr('content');
 
+  if (! (usuario && contrasena)) {
+    mostrarAlerta("Complete todos los campos","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=validar',
     data : { usuario : usuario, contrasena : contrasena, token: token },

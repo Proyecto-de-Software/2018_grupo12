@@ -30,6 +30,7 @@ body {
 }
 .bottomclass{
   bottom:1em;
+  z-index: 3;
 }
 .alturabuscador{
   height: 3.375em;
@@ -84,5 +85,10 @@ body {
 @media only screen and (min-width: 1200px) {
   .inputBuscadorPaciente{
     width: inherit !important;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .margenInferiorMensaje{
+    margin-bottom: 6.65em !important;
   }
 }

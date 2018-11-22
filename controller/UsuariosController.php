@@ -282,6 +282,11 @@ class UsuariosController {
     try {
       $id = $_POST["id"];
 
+      if (! $id) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Usuario no especificado"));
+        return;
+      }
+
       $repoUsuario = RepositorioUsuario::getInstance();
       $repoRol = RepositorioRol::getInstance();
       $view = new Usuarios();
@@ -305,6 +310,11 @@ class UsuariosController {
       $id = $_POST["id"];
       $idRol = $_POST["idRol"];
 
+      if (! ($id && $idRol)) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Usuario o rol no especificados"));
+        return;
+      }
+
       $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
 
       if ($idRol == "no seleccionado") {
@@ -325,6 +335,11 @@ class UsuariosController {
     try {
       $id = $_POST["id"];
       $idRol = $_POST["idRol"];
+
+      if (! ($id && $idRol)) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Usuario o rol no especificados"));
+        return;
+      }
 
       $repoUsuarioTieneRol = RepositorioUsuarioTieneRol::getInstance();
       $repoRol = RepositorioRol::getInstance();

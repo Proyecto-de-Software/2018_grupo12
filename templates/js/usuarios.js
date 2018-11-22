@@ -237,6 +237,11 @@ function bloquearUsuario(){
   var id = this.usuario;
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Usuario no especificado","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=bloquearUsuario',
     data : { id: id, token: token },
@@ -274,6 +279,11 @@ function activarUsuario(){
   var id = this.usuario;
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Usuario no especificado","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=activarUsuario',
     data : { id: id, token: token },
@@ -296,6 +306,30 @@ function activarUsuario(){
 }
 
 //------------------ Agregar usuario ------------------
+// Se liga a un input para aceptar solo letras y espacios
+function soloLetras(event){
+  var inputValue = event.which;
+  // allow letters and whitespaces only.
+  if(!( (inputValue >= 65 && inputValue <= 90) ||
+        (inputValue >= 97 && inputValue <= 122) ||
+        (inputValue == 32) || (inputValue == 0) ||
+        (inputValue == 8) || (inputValue == 241) || (inputValue == 209)
+      )
+    ){
+    event.preventDefault();
+  }
+}
+//Se liga a un input para no aceptar mayusculas ni espacios
+function sinMayusculasNiEspacios(event){
+  var inputValue = event.which;
+  // allow letters and whitespaces only.
+  if( (inputValue >= 65 && inputValue <= 90) ||
+      (inputValue == 209) || (inputValue == 32)
+    ){
+    event.preventDefault();
+  }
+}
+
 function agregarUsuario(){
   //Tomo datos del formulario
   var nombre = $("#nombre")[0].value;
@@ -304,6 +338,14 @@ function agregarUsuario(){
   var contrasena = $("#contrasena")[0].value;
   var email = $("#email")[0].value;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! (nombre && apellido && email && contrasena && nombreDeUsuario)) {
+    mostrarAlerta("Complete todos los campos","error");
+    return;
+  }else if (contrasena.length < 8) {
+    mostrarAlerta("La contraseña debe tener por lo menos 8 caracteres","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=agregarUsuario',
@@ -335,6 +377,11 @@ function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Usuario no especificado","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=formularioModificacionUsuario',
     data : { id: id, token: token },
@@ -347,6 +394,8 @@ function mostrarFormularioModificacion(){
         $("#contenidoModificarUsuario").html(respuesta.contenido);
         $("#btnModificarUsuario")[0].usuario = id;
         $("#btnModificarUsuario")[0].onclick = modificarUsuario;
+        $("#nombreModificacion").bind("keypress", soloLetras);
+        $("#apellidoModificacion").bind("keypress", soloLetras);
         $("#tabModificarUsuario").css({"display":"block"});
         $('#menuTabs a[href="#contenidoModificarUsuario"]').tab('show');
       }else {
@@ -366,6 +415,14 @@ function modificarUsuario(){
   var contrasena = $("#contrasenaModificacion")[0].value;
   var email = $("#emailModificacion")[0].value;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! (nombre && apellido && email)) {
+    mostrarAlerta("Complete todos los campos","error");
+    return;
+  }else if (contrasena && contrasena.length < 8) {
+    mostrarAlerta("La contraseña debe tener por lo menos 8 caracteres","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=modificarUsuario',
@@ -404,6 +461,11 @@ function mostrarPanelAdministracionRoles() {
 function actualizarPanelAdministracionRoles(id) {
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Usuario no especificado","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=cuerpoPanelAdministracionRoles',
     data : { id: id, token: token },
@@ -422,6 +484,8 @@ function actualizarPanelAdministracionRoles(id) {
         });
 
         $("#panelAdministracionRoles").modal();
+      }else if (respuesta.estado == "error") {
+        mostrarAlerta(respuesta.mensaje, respuesta.estado);
       }else {
         mostrarAlerta("No se pudo realizar la operacion vuelva a intentar mas tarde","error");
       }
@@ -433,6 +497,11 @@ function agregarRol() {
   var id = this.usuario;
   var idRol = $("#rol")[0].value;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! (id && idRol)) {
+    mostrarAlerta("Usuario o rol no especificados","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=agregarRol',
@@ -464,6 +533,11 @@ function quitarRol() {
   var id = $("#btnAgregarRol")[0].usuario;
   var idRol = this.id;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! (id && idRol)) {
+    mostrarAlerta("Usuario o rol no especificados","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=quitarRol',
@@ -546,6 +620,9 @@ function asignarFuncionesALasOperaciones(){
 function initialize(){
   if ($("#btnAgregarUsuario")[0]) {
     $("#btnAgregarUsuario")[0].onclick = agregarUsuario;
+    $("#nombre").bind("keypress", soloLetras);
+    $("#apellido").bind("keypress", soloLetras);
+    $("#nombreDeUsuario").bind("keypress", sinMayusculasNiEspacios);
   }
 
   if ($("#tabUsuarios")[0]) {

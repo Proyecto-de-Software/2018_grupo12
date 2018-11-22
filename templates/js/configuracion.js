@@ -18,6 +18,11 @@ function guardarDatos() {
   var habilitado = $("#habilitado")[0].value;
   var token = $('meta[name="token"]').attr('content');
 
+  if (!(titulo && descripcion && email && limite) || habilitado == "" ){
+    mostrarAlerta("Complete todos los campos","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=guardarConfiguracion',
     data : { titulo : titulo, descripcion : descripcion, email : email,
