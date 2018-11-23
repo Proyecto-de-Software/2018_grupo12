@@ -28,3 +28,6 @@ Usuario para ingresar al sismtema:
 link api intituciones:https://grupo12.proyecto2018.linti.unlp.edu.ar/apiRest/api.php/instituciones
 
 nombre bot de telegram: grupo12_bot
+
+en el comando /instituciones_region_sanitaria:region_sanitaria se espera que region_sanitaria sea el nombre de la region(numero romano de 1 a 12)
+ejemplo: /instituciones_region_sanitaria:VI
