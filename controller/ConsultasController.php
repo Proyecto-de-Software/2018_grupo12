@@ -172,6 +172,11 @@ class ConsultasController {
 
       $id = $_POST["id"];
 
+      if (! $id) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "Consulta no especificada"));
+        return;
+      }
+
       if ($repoConsulta->eliminar_consulta($id)) {
         TwigView::jsonEncode(array('estado' => "success", 'mensaje'=> "Consulta eliminada correctamente"));
       }else {
@@ -188,6 +193,11 @@ class ConsultasController {
       $view = new Consultas();
 
       $id = $_POST["id"];
+
+      if (! $id) {
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "Consulta no especificada"));
+        return;
+      }
 
       $view->detalleConsulta($repoConsulta->obtener_info_completa($id));
     }catch (\Exception $e){
@@ -244,6 +254,11 @@ class ConsultasController {
   try {
         $id = $_POST["id"];
 
+        if (! $id) {
+          TwigView::jsonEncode(array('estado' => "error", 'mensaje'=> "Consulta no especificada"));
+          return;
+        }
+
         $repoConsulta = RepositorioConsulta::getInstance();
 
         $consulta = $repoConsulta->obtener_info_completa($id);
@@ -271,7 +286,7 @@ class ConsultasController {
       $repoConsulta = RepositorioConsulta::getInstance();
 
       if (! $id) {
-        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "error"));
+        TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Consulta no especificada"));
         return false;
       }elseif (! $diagnostico) {
         TwigView::jsonEncode(array('estado' => "error", 'mensaje' => "Complete los campos obligatorios"));

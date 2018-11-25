@@ -634,6 +634,9 @@ function initialize(){
     $("#btnBuscar")[0].onclick = buscar;
     $("#estado")[0].value = "no aplica";
     $("#username")[0].value = "";
+
+    $("#username").bind("keypress", sinMayusculasNiEspacios);
+
     //Disparo para cargar la pagina inicial
     $("#btnInicio")[0].onclick();
   }else {

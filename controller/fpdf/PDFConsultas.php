@@ -54,7 +54,7 @@ class PDFConsultas extends FPDF{
       $this->Cell($w[0],6,($row["tipo_documento"] . " " . $row["documento"]),'LR',0,'C',$fill);
       $this->Cell($w[1],6,$row["historia_clinica"],'LR',0,'C',$fill);
       $this->Cell($w[2],6,$fecha,'LR',0,'C',$fill);
-      $this->Cell($w[3],6,$row["motivo"],'LR',0,'C',$fill);
+      $this->Cell($w[3],6,iconv('UTF-8', 'windows-1252', $row["motivo"]),'LR',0,'C',$fill);
       $this->Cell($w[4],6,$estado[$row["internacion"]],'LR',0,'C',$fill);
       $this->Ln();
       $fill = !$fill;

@@ -457,6 +457,14 @@ function agregarPacienteSimple() {
   var nroHC = $("#as_nroHC").val();
   var token = $('meta[name="token"]').attr('content');
 
+  if (! nroHC) {
+    mostrarAlerta("Complete todos los campos","error");
+    return;
+  }else if (nroHC.length > 6) {
+    mostrarAlerta("Numero de historia tiene un maximo de 6 numeros","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=agregarPacienteSimple',
     data : {nroHC: nroHC, token: token},
@@ -501,6 +509,20 @@ function agregarPacienteCompleto() {
   var obraSocial = $("#ac_obraSocial").val();
   var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! (nombre && apellido && fNacimiento && domicilio && (tieneDoc == "0" || tieneDoc == "1") && tipoDoc && nroDoc)) {
+    mostrarAlerta("Complete todos los campos obligatorios","error");
+    return;
+  }else if (nroDoc.length < 8 || nroDoc.length > 10) {
+    mostrarAlerta("El numero de documento debe tener entre 8 y 10 caracteres","error");
+    return;
+  }else if (nroHC.length > 6) {
+    mostrarAlerta("Numero de historia tiene un maximo de 6 numeros","error");
+    return;
+  }else if (nroCarpeta.length > 5) {
+    mostrarAlerta("Numero de carpeta tiene un maximo de 5 numeros","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=agregarPacienteCompleto',
@@ -717,6 +739,27 @@ function asignarFuncionesALasOperaciones(){
 
 }
 
+function soloLetras(event){
+  var inputValue = event.which;
+  // allow letters and whitespaces only.
+  if(!( (inputValue >= 65 && inputValue <= 90) ||
+        (inputValue >= 97 && inputValue <= 122) ||
+        (inputValue == 32) || (inputValue == 0) ||
+        (inputValue == 8) || (inputValue == 241) || (inputValue == 209)
+      )
+    ){
+    event.preventDefault();
+  }
+}
+
+function soloNumeros(event) {
+  var inputValue = event.which;
+  // allow letters and whitespaces only.
+  if(inputValue != 8 && (inputValue < 48 || inputValue > 57)){
+    event.preventDefault();
+  }
+}
+
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
 
@@ -733,6 +776,14 @@ function initialize(){
     $("#ac_partido").bind('change', function(){ cargarRegionSanitaria("#ac_partido", "#ac_regionSanitaria") });
     $("#ac_partido").bind('change', function(){ cargarLocalidades("#ac_partido", "#ac_localidad") });
     $("#ac_regionSanitaria")[0].reg = "";
+
+    $("#as_nroHC").bind("keypress", soloNumeros);
+
+    $("#ac_nombre").bind("keypress", soloLetras);
+    $("#ac_apellido").bind("keypress", soloLetras);
+    $("#ac_nroDoc").bind("keypress", soloNumeros);
+    $("#ac_nroHC").bind("keypress", soloNumeros);
+    $("#ac_nroCarpeta").bind("keypress", soloNumeros);
   }
 
   //pregunto por modulo de Modificacion
@@ -743,6 +794,12 @@ function initialize(){
     $("#m_partido").bind('change', function(){ cargarRegionSanitaria("#m_partido", "#m_regionSanitaria") });
     $("#m_partido").bind('change', function(){ cargarLocalidades("#m_partido", "#m_localidad") });
     $("#m_regionSanitaria")[0].reg = "";
+
+    $("#m_nombre").bind("keypress", soloLetras);
+    $("#m_apellido").bind("keypress", soloLetras);
+    $("#m_nroDoc").bind("keypress", soloNumeros);
+    $("#m_nroHC").bind("keypress", soloNumeros);
+    $("#m_nroCarpeta").bind("keypress", soloNumeros);
   }
 
   //Pregunto por modulo de listado (contiene baja y show)
@@ -763,6 +820,12 @@ function initialize(){
     $("#bus_tipoDoc")[0].value = "";
     $("#bus_nroDoc")[0].value = "";
     $("#bus_nroHistoriaClinica")[0].value = "";
+
+    $("#bus_nombre").bind("keypress", soloLetras);
+    $("#bus_apellido").bind("keypress", soloLetras);
+    $("#bus_nroDoc").bind("keypress", soloNumeros);
+    $("#bus_nroHistoriaClinica").bind("keypress", soloNumeros);
+
     //Disparo para cargar la pagina inicial
     $("#btnInicio")[0].onclick();
   }else {

@@ -355,6 +355,9 @@ function initialize(){
     $("#a_bus_nroDoc")[0].value = "";
     $("#a_bus_nroHistoriaClinica")[0].value = "";
 
+    $("#a_bus_nroDoc").bind("keypress", soloNumeros);
+    $("#a_bus_nroHistoriaClinica").bind("keypress", soloNumeros);
+
     //Disparo para cargar la pagina inicial
     $("#a_btnInicio")[0].onclick();
   }

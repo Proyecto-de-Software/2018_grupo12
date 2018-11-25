@@ -272,6 +272,11 @@ function eliminarConsulta(){
   var id = this.consulta;
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Consulta no especificada","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=eliminarConsulta',
     data : { id: id, token: token },
@@ -345,6 +350,21 @@ function agregarConsulta() {
   var observaciones = $("#a_observaciones").val();
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id) {
+    mostrarAlerta("Seleccione un paciente de la lista","error");
+    return;
+  }
+
+  if (!(fecha && motivo && diagnostico && (internacion == "1" || internacion == "0"))) {
+    mostrarAlerta("Complete los campos obligatorios","error");
+    return;
+  }
+
+  if (articulacion.length > 255 || diagnostico.length > 255 || observaciones.length > 255) {
+    mostrarAlerta("Los textos ingresados deben tener un maximo de 255 caracteres","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=agregarConsulta',
     data : { id: id, fecha: fecha, motivo: motivo, derivacion: derivacion,
@@ -377,6 +397,11 @@ function agregarConsulta() {
 function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! id) {
+    mostrarAlerta("Consulta no especificada","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=formularioModificacionConsulta',
@@ -414,6 +439,21 @@ function modificarConsulta(){
   var observaciones = $("#m_observaciones").val();
   var token = $('meta[name="token"]').attr('content');
 
+  if (! id || id == "") {
+    mostrarAlerta("Consulta no especificada","error");
+    return;
+  }
+
+  if (! diagnostico) {
+    mostrarAlerta("Complete los campos obligatorios","error");
+    return;
+  }
+
+  if (articulacion.length > 255 || diagnostico.length > 255 || observaciones.length > 255) {
+    mostrarAlerta("Los textos ingresados deben tener un maximo de 255 caracteres","error");
+    return;
+  }
+
   $.ajax({
     url : '?action=modificarConsulta',
     data : { id:id, tratamiento: tratamiento, articulacion: articulacion,
@@ -447,6 +487,11 @@ function modificarConsulta(){
 function mostrarDetalle() {
   var id = this.parentNode.id;
   var token = $('meta[name="token"]').attr('content');
+
+  if (! id || id == "") {
+    mostrarAlerta("Consulta no especificada","error");
+    return;
+  }
 
   $.ajax({
     url : '?action=detalleConsulta',
@@ -543,6 +588,14 @@ function asignarFuncionesALasOperaciones(){
 
 }
 
+function soloNumeros(event) {
+  var inputValue = event.which;
+  // allow letters and whitespaces only.
+  if(inputValue != 8 && (inputValue < 48 || inputValue > 57)){
+    event.preventDefault();
+  }
+}
+
 //Asigno valores y funciones a los botones y campos.
 function initialize(){
 
@@ -552,13 +605,6 @@ function initialize(){
 
     //Select a_derivacion del formulario de alta de una consulta
     cargarInstituciones();
-  }
-
-  //pregunto por modulo de Modificacion
-  if ($("#tabModificarPaciente")[0]) {
-    $("#m_partido").bind('change', function(){ cargarRegionSanitaria("#m_partido", "#m_regionSanitaria") });
-    $("#m_partido").bind('change', function(){ cargarLocalidades("#m_partido", "#m_localidad") });
-    $("#m_regionSanitaria")[0].reg = "";
   }
 
   //Pregunto por modulo de listado (contiene baja y show)
@@ -578,6 +624,9 @@ function initialize(){
     $("#bus_tipoDoc")[0].value = "";
     $("#bus_nroDoc")[0].value = "";
     $("#bus_nroHistoriaClinica")[0].value = "";
+
+    $("#bus_nroDoc").bind("keypress", soloNumeros);
+    $("#bus_nroHistoriaClinica").bind("keypress", soloNumeros);
 
     //Disparo para cargar la pagina inicial
     $("#btnInicio")[0].onclick();
