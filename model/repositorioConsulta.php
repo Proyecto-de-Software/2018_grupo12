@@ -277,7 +277,7 @@ class RepositorioConsulta
         if ($conexion !== null) {
             try {
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion, g.nombre as genero, l.nombre as localidad
+                c.fecha,m.nombre as motivo,c.internacion, g.nombre as genero, l.nombre as localidad, p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN genero g ON(p.genero_id=g.id)
@@ -290,7 +290,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"], "genero" => $r['genero'], "localidad" => $r['localidad']);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"], "genero" => $r['genero'], "localidad" => $r['localidad'],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -336,7 +337,7 @@ class RepositorioConsulta
                         break;
                 }
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion, g.nombre as genero, l.nombre as localidad
+                c.fecha,m.nombre as motivo,c.internacion, g.nombre as genero, l.nombre as localidad, p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN genero g ON(p.genero_id=g.id)
@@ -355,7 +356,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"], "genero" => $r['genero'], "localidad" => $r['localidad']);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"], "genero" => $r['genero'], "localidad" => $r['localidad'],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -387,7 +389,7 @@ class RepositorioConsulta
             try {
                 $primero = $limite * ($pag - 1);
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion
+                c.fecha,m.nombre as motivo,c.internacion, p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
@@ -401,7 +403,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"]);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -426,7 +429,7 @@ class RepositorioConsulta
             try {
                 $primero = $limite * ($pag - 1);
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion
+                c.fecha,m.nombre as motivo,c.internacion, p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
@@ -441,7 +444,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"]);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -466,7 +470,7 @@ class RepositorioConsulta
             try {
                 $primero = $limite * ($pag - 1);
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion
+                c.fecha,m.nombre as motivo,c.internacion,p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
@@ -481,7 +485,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"]);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
@@ -506,7 +511,7 @@ class RepositorioConsulta
             try {
                 $primero = $limite * ($pag - 1);
                 $sql = "SELECT c.id, td.nombre as tipo_documento,p.numero as documento,p.nro_historia_clinica as historia_clinica,
-                c.fecha,m.nombre as motivo,c.internacion
+                c.fecha,m.nombre as motivo,c.internacion,p.nombre as nombre,p.apellido as apellido
                 FROM consulta c LEFT JOIN motivo_consulta m ON(c.motivo_id=m.id)
                                 INNER JOIN paciente p ON(c.paciente_id=p.id)
                                 LEFT JOIN tipo_documento td ON(p.tipo_doc_id=td.id)
@@ -522,7 +527,8 @@ class RepositorioConsulta
                 if (count($resultado)) {
                     foreach ($resultado as $r) {
                         $consultas[] = array("id" => $r["id"], "tipo_documento" => $r["tipo_documento"], "documento" => $r["documento"], "historia_clinica" => $r["historia_clinica"],
-                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"]);
+                            "fecha" => $r["fecha"], "motivo" => $r["motivo"], "internacion" => $r["internacion"],"nombre"=>$r['nombre']
+                            ,"apellido"=>$r["apellido"]);
 
                     }
                     $result['consultas'] = $consultas;
