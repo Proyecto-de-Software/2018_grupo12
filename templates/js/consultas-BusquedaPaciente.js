@@ -273,6 +273,7 @@ function cargarTiposDocumentos() {
 //Autocompleta formulario con paciente seleccionado
 function autocompletar() {
   var row = this.parentNode.parentNode.cells;
+  console.log(row);
   var id = this.parentNode.id;
   var token = $('meta[name="token"]').attr('content');
 
@@ -280,7 +281,7 @@ function autocompletar() {
   $("#a_apellido").val(row[1].innerHTML);
   $("#a_documento").val(row[2].innerHTML);
   $("#a_hc").val(row[3].innerHTML);
-  $("#a_obraSocial").val(row[4].innerHTML);
+  $("#a_obrasocial").val(row[4].innerHTML);
 
   $.ajax({
     url : '?action=obtenerCoordenadasDerivaciones',

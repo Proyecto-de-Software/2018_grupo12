@@ -92,7 +92,7 @@ function clickInicio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No hay consultas para mostrar</td></tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No hay consultas para mostrar</td></tr>';
           if (pagina == "1") {
             $("#medio")[0].className = "page-item disabled";
           }
@@ -121,7 +121,7 @@ function clickInicio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No se pudo realizar la operacion solicitada</td></tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -153,7 +153,7 @@ function clickMedio(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No hay consultas para mostrar</td></tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No hay consultas para mostrar</td></tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -169,7 +169,7 @@ function clickMedio(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No se pudo realizar la operacion solicitada</td></tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });
@@ -206,7 +206,7 @@ function clickFinal(){
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No hay consultas para mostrar</td><tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No hay consultas para mostrar</td><tr>';
           $("#final")[0].className = "page-item disabled";
           $("#siguiente")[0].className = "page-item disabled";
           break;
@@ -222,7 +222,7 @@ function clickFinal(){
           break;
         default:
           mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde","error");
-          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="6">No se pudo realizar la operacion solicitada</td></tr>';
+          $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="8">No se pudo realizar la operacion solicitada</td></tr>';
       }
     }
   });

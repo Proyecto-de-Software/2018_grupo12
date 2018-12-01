@@ -2,9 +2,11 @@
 
 {% for consulta in consultas %}
   <tr>
+    <td class="textcenter" >{{ consulta.nombre }}</td>
+    <td class="textcenter" >{{ consulta.apellido }}</td>
     <td class="textcenter" >{{ "#{consulta.tipo_documento} #{consulta.documento}" |capitalize }}</td>
     <td class="textcenter" >{{ consulta.historia_clinica }}</td>
-    <td class="textcenter" >{{ consulta.fecha }}</td>
+    <td class="textcenter" >{{ consulta.fecha |date("d/m/Y") }}</td>
     <td class="textcenter" >{{ consulta.motivo }}</td>
     <td class="textcenter" >{{ estado[consulta.internacion] }}</td>
     <td class="textcenter" id="{{ consulta.id }}">
@@ -14,5 +16,5 @@
     </td>
   </tr>
   {% else %}
-    <tr><td colspan="6" class="textcenter" >No hay consultas para mostrar</td></tr>
+    <tr><td colspan="8" class="textcenter" >No hay consultas para mostrar</td></tr>
 {% endfor %}
