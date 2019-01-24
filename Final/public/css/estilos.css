@@ -1,0 +1,94 @@
+html {
+  min-height: 96.70%;
+  position: relative;
+}
+body {
+  margin: 0;
+  margin-bottom: 40px !important;
+}
+.contentsclass{
+  display: contents;
+}
+.rojo{
+  color:red;
+}
+.textcenter{
+  text-align: center;
+}
+.textend{
+  text-align: end;
+}
+.bordeclass{
+  border: solid grey 2px;
+  border-radius: 9px;
+}
+.breakclass{
+  word-break: break-all;
+}
+.colorfondo{
+ background-color:  #e3f2fd;
+}
+.bottomclass{
+  bottom:1em;
+  z-index: 3;
+}
+.alturabuscador{
+  height: 3.375em;
+}
+.tamanofuente{
+  font-size: 1.5em;
+}
+.noneclass{
+  display: none ;
+}
+.inputBuscador{
+  width: 14em !important;
+}
+
+.pieDePagina{
+  line-height: 3.75em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+}
+
+.barraNavegacion{
+  display: contents;
+}
+
+.btnActivar{
+  width: 5.143em;
+}
+
+.alerta{
+  max-width: inherit !important;
+  margin-right: 1em !important;
+}
+
+.redimensionarImg{
+  width: 12.5em
+}
+
+@media only screen and (min-width: 768px) {
+  .inputBuscadorPaciente{
+    width: 6em !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .inputBuscadorPaciente{
+    width: 8em !important;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .inputBuscadorPaciente{
+    width: inherit !important;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .margenInferiorMensaje{
+    margin-bottom: 6.65em !important;
+  }
+}
