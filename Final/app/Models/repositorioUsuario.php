@@ -5,23 +5,9 @@ namespace App\Models;
 use App\Models\Usuario;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use PDOException;
-
-include_once 'conexion.php';
 
 class RepositorioUsuario
-{ /*instanciar como una clase normal y llamar a los metodos con la forma:  $repositorioUsuario -> funcion();
-....ejecutar consultas dentro de un try para obtener excepciones en el catch en caso de error */
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
+{
     public function obtener_numero_usuarios_estado($estado)
     {
         try {

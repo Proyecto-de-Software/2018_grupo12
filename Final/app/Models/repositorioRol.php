@@ -2,250 +2,152 @@
 
 namespace App\Models;
 
-include_once 'conexion.php';
+use Exception;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class RepositorioRol
 {
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
     public function rol_existe($rol)
     {
-        $conexion = abrir_conexion();
-        $rol_existe = false;
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM rol WHERE nombre = :nombre";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(':nombre', $rol);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    $rol_existe = true;
-                }
-
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta rol_existe");
+        $existe = false;
+        try {
+            $re = DB::select("SELECT * FROM rol WHERE nombre = :nombre", [':nombre' => $rol]);
+            if (count($re)) {
+                $existe = true;
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta rol_existe");
         }
-        $conexion = null;
-        return $rol_existe;
+        return $existe;
     }
-    public function insertar_rol($nombre){
-        $ok=false;
-        $conexion=abrir_conexion();
-        if($conexion!==null){
-            try{
-                $sql="INSERT INTO rol(nombre) VALUES (:nombre)";
-                $sentencia=$conexion->prepare($sql);
-                $sentencia->bindParam(":nombre",$nombre);
-                $ok=$sentencia->execute();
-            }catch(PDOException $e){
-              throw new Exception("error insertar_rol ".$e->getMessage());
-            }
+    public function insertar_rol($nombre)
+    {
+        $ok = false;
+        try {
+            $ok = DB::insert("INSERT INTO rol(nombre) VALUES (:nombre)", [":nombre" => $nombre]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta insertar_rol");
         }
-        return $ok;
-
+        return (Boolean) $ok;
     }
 
     public function obtener_por_id($id)
     {
-        $Rol = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM rol WHERE id=:id";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $sentencia->execute();
-                $r = $sentencia->fetch();
-                if (!empty($r)) {
-                    $Rol = new Rol($r["id"], $r["nombre"]);
-                }
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta repositorioRol::obtener_por_id " . $ex->getMessage());
+        try {
+            $re = DB::select("SELECT * FROM rol WHERE id=:id", [':id' => $id]);
+            if (count($re)) {
+                return new Rol($re[0]->id, $re[0]->nombre);
+            }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta obtener_por_id");
+        }
+    }
 
-            }
-        }
-        $conexion = null;
-        return $Rol;
-    }
     public function obtener_por_id_usuario($id)
-    { /*si usuario no tiene roles el arreglo va a estar vacio
-     */
+    {
         $roles = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT r.id,r.nombre
-                    FROM rol r INNER JOIN usuario_tiene_rol ut ON(r.id=ut.rol_id)
-                   WHERE ut.usuario_id=:id AND ut.eliminado=0";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $r) {
-                        $roles[] = new Rol($r['id'], $r['nombre']);
-                    }
+        try {
+            $re = DB::select("SELECT r.id,r.nombre
+        FROM rol r INNER JOIN usuario_tiene_rol ut ON(r.id=ut.rol_id)
+       WHERE ut.usuario_id=:id AND ut.eliminado=0", ['id' => $id]);
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $roles[] = new Rol($r->id, $r->nombre);
                 }
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta repositorioRol->obtener_por_id_usuario " . $ex->getMessage());
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error repoRol consulta obtener_por_id_usuario");
         }
-        $conexion = null;
         return $roles;
     }
+
     public function obtener_todos_los_roles()
-    { /*array vacio si no hay roles en la BD */
-        $roles = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM rol ";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $r) {
-                        $roles[] = new Rol($r['id'], $r['nombre']);
-                    }
+    {
+        $todos = array();
+        try {
+            $response = DB::select("SELECT * FROM rol");
+            if (count($response)) {
+                foreach ($response as $r) {
+                    $todos[] = new Rol($r->id, $r->nombre);
                 }
-            } catch (PDOException $ex) {
-                throw new Exception("erro consulta repositorioRol-> obtener_todos_los_roles");
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta repositorioRol->obtener_todos_los_roles");
         }
-        $conexion = null;
-        return $roles;
+        return $todos;
     }
-    public function obtener_todos_los_roles_pagina($limite,$pag)
-    { /*array vacio si no hay roles en la BD */
+    public function obtener_todos_los_roles_pagina($limite, $pag)
+    {
         $result = array();
         $result['roles'] = array();
         $result['total_roles'] = 0;
         $roles = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $primero = $limite * ($pag - 1);
-                $sql = "SELECT * FROM rol LIMIT :primero,:limite ";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":primero",$primero,PDO::PARAM_INT);
-                $sentencia->bindParam(":limite",$limite,PDO::PARAM_INT);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $r) {
-                        $roles[] = new Rol($r['id'], $r['nombre']);
-                    }
-                    $result['roles']=$roles;
-                    $result['total_roles']=$this->obtener_cantidad();
+        try {
+            $primero = $limite * ($pag - 1);
+            $re = DB::select("SELECT * FROM rol LIMIT :primero,:limite", [":primero" => $primero, ":limite" => $limite]);
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $roles[] = new Rol($r->id, $r->nombre);
                 }
-            } catch (PDOException $ex) {
-                throw new Exception("erro consulta repositorioRol-> obtener_todos_los_roles_pagina");
+                $result['roles'] = $roles;
+                $result['total_roles'] = $this->obtener_cantidad();
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta obtener_todos_los_roles_pagina");
         }
-        $conexion = null;
         return $result;
     }
-    public function obtener_roles_por_nombre($nombre,$limite,$pag)
-    { /*array vacio si no hay roles en la BD */
+    public function obtener_roles_por_nombre($nombre, $limite, $pag)
+    {
         $result = array();
         $result['roles'] = array();
         $result['total_roles'] = 0;
         $roles = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $nombre= "%".$nombre."%";
-                $primero = $limite * ($pag - 1);
-                $sql = "SELECT * FROM rol WHERE nombre LIKE :nom LIMIT :primero,:limite ";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":nom",$nombre);
-                $sentencia->bindParam(":primero",$primero,PDO::PARAM_INT);
-                $sentencia->bindParam(":limite",$limite,PDO::PARAM_INT);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $r) {
-                        $roles[] = new Rol($r['id'], $r['nombre']);
-                    }
-                    $result['roles']=$roles;
-                    $result['total_roles']=$this->obtener_cantidad_nombre($nombre);
+        try {
+            $nombre = "%" . $nombre . "%";
+            $primero = $limite * ($pag - 1);
+            $re = DB::select("SELECT * FROM rol WHERE nombre LIKE :nom LIMIT :primero,:limite", [":primero" => $primero, ":limite" => $limite, ":nom" => $nombre]);
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $roles[] = new Rol($r->id, $r->nombre);
                 }
-            } catch (PDOException $ex) {
-                throw new Exception("erro consulta repositorioRol-> obtener_roles_por_nombre");
+                $result['roles'] = $roles;
+                $result['total_roles'] = $this->obtener_cantidad_nombre($nombre);
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta obtener_roles_por_nombre");
         }
-        $conexion = null;
         return $result;
     }
+
     public function obtener_cantidad()
     {
-        $total_pacientes = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT COUNT(*) as total FROM rol ";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $resultado = $sentencia->fetch();
-                $total_pacientes = $resultado['total'];
-
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_cantidad (rol)");
-            }
-
+        try {
+            $re = DB::select("SELECT COUNT(*) as total FROM rol ");
+            return strval($re[0]->total);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_cantidad rol");
         }
-        $conexion = null;
-        return $total_pacientes;
     }
     public function obtener_cantidad_nombre($nombre)
     {
-        $total_pacientes = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT COUNT(*) as total FROM rol WHERE nombre LIKE :nombre";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":nombre", $nombre);
-                $sentencia->execute();
-                $resultado = $sentencia->fetch();
-                $total_pacientes = $resultado['total'];
-
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta obtener_cantidad_nombre (rol)");
-            }
-
+        try {
+            $re = DB::select("SELECT COUNT(*) as total FROM rol WHERE nombre LIKE :nombre", [":nombre" => $nombre]);
+            return strval($re[0]->total);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_cantidad_nombre rol");
         }
-        $conexion = null;
-        return $total_pacientes;
     }
-    public function actualizar_rol($rol_id,$nombre){
-        $result=false;
-        $conexion=abrir_conexion();
-        if($conexion!==null){
-            try{
-                $sql="UPDATE rol SET nombre=:nombre WHERE id=:id";
-                $sentencia=$conexion->prepare($sql);
-                $sentencia->bindParam(":nombre" ,$nombre);
-                $sentencia->bindParam(":id", $rol_id);
-                $result=$sentencia->execute();
-            }catch(PDOException $ex){
-                throw new Exception ("error repositorioRol->actualizar_rol ".$ex->getMessage());
-            }
+    public function actualizar_rol($rol_id, $nombre)
+    {
+        $result = false;
+        try {
+            $result = DB::update("UPDATE rol SET nombre=:nombre WHERE id=:id", [":nombre" => $nombre, ":id" => $rol_id]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Expcetion("error actualizar_rol rol");
         }
-        $conexion=null;
-        return $result;
-
-
+        return (Boolean) $result;
     }
 
 }

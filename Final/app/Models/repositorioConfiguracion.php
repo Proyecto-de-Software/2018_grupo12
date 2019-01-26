@@ -1,255 +1,124 @@
 <?php
 namespace App\Models;
 
-include_once 'conexion.php';
-
-use PDO;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class RepositorioConfiguracion
-/*id 1=titulo
-id 2=descripcion
-id 3=email
-id 4=limite
-id 5= habilitado */
-
 {
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
     public function setTitulo($titulo)
     {
         $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='titulo'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":valor", $titulo);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta set titulo " . $ex->getMessage());
-            }
+        try {
+            $ok = DB::update("UPDATE configuracion SET valor=:valor WHERE variable='titulo'", [':valor' => $titulo]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error setTitulo");
         }
-        $conexion = null;
-        return $ok;
+        return (Boolean) $ok;
     }
-
     public function setDescripcion($descripcion)
     {
         $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='descripcion'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":valor", $descripcion);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta set descripción " . $ex->getMessage());
-            }
+        try {
+            $ok = DB::update("UPDATE configuracion SET valor=:valor WHERE variable='descripcion'", [':valor' => $descripcion]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error setDescripcion");
         }
-        $conexion = null;
-        return $ok;
+        return (Boolean) $ok;
     }
-    public function setEmail($Email)
+    public function setEmail($email)
     {
         $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='email'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":valor", $Email);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta set email " . $ex->getMessage());
-            }
+        try {
+            $ok = DB::update("UPDATE configuracion SET valor=:valor WHERE variable='email'", [':valor' => $email]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error setEmail");
         }
-        $conexion = null;
-        return $ok;
+        return (Boolean) $ok;
     }
+
     public function setLimite($limite)
     {
         $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='limite'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":valor", $limite, PDO::PARAM_INT);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta set limite " . $ex->getMessage());
-            }
+        try {
+            $ok = DB::update("UPDATE configuracion SET valor=:valor WHERE variable='limite'", [':valor' => $limite]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error setDLimite");
         }
-        $conexion = null;
-        return $ok;
+        return (Boolean) $ok;
     }
+
     public function habilitacion($valor)
     {
         $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=:valor WHERE variable='habilitado'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia -> bindParam(":valor",$valor);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta habilitar " . $ex->getMessage());
-            }
+        try {
+            $ok = DB::update("UPDATE configuracion SET valor=:valor WHERE variable='habilitado'", [':valor' => $valor]);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error habilitacion");
         }
-        $conexion = null;
-        return $ok;
+        return (Boolean) $ok;
     }
-    /*public function habilitar()
-    {
-        $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=1 WHERE variable='habilitado'";
-                $sentencia = $conexion->prepare($sql);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta habilitar " . $ex->getMessage());
-            }
-        }
-        $conexion = null;
-        return $ok;
-    }
-    public function deshabilitar()
-    {
-        $ok = false;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "UPDATE configuracion SET valor=0 WHERE variable='habilitado'";
-                $sentencia = $conexion->prepare($sql);
-                $ok = $sentencia->execute();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta deshabilitar " . $ex->getMessage());
-            }
-        }
-        $conexion = null;
-        return $ok;
-    }
-    */
     public function getTitulo()
     {
-        $titulo = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT valor FROM configuracion WHERE variable='titulo'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $titulo = $sentencia->fetchColumn();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta getTitulo " . $ex->getMessage());
-            }
+        try {
+            $re = DB::select("SELECT valor FROM configuracion WHERE variable='titulo'");
+            return strval($re[0]->valor);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error getTitulo");
         }
-        $conexion = null;
-        return $titulo;
     }
     public function getDescripcion()
     {
-        $valor = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT valor FROM configuracion WHERE variable='descripcion'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $valor = $sentencia->fetchColumn();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta getDescripcion " . $ex->getMessage());
-            }
+        try {
+            $re = DB::select("SELECT valor FROM configuracion WHERE variable='descripcion'");
+            return strval($re[0]->valor);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error getDescripcion");
         }
-        $conexion = null;
-        return $valor;
     }
+
     public function getEmail()
     {
-        $valor = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT valor FROM configuracion WHERE variable='email'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $valor = $sentencia->fetchColumn();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta getEmail " . $ex->getMessage());
-            }
+        try {
+            $re = DB::select("SELECT valor FROM configuracion WHERE variable='email'");
+            return strval($re[0]->valor);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error getEmail");
         }
-        $conexion = null;
-        return $valor;
     }
+
     public function getLimite()
     {
-        $valor = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT valor FROM configuracion WHERE variable='limite'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $valor = $sentencia->fetchColumn();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta getLimite " . $ex->getMessage());
-            }
+        try {
+            $re = DB::select("SELECT valor FROM configuracion WHERE variable='limite'");
+            return strval($re[0]->valor);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error getLimite");
         }
-        $conexion = null;
-        return $valor;
     }
     public function getHabilitado()
     {
-        $valor = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT valor FROM configuracion WHERE variable='habilitado'";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $valor = $sentencia->fetchColumn();
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta getHabilitado " . $ex->getMessage());
-            }
+        try {
+            $re = DB::select("SELECT valor FROM configuracion WHERE variable='habilitado'");
+            return strval($re[0]->valor);
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error getHabilitado");
         }
-        $conexion = null;
-        return $valor;
     }
     public function obtener_configuracion()
     {
-
-        /*titulo,descripcion,email,limite,hiabilitado */
         $arreglo = array();
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT variable,valor from configuracion";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                if (count($resultado)) {
-                    foreach ($resultado as $re) {
-                        $arreglo[$re["variable"]] = $re["valor"];
-                    }
+        try {
+            $re = DB::select("SELECT variable,valor from configuracion");
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $arreglo[$r->variable] = $r->valor;
                 }
-            } catch (PDOException $ex) {
-                throw new Exception("errpr consulta obtener_configuracion " . $ex->getMessage());
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error botener_configuracion");
         }
-        $conexion = null;
         return $arreglo;
     }
 

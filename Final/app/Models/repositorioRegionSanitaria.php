@@ -2,63 +2,38 @@
 
 namespace App\Models;
 
-/*include_once "conexion.php";
-include_once "regionSanitaria.php";
-*/
+use Exception;
+use Illuminate\Support\Facades\DB;
+use PDOException;
+
 class RepositorioRegionSanitaria
 {
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
 
     public function obtener_por_id($id)
     {
-        $RegionSanitaria = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM region_sanitaria WHERE id=:id";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $sentencia->execute();
-                $r = $sentencia->fetch();
-                if (!empty($r)) {
-                    $RegionSanitaria = new RegionSanitaria($r["id"], $r["nombre"]);
-                }
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta repositorioRegionSanitaria::obtener_por_id " . $ex->getMessage());
-
+        try {
+            $re = DB::select("SELECT * FROM region_sanitaria WHERE id=:id", [":id" => $id]);
+            if (count($re)) {
+                return new RegionSanitaria($re[0]->id, $re[0]->nombre);
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_por_id region sanitaria");
         }
-        $conexion = null;
-        return $RegionSanitaria;
     }
-    public function obtener_todos(){
-        $todos=array();
-        $conexion=abrir_conexion();
-        if($conexion !==null){
-            try{
-                $sql= "SELECT * FROM region_sanitaria WHERE id>1";
-                $sentencia = $conexion ->prepare($sql);
-                $sentencia->execute();
-                $re=$sentencia ->fetchAll();
-                if(count($re)){
-                    foreach($re as $r){
-                        $todos[]= new RegionSanitaria($r['id'],$r['nombre']);
-                    }
+
+    public function obtener_todos()
+    {
+        $todos = array();
+        try {
+            $re = DB::select("SELECT * FROM region_sanitaria");
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $todos[] = new RegionSanitaria($r->id, $r->nombre);
                 }
-            }catch(PDOException $ex){
-                throw new Exception ("error consulta repositorioRegionSanitaria->obtener_todos ".$ex->getMessage());
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_todos region sanitaria");
         }
-        $conexion=null;
         return $todos;
     }
 }

@@ -1,36 +1,26 @@
 <?php
 namespace App\Models;
 
-class RepositorioAcompanamiento{
-    private static $instance;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
-    public static function getInstance()
+class RepositorioAcompanamiento
+{
+
+    public function obtener_todos()
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-    public function obtener_todos(){
-        $todos=array();
-        $conexion=abrir_conexion();
-        if($conexion !==null){
-            try{
-                $sql= "SELECT * FROM acompanamiento" ;
-                $sentencia = $conexion ->prepare($sql);
-                $sentencia->execute();
-                $re=$sentencia ->fetchAll();
-                if(count($re)){
-                    foreach($re as $r){
-                        $todos[]= new Acompanamiento($r['id'],$r['nombre']);
-                    }
+        $todos = array();
+        try {
+            $response = DB::select("SELECT * FROM acompanamiento");
+            if (count($response)) {
+                foreach ($response as $r) {
+                    $todos[] = new Acompanamiento($r->id, $r->nombre);
                 }
-            }catch(PDOException $ex){
-                throw new Exception ("error consulta repositorioAcompanamiento->obtener_todos ".$ex->getMessage());
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error consulta repositorioAcompanamiento->obtener_todos");
         }
-        $conexion=null;
         return $todos;
     }
 }

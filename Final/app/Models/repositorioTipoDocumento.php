@@ -2,63 +2,39 @@
 
 namespace App\Models;
 
-/*include_once "conexion.php";
-include_once "tipoDocumento.php";
-*/
+use Exception;
+use Illuminate\Support\Facades\DB;
+use PDOException;
+
 class RepositorioTipoDocumento
 {
-    private static $instance;
-
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
 
     public function obtener_por_id($id)
     {
-        $tipoDocumento = null;
-        $conexion = abrir_conexion();
-        if ($conexion !== null) {
-            try {
-                $sql = "SELECT * FROM tipo_documento WHERE id=:id";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(":id", $id);
-                $sentencia->execute();
-                $r = $sentencia->fetch();
-                if (!empty($r)) {
-                    $tipoDocumento = new TipoDocumento($r["id"], $r["nombre"]);
-                }
-            } catch (PDOException $ex) {
-                throw new Exception("error consulta repositorioTipoDocumento::obtener_por_id " . $ex->getMessage());
-
+        try {
+            $re = DB::select("SELECT * FROM tipo_documento WHERE id=:id", [":id" => $id]);
+            if (count($re)) {
+                return new TipoDocumento($re[0]->id, $re[0]->nombre);
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_por_id tipo documento");
         }
-        $conexion = null;
-        return $tipoDocumento;
     }
-    public function obtener_todos(){
-        $todos=array();
-        $conexion=abrir_conexion();
-        if($conexion !==null){
-            try{
-                $sql= "SELECT * FROM tipo_documento WHERE id>1";
-                $sentencia = $conexion ->prepare($sql);
-                $sentencia->execute();
-                $re=$sentencia ->fetchAll();
-                if(count($re)){
-                    foreach($re as $r){
-                        $todos[]= new TipoDocumento($r['id'],$r['nombre']);
-                    }
+
+    public function obtener_todos()
+    {
+        $todos = array();
+        try {
+            $re = DB::select("SELECT * FROM tipo_documento");
+            if (count($re)) {
+                foreach ($re as $r) {
+                    $todos[] = new TipoDocumento($r->id, $r->nombre);
                 }
-            }catch(PDOException $ex){
-                throw new Exception ("error consulta repositorioTipoDocumento->obtener_todos ".$ex->getMessage());
             }
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error obtener_todos tipo documento");
         }
-        $conexion=null;
         return $todos;
     }
+
 }
