@@ -63,7 +63,7 @@ class PacientesController extends Controller
             'genero' => 'required',
             'tieneDoc' => 'required | numeric | regex:/^[01]$/',
             'tipoDoc' => 'required',
-            'nroDoc' => 'required | numeric | max:9999999999 | min:10000000',
+            'nroDoc' => 'required | numeric | max:999999999 | min:10000000',
             'nroHC' => 'nullable | min:1 | max:999999',
             'nroCarpeta' => 'nullable | min:1 | max:99999',
             'nroTel_cel' => 'nullable | regex:/^[0-9 +]+$/'

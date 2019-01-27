@@ -193,31 +193,38 @@ class RepositorioPaciente
 
     public function existe_doc($tipo_doc, $num)
     {
-        $ok = false;
+        $paciente = array();
         try {
             $re = DB::select("SELECT * FROM paciente WHERE  tipo_doc_id=:tipo_doc_id AND numero =:num",
                 [":num" => $num, ":tipo_doc_id" => $tipo_doc]);
             if (count($re)) {
-                $ok = true;
+              $r=$re[0];
+                $paciente=new Paciente($r->id, $r->apellido, $r->nombre, $r->fecha_nac, $r->lugar_nac, $r->localidad_id, $r->partido_id,
+                $r->region_sanitaria_id, $r->domicilio, $r->genero_id, $r->tiene_documento, $r->tipo_doc_id, $r->numero, $r->tel,
+                $r->nro_historia_clinica, $r->nro_carpeta, $r->obra_social_id, $r->borrado);
             }
         } catch (\Illuminate\Database\QueryException | PDOException $e) {
             throw new Exception("error existe_doc");
         }
-        return $ok;
+        return $paciente;
     }
+    
     public function existe_historia_clinica($num)
     {
-        $ok = false;
+        $paciente = array();
         try {
             $re = DB::select("SELECT * FROM paciente WHERE nro_historia_clinica =:nro AND borrado = 0",
                 [":nro" => $num]);
             if (count($re)) {
-                $ok = true;
+              $r=$re[0];
+                $paciente=new Paciente($r->id, $r->apellido, $r->nombre, $r->fecha_nac, $r->lugar_nac, $r->localidad_id, $r->partido_id,
+                $r->region_sanitaria_id, $r->domicilio, $r->genero_id, $r->tiene_documento, $r->tipo_doc_id, $r->numero, $r->tel,
+                $r->nro_historia_clinica, $r->nro_carpeta, $r->obra_social_id, $r->borrado);
             }
         } catch (\Illuminate\Database\QueryException | PDOException $e) {
             throw new Exception("error existe_historia_clinica");
         }
-        return $ok;
+        return $paciente;
     }
     public function obtener_por_nro_historia_clinica($nro, $limite, $pag)
     {
