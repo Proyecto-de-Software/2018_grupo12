@@ -86,8 +86,6 @@ function clickInicio(){
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -148,8 +146,6 @@ function clickMedio(){
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -202,8 +198,6 @@ function clickFinal(){
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -254,10 +248,7 @@ function cargarTiposDocumentos() {
     data : {},
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(tiposDocumentos) {
-      //Pregunto si se realizo la operacion correctamente
       var select = $("#bus_tipoDoc");
       select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
@@ -281,15 +272,12 @@ function eliminarConsulta(){
   }
 
   $.ajax({
-    url : '?action=eliminarConsulta',
+    url : 'consultas/' + id,
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data : { id: id },
-    type : 'POST',
+    data : { },
+    type : 'DELETE',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si se realizo la operacion correctamente
       switch (respuesta.estado) {
         case "success":
           mostrarAlerta(respuesta.mensaje,respuesta.estado);
@@ -371,17 +359,14 @@ function agregarConsulta() {
   }
 
   $.ajax({
-    url : '?action=agregarConsulta',
+    url : 'consultas',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { id: id, fecha: fecha, motivo: motivo, derivacion: derivacion,
       internacion: internacion, tratamiento: tratamiento, acompanamiento: acompanamiento,
       articulacion: articulacion, diagnostico: diagnostico, observaciones: observaciones },
     type : 'POST',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si se realizo la operacion correctamente
       switch (respuesta.estado) {
         case "success":
           adminMarkers.clearMarkers();
@@ -410,13 +395,11 @@ function mostrarFormularioModificacion(){
   }
 
   $.ajax({
-    url : '?action=formularioModificacionConsulta',
+    url : 'consultas/' + id + '/edit',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data : { id: id },
-    type : 'POST',
+    data : { },
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(consulta) {
       if (consulta.estado == "success") {
         $("#m_tratamiento").val(consulta.tratamiento);
@@ -462,14 +445,12 @@ function modificarConsulta(){
   }
 
   $.ajax({
-    url : '?action=modificarConsulta',
+    url : 'consultas/' + id,
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data : { id:id, tratamiento: tratamiento, articulacion: articulacion,
+    data : { tratamiento: tratamiento, articulacion: articulacion,
              diagnostico: diagnostico, observaciones: observaciones },
-    type : 'POST',
+    type : 'PUT',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Tengo en cuenta los posibles casos
       switch(respuesta.estado) {
@@ -502,13 +483,11 @@ function mostrarDetalle() {
   }
 
   $.ajax({
-    url : '?action=detalleConsulta',
+    url : 'consultas/' + id,
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { id: id },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       switch (respuesta.estado) {
         case "success":

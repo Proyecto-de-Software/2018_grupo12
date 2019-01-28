@@ -170,7 +170,7 @@
                     <label for="a_internacion">Internacion</label>
                     <div class="rojo contentsclass">*</div>
                 </div>
-                <select class="custom-select form-control" id="a_internacion" size="2" required>
+                <select class="custom-select form-control" id="a_internacion" required>
                     <option value="0" selected>No</option>
                     <option value="1">Si</option>
                 </select>

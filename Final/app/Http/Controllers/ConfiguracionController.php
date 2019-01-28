@@ -49,13 +49,13 @@ class ConfiguracionController extends Controller
             'titulo' => 'required',
             'descripcion' => 'required',
             'email' => 'required | email',
-            'limite' => 'required | alpha_num',
+            'limite' => 'required | numeric',
             'habilitado' => 'required | regex:/^[01]$/',
         ],
         [
             'required' => 'El campo :attribute es obligatorio',
             'email' => 'Email ingresado es incorrecto',
-            'alpha_num' => 'El campo :attribute debe contener solo numeros',
+            'numeric' => 'El campo :attribute debe contener solo numeros',
             'habilitado.regex' => 'El campo :attribute es incorrecto'
         ],
         [

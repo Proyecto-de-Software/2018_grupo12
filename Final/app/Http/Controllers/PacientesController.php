@@ -60,9 +60,12 @@ class PacientesController extends Controller
             'apellido' => 'required | regex:/^[a-zA-Z ]+$/',
             'fNacimiento' => 'required | date | before:' . date('Y-m-d'),
             'domicilio' => 'required',
-            'genero' => 'required',
-            'tieneDoc' => 'required | numeric | regex:/^[01]$/',
-            'tipoDoc' => 'required',
+            'partido' => 'nullable | numeric',
+            'localidad' => 'nullable | numeric',
+            'obraSocial' => 'nullable | numeric',
+            'genero' => 'required | numeric | regex:/^[123]$/',
+            'tieneDoc' => 'required | numeric',
+            'tipoDoc' => 'required | numeric',
             'nroDoc' => 'required | numeric | max:999999999 | min:10000000',
             'nroHC' => 'nullable | min:1 | max:999999',
             'nroCarpeta' => 'nullable | min:1 | max:99999',
@@ -93,7 +96,8 @@ class PacientesController extends Controller
             'nroDoc' => 'numero de documento',
             'nroHC' => 'numero de historia clinica',
             'nroCarpeta' => 'numero de carpeta',
-            'nroTel_cel' => 'Numero de telefono o celular'
+            'nroTel_cel' => 'Numero de telefono o celular',
+            'obraSocial' => 'obra social'
         ]);
     }
 

@@ -17,10 +17,10 @@ function guardarDatos() {
   var limite = $("#limite")[0].value;
   var habilitado = $("#habilitado")[0].value;
 
- /* if (!(titulo && descripcion && email && limite) || habilitado == "" ){
+  if (!(titulo && descripcion && email && limite) || habilitado == "" ){
     mostrarAlerta("Complete todos los campos","error");
     return;
-  }*/
+  }
 
   $.ajax({
     url : 'configuracion',
@@ -29,10 +29,7 @@ function guardarDatos() {
              limite : limite, habilitado : habilitado},
     type : 'PUT',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       if (respuesta.estado) {
         mostrarAlerta(respuesta.mensaje, respuesta.estado)
       }

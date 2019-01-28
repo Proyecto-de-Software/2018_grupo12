@@ -63,10 +63,7 @@ function clickInicio(){
     data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay consultas para mostrar</td></tr>';
@@ -124,10 +121,7 @@ function clickMedio(){
     data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay consultas para mostrar</td></tr>';
@@ -177,10 +171,7 @@ function clickFinal(){
     data : { pagina: pagina, agrupacion: agrupacion, token: token },
     type : 'POST',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaConsultas")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay consultas para mostrar</td><tr>';

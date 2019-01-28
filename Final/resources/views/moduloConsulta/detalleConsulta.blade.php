@@ -1,4 +1,10 @@
-{% set opcion = {"0": "No", "1": "Si" } %}
+@php
+    $opcion = [
+        "0" => "No",
+        "1" => "Si"
+    ]
+@endphp
+
 <div class="container">
   <div class="row justify-content-center mt-5 mb-5">
         <div class="col-12 col-md-10 col-lg-6">
@@ -7,7 +13,7 @@
                     Nombre:
                 </div>
                 <div class="ml-auto breakclass">
-                    {{ ucfirst(strtolower(nombre)) }}
+                    {{ ucfirst(strtolower($nombre)) }}
                 </div>
             </div>
             <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -15,7 +21,7 @@
                     Apellido:
                 </div>
                 <div class="ml-auto breakclass">
-                    {{ ucfirst(strtolower(apellido)) }}
+                    {{ ucfirst(strtolower($apellido)) }}
                 </div>
             </div>
             <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -39,7 +45,7 @@
                     Institucion:
                 </div>
                 <div class="ml-auto breakclass">
-                    {{ $institucion | title }}
+                    {{ ucwords($institucion) }}
                 </div>
             </div>
             <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -55,7 +61,7 @@
                     Internacion:
                 </div>
                 <div class="ml-auto breakclass">
-                    {{ $opcion[internacion] }}
+                    {{ $opcion[$internacion] }}
                 </div>
             </div>
             <div class="row p-1 mb-1 mb-1 bordeclass">

@@ -83,14 +83,12 @@ function clickInicio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaPacientesParaConsulta',
+    url : 'consultas/pacientes',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina: pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -145,14 +143,12 @@ function clickMedio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaPacientesParaConsulta',
+    url : 'consultas/pacientes',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -199,14 +195,12 @@ function clickFinal(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaPacientesParaConsulta',
+    url : 'consultas/pacientes',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
@@ -256,10 +250,7 @@ function cargarTiposDocumentos() {
     data : {},
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(tiposDocumentos) {
-      //Pregunto si se realizo la operacion correctamente
       var select = $("#a_bus_tipoDoc");
       select.append($('<option/>').attr({ 'value': "" }).text('Seleccionar...'));
 
@@ -277,7 +268,6 @@ function cargarTiposDocumentos() {
 //Autocompleta formulario con paciente seleccionado
 function autocompletar() {
   var row = this.parentNode.parentNode.cells;
-  console.log(row);
   var id = this.parentNode.id;
 
   $("#a_nombre").val(row[0].innerHTML);
@@ -287,13 +277,11 @@ function autocompletar() {
   $("#a_obrasocial").val(row[4].innerHTML);
 
   $.ajax({
-    url : '?action=obtenerCoordenadasDerivaciones',
+    url : 'pacientes/' + id + '/coordenadasDerivaciones',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data : {id: id},
-    type : 'POST',
+    data : { },
+    type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(coordenadas) {
       adminMarkers.clearMarkers();
 

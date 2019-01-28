@@ -64,6 +64,10 @@ Route::prefix('/grupo12/final/public')->group(function () {
     //Consultas
     Route::get('/consultations', 'ConsultasController@inicio');
 
+    Route::get('/consultas/pacientes', 'ConsultasController@pacientesParaConsulta');
+
+    Route::get('/pacientes/{id}/coordenadasDerivaciones', 'ConsultasController@coordenadasDerivaciones');
+
     Route::resource('consultas', 'ConsultasController')->except([
         'create'
     ]);;

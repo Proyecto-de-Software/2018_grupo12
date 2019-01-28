@@ -340,10 +340,7 @@ function cargarRegionSanitaria(idSelectPartido, idSelectRegion) {
       data : { },
       type : 'GET',
       dataType: 'json',
-      // código a ejecutar si la petición es satisfactoria;
-      // la respuesta es pasada como argumento a la función
       success : function(regionSanitaria) {
-        //Pregunto si se realizo la operacion correctamente
         $(idSelectRegion).val(regionSanitaria.nombre);
         $(idSelectRegion)[0].reg = regionSanitaria.id;
       },
@@ -363,10 +360,7 @@ function cargarLocalidades(idPartido,idSelectLocalidad,valorSeleccionado = "") {
       data : { },
       type : 'GET',
       dataType: 'json',
-      // código a ejecutar si la petición es satisfactoria;
-      // la respuesta es pasada como argumento a la función
       success : function(localidades) {
-        //Pregunto si se realizo la operacion correctamente
         var select = $(idSelectLocalidad);
         select.html("");
 

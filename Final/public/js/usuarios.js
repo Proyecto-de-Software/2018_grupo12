@@ -66,10 +66,7 @@ function clickInicio(){
     data : { username : username, estado : estado, pagina : pagina },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay usuarios para mostrar</td></tr>';
@@ -127,10 +124,7 @@ function clickMedio(){
     data : { username : username, estado : estado, pagina : pagina },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay usuarios para mostrar</td></tr>';
@@ -180,10 +174,7 @@ function clickFinal(){
     data : { username : username, estado : estado, pagina : pagina },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
-      //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "no hay":
           $("#cuerpoTablaUsuarios")[0].innerHTML = '<tr><td class="textcenter" colspan="7">No hay usuarios para mostrar</td></tr>';
@@ -250,8 +241,6 @@ function bloquearUsuario(){
     data : { },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si se realizo la operacion correctamente
       if (respuesta.estado == "bloqueado") {
@@ -293,8 +282,6 @@ function activarUsuario(){
     data : { },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       //Pregunto si se realizo la operacion correctamente
       if (respuesta.estado == "activado") {
@@ -391,8 +378,6 @@ function mostrarFormularioModificacion(){
     data : { },
     type : 'GET',
     dataType: 'json',
-    // código a ejecutar si la petición es satisfactoria;
-    // la respuesta es pasada como argumento a la función
     success : function(respuesta) {
       if (respuesta.estado == "success") {
         $("#contenidoModificarUsuario").html(respuesta.contenido);
