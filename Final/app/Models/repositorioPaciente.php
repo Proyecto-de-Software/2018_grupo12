@@ -181,7 +181,7 @@ class RepositorioPaciente
                     ":tiene_documento" => $this->cero($tiene_documento),
                     ":tipo_doc_id" => $this->toNull($tipo_doc_id),
                     ":numero" => $this->cero($numero),
-                    ":tel" => $tel,
+                    ":tel" => $this->nullToWhiteSpace($tel),
                     ":nro_historia_clinica" => $this->cero($nro_historia_clinica),
                     ":nro_carpeta" => $this->cero($nro_carpeta),
                     ":obra_social_id" => $this->toNull($obra_social_id)]);
