@@ -34,7 +34,7 @@
           Lugar de nacimiento:
         </div>
         <div class="ml-auto breakclass">
-          {{ uc_words($lugar_nac) }}
+          {{ ucwords($lugar_nac) }}
         </div>
       </div>
       <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -42,7 +42,7 @@
           Partido:
         </div>
         <div class="ml-auto breakclass">
-          {{ uc_words($partido) }}
+          {{ ucwords($partido) }}
         </div>
       </div>
       <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -50,7 +50,7 @@
           Localidad:
         </div>
         <div class="ml-auto breakclass">
-          {{ uc_words($localidad) }}
+          {{ ucwords($localidad) }}
         </div>
       </div>
       <div class="row p-1 mb-1 mb-1 bordeclass">
@@ -74,7 +74,7 @@
           Genero:
         </div>
         <div class="ml-auto breakclass">
-          {{ ucfirst(strtolower(genero)) }}
+          {{ ucfirst(strtolower($genero)) }}
         </div>
       </div>
       <div class="row p-1 mb-1 mb-1 bordeclass">

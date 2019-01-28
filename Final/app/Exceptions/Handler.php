@@ -46,6 +46,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+      /*  if ($request->ajax()) {
+            return response()->json(
+                [
+                    'estado' => "error",
+                    'mensaje' => "No se pudo realizar la operacion vuelva a intentar mas tarde"
+                ]
+                ,500
+            );
+        }
+        return view('paginaError');*/
         return parent::render($request, $exception);
     }
 }

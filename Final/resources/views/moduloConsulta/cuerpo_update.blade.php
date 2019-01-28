@@ -1,0 +1,52 @@
+<div class="tab-pane fade" id="contenidoModificarConsulta" role="tabpanel" aria-labelledby="tabModificarConsulta">
+    <div class="row justify-content-center mt-2">
+        <div class="col-10">
+            <form id="formularioModificarConsulta" onsubmit="return false">
+                <div class="form-row mt-2">
+                    <div class="form-group col">
+                        <div>
+                            <label for="a_tratamiento">Tratamiento farmacologico</label>
+                        </div>
+                        <select class="custom-select form-control" id="m_tratamiento">
+                            <option value="" selected>Elegir...</option>
+
+                            @foreach ($tratamientos as $tratamiento)
+                                <option value="{{ $tratamiento->getId() }}"> {{ $tratamiento->getNombre() }} </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="form-group col">
+                        <div>
+                            <label for="m_articulacion">Articulacion con otras instituciones</label>
+                        </div>
+                        <textarea id="m_articulacion" class="form-control" ></textarea>
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="form-group col">
+                        <div>
+                            <label for="m_diagnostico">Diagnostico</label>
+                            <div class="rojo contentsclass">*</div>
+                        </div>
+                        <textarea id="m_diagnostico" class="form-control" ></textarea>
+                    </div>
+                </div>
+                <div class="form-row mt-2">
+                    <div class="form-group col">
+                        <div>
+                            <label for="m_observaciones">Observaciones</label>
+                        </div>
+                        <textarea id="m_observaciones" class="form-control" ></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row justify-content-center">
+                    <button type="submit" id="btnModificarConsulta" class="btn btn-primary">Modificar consulta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

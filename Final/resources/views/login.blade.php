@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('titulo')
-Ingresar
+    Ingresar
 @endsection
 
 @section('buscador')

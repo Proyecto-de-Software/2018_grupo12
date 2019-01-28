@@ -60,4 +60,11 @@ Route::prefix('/grupo12/final/public')->group(function () {
     Route::resource('pacientes', 'PacientesController')->except([
         'store', 'create'
     ]);;
+
+    //Consultas
+    Route::get('/consultations', 'ConsultasController@inicio');
+
+    Route::resource('consultas', 'ConsultasController')->except([
+        'create'
+    ]);;
 });

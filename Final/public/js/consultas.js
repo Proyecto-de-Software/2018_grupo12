@@ -80,11 +80,11 @@ function clickInicio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaConsultas',
+    url : 'consultas',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina: pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
@@ -142,11 +142,11 @@ function clickMedio(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaConsultas',
+    url : 'consultas',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función
@@ -196,11 +196,11 @@ function clickFinal(){
 
   //Cosulta para cargar la pagina requerida
   $.ajax({
-    url : '?action=cargarPaginaConsultas',
+    url : 'consultas',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { pagina : pagina, tipoBusqueda: tipoBusqueda, tipoDoc: tipoDoc,
              nroDoc: nroDoc, nroHistoriaClinica: nroHistoriaClinica },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     // código a ejecutar si la petición es satisfactoria;
     // la respuesta es pasada como argumento a la función

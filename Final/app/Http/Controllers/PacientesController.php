@@ -83,7 +83,7 @@ class PacientesController extends Controller
             'apellido.regex' => 'El campo :attribute debe contener solo letras',
             'nroTel_cel.regex' => 'El campo :attribute es incorrecto',
             'alpha' => 'El campo :attribute debe contener solo letras',
-            'date' => 'El campo :atttribute es incorrecto',
+            'date' => 'El campo :attribute es incorrecto',
             'before' => 'La fecha del campo :attribute debe ser menor a la actual'
         ],
         [
@@ -261,7 +261,12 @@ class PacientesController extends Controller
      */
     public function show($id)
     {
-        //
+        $paciente = $this->repoPaciente->obtener_por_id_info_completa($id);
+
+        return array(
+            "contenido" => view('moduloPaciente.detallePaciente',$paciente)->render(),
+            "estado" => "success"
+        );
     }
 
     /**
@@ -272,7 +277,14 @@ class PacientesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $paciente = $this->repoPaciente->obtener_por_id_info_completa($id);
+
+        if ($paciente["borrado"]) {
+          return array('estado' => "error", 'mensaje' => "el paciente no existe o fue borrado");
+        }else {
+          $paciente["estado"] = "success";
+          return $paciente;
+        }
     }
 
     /**
@@ -284,7 +296,42 @@ class PacientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nombre = strtolower($request->input("nombre"));
+        $apellido = strtolower($request->input("apellido"));
+        $lNacimiento = strtolower($request->input("lNacimiento"));
+        $fNacimiento = $request->input("fNacimiento");
+        $partido = $request->input("partido");
+        $localidad = $request->input("localidad");
+        $domicilio = $request->input("domicilio");
+        $genero = $request->input("genero");
+        $tieneDoc = $request->input("tieneDoc");
+        $tipoDoc = $request->input("tipoDoc");
+        $nroDoc = $request->input("nroDoc");
+        $nroHC = $request->input("nroHC");
+        $nroCarpeta = $request->input("nroCarpeta");
+        $nroTel_cel = $request->input("nroTel_cel");
+        $obraSocial = $request->input("obraSocial");
+        $regionSanitaria = $request->input("regionSanitaria");
+
+        $validador = $this->obtenerValidador($request);
+
+        if ($validador->fails()) {
+            return array('estado' => "error", 'mensaje' => $validador->errors()->first());
+        }
+
+        if ( ($pac = $this->repoPaciente->existe_doc($tipoDoc, $nroDoc)) && ($pac->getId() != $id) ) {
+            return array('estado' => "error", 'mensaje' => "El numero de documento ya existe");
+        }
+
+        if ( ($nroHC && $pac = $this->repoPaciente->existe_historia_clinica($nroHC)) && ($pac->getId() != $id) ) {
+            return array('estado' => "error", 'mensaje' => "El numero de historia clinica ya existe");
+        }
+
+        $this->repoPaciente->actualizar_informacion($id,$apellido,$nombre,$fNacimiento,$lNacimiento,$localidad,$partido,
+                                                    $regionSanitaria,$domicilio,$genero,$tieneDoc,$tipoDoc,$nroDoc,
+                                                    $nroTel_cel,$nroHC,$nroCarpeta,$obraSocial);
+
+        return array('estado' => "success", 'mensaje' => "Paciente guardado correctamente");
     }
 
     /**

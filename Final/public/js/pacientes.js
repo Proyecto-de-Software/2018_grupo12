@@ -504,7 +504,7 @@ function agregarPacienteCompleto() {
   var obraSocial = $("#ac_obraSocial").val();
   var regionSanitaria = $("#ac_regionSanitaria")[0].reg;
 
-  /*if (! (nombre && apellido && fNacimiento && domicilio && (tieneDoc == "0" || tieneDoc == "1") && tipoDoc && nroDoc)) {
+  if (! (nombre && apellido && fNacimiento && domicilio && (tieneDoc == "0" || tieneDoc == "1") && tipoDoc && nroDoc)) {
     mostrarAlerta("Complete todos los campos obligatorios","error");
     return;
   }else if (nroDoc.length < 8 || nroDoc.length > 10) {
@@ -516,7 +516,7 @@ function agregarPacienteCompleto() {
   }else if (nroCarpeta.length > 5) {
     mostrarAlerta("Numero de carpeta tiene un maximo de 5 numeros","error");
     return;
-  }*/
+  }
 
   $.ajax({
     url : 'pacientes/completo',
@@ -550,10 +550,10 @@ function mostrarFormularioModificacion(){
   var id = this.parentNode.id;
 
   $.ajax({
-    url : '?action=formularioModificacionPaciente',
+    url : 'pacientes/' + id + '/edit',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : {  },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     success : function(paciente) {
       if (paciente.estado == "success") {
@@ -609,13 +609,13 @@ function modificarPaciente(){
   var regionSanitaria = $("#m_regionSanitaria")[0].reg;
 
   $.ajax({
-    url : '?action=modificarPaciente',
+    url : 'pacientes/' + id,
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : { nombre: nombre, apellido: apellido, lNacimiento: lNacimiento, fNacimiento: fNacimiento,
       partido: partido, localidad: localidad, domicilio: domicilio, genero: genero,
       tieneDoc: tieneDoc, tipoDoc: tipoDoc, nroDoc: nroDoc, nroHC: nroHC,nroCarpeta: nroCarpeta,
       nroTel_cel: nroTel_cel, obraSocial: obraSocial, regionSanitaria: regionSanitaria  },
-    type : 'POST',
+    type : 'PUT',
     dataType: 'json',
     success : function(respuesta) {
       //Tengo en cuenta los posibles casos
@@ -641,10 +641,10 @@ function mostrarDetalle() {
   var id = this.parentNode.id;
 
   $.ajax({
-    url : '?action=detallePaciente',
+    url : 'pacientes/' + id,
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     data : {  },
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     success : function(respuesta) {
       switch (respuesta.estado) {
