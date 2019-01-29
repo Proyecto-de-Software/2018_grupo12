@@ -221,7 +221,7 @@ class RepositorioConsulta
             $sql = $sql . $or;
             $sql = $sql . $li;
             $primero = $limite * ($pag - 1);
-            $re = DB::select($sql, [":primer" => $primero, ":limite" => $limite]);
+            $re = DB::select($sql, [":primero" => $primero, ":limite" => $limite]);
             if (count($re)) {
                 foreach ($re as $r) {
                     $con = json_decode(json_encode($r), true);

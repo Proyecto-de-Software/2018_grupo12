@@ -71,4 +71,15 @@ Route::prefix('/grupo12/final/public')->group(function () {
     Route::resource('consultas', 'ConsultasController')->except([
         'create'
     ]);;
+
+    //Reportes
+    Route::get('/reports', 'ReportesController@inicio');
+
+    Route::get('/reportes', 'ReportesController@index');
+
+    Route::get('/reportes/pdf', 'ReportesController@generarPDF');
+
+    //Buscador Instituciones
+    Route::get('/buscadorInstituciones', 'BuscadorInstitucionesController@inicio');
+
 });

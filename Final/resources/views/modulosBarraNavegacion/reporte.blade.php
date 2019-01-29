@@ -1,1 +1,1 @@
-<a class="dropdown-item" href="reportes">Reportes</a>
+<a class="dropdown-item" href="reports">Reportes</a>
