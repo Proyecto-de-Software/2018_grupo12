@@ -4,7 +4,7 @@ namespace App\Models;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class Repositorio
+class RepositorioApi
 {
     public function todos()
     {

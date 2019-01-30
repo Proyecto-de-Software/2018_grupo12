@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Institucion;
-use App\Models\Repositorio;
+use App\Models\RepositorioApi;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -11,7 +11,7 @@ class ApiController extends Controller
 {
     protected $repositorio;
 
-    public function __construct(Repositorio $repositorio)
+    public function __construct(RepositorioApi $repositorio)
     {
         $this->repositorio = $repositorio;
     }
