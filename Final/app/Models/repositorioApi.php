@@ -1,5 +1,5 @@
 <?php
-namespace App\Model;
+namespace App\Models;
 
 use Exception;
 use Illuminate\Support\Facades\DB;

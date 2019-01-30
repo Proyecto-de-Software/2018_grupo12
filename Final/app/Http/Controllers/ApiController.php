@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Institucion;
-use App\Model\Repositorio;
+use App\Models\Institucion;
+use App\Models\Repositorio;
 use Illuminate\Http\Request;
 use Validator;
 
