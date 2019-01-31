@@ -43,6 +43,6 @@ class loginController extends Controller
     {
         Auth::logout();
         session()->flush();
-        return redirect()->action('InicioController@mostrarInicio');
+        return redirect()->route('inicio');
     }
 }

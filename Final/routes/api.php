@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::fallback(function(){
   return response()->json(['error'=>"Recurso no encontrado"],404);
 });

@@ -14,6 +14,8 @@ class ApiController extends Controller
     public function __construct(RepositorioApi $repositorio)
     {
         $this->repositorio = $repositorio;
+
+        $this->middleware('auth:api')->only(['create', 'update']);
     }
 
     public function index()
