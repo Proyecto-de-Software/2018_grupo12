@@ -23,6 +23,6 @@ Route::get('/instituciones/{id}',"ApiController@institucion");
 
 Route::get('/instituciones/region-sanitaria/{region}',"ApiController@institucionesRegion");
 
-Route::post('/instituciones',"ApiController@create");
+Route::post('/instituciones',"ApiController@store");
 
 Route::put('/instituciones/{id}',"ApiController@update");

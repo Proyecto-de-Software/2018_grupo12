@@ -15,7 +15,9 @@ class ApiController extends Controller
     {
         $this->repositorio = $repositorio;
 
-        $this->middleware('auth:api')->only(['create', 'update']);
+        $this->middleware('auth:api')->only(['store', 'update']);
+        $this->middleware('authorizeApi:institucion_new')->only(['store']);
+        $this->middleware('authorizeApi:institucion_update')->only(['update']);
     }
 
     public function index()
@@ -42,7 +44,7 @@ class ApiController extends Controller
                 'tipo_institucion_id' => 'required | numeric',
             ]);
     }
-    public function create(Request $request)
+    public function store(Request $request)
     { /*se espera nombre, director, direccion, telefono, localidad_id, tipo_institucion_id*/
         $val = $this->validar($request);
         if ($val->fails()) {

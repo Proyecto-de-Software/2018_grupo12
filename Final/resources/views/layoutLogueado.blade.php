@@ -29,7 +29,7 @@
         {{ ucfirst(strtolower($username)) }}
       </a>
       <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="navbarDropdown_username">
-        <a class="dropdown-item" href="cerrarSesion">Cerrar sesión</a>
+        <a class="dropdown-item" href="cerrarSesion" onclick="sessionStorage.clear()">Cerrar sesión</a>
       </div>
     </li>
   </ul>

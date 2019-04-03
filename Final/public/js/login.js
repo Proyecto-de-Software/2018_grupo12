@@ -13,24 +13,37 @@ function mostrarAlerta(texto, tipo) {
 function validarDatos() {
   var usuario = $("#usuario")[0].value;
   var contrasena = $("#contrasena")[0].value;
-  var token = $('meta[name="token"]').attr('content');
 
   if (!(usuario && contrasena)) {
     mostrarAlerta("Complete todos los campos", "error");
     return;
   }
 
+  // Autentico en la sesion y despues en la api
   $.ajax({
     url: 'autenticar',
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    data: { usuario: usuario, contrasena: contrasena, token: token },
+    data: { usuario: usuario, contrasena: contrasena },
     type: 'POST',
     dataType: 'json',
     success: function (respuesta) {
       //Pregunto si hay elementos o no y actualizo segun corresponda
       switch (respuesta.estado) {
         case "success":
-            window.location.href = "home";
+            $.ajax({
+                url: 'oauth/token',
+                data: { client_secret: "flhDgCqpm41KXRRCCjnW9JzpRo9vjsMUQEk4kw2U", grant_type: "password", client_id: 2,
+                        username: usuario, password: contrasena },
+                type: 'POST',
+                dataType: 'json',
+                success: function (respuesta) {
+                    sessionStorage.setItem("apiToken", respuesta.access_token);
+                    window.location.href = "home";
+                },
+                error: function () {
+                    mostrarAlerta("No se pudo realizar la operacion, vuelva a intentar mas tarde", "error")
+                }
+            });
           break;
         case "error":
           mostrarAlerta(respuesta.mensaje, respuesta.estado)
