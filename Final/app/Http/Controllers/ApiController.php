@@ -80,5 +80,9 @@ class ApiController extends Controller
         $this->repositorio->actualizarInstitucion($institucion);
         return response()->json(["success" => "institucion actualizada correctamente"], 200);
     }
+    public function tiposDeInstituciones()
+    {
+        return response()->json($this->repositorio->tiposDeInstituciones(), 200);
+    }
 
 }

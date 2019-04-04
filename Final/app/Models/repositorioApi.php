@@ -31,6 +31,28 @@ class RepositorioApi
             throw new Exception("error todos");
         }
     }
+
+    public function tiposDeInstituciones()
+    {
+        $result = array();
+        try {
+            $re = DB::select("SELECT * FROM tipo_institucion");
+            foreach ($re as $r) {
+                $r = json_decode(json_encode($r), true);
+                $r = array_map(function ($n) {
+                    if (is_numeric($n)) {
+                        $n = strval($n);
+                    }
+                    return $n;
+                }, $r);
+                $result[] = $r;
+            }
+            return $result;
+        } catch (\Illuminate\Database\QueryException | PDOException $e) {
+            throw new Exception("error tiposDeInstituciones");
+        }
+    }
+
     public function institucion_id($id)
     {
         try {
@@ -58,7 +80,7 @@ class RepositorioApi
     {
         $result = array();
         try {
-            $re = DB::select("SELECT i.id,i.nombre,i.director,i.direccion,i.telefono,r.id as region_sanitaria_id,r.nombre AS region_sanitaria_nombre,i.tipo_institucion_id,t.nombre AS tipo_institucion_nombre
+            $re = DB::select("SELECT i.id,i.nombre,i.director,i.direccion,i.telefono,r.id as region_sanitaria_id,r.nombre AS region_sanitaria_nombre,i.tipo_institucion_id,t.nombre AS tipo_institucion_nombre, l.id as localidad_id, l.partido_id
             FROM institucion i INNER JOIN localidad l ON(i.localidad_id=l.id)
                                    INNER JOIN partido p ON (l.partido_id=p.id)
                                    INNER JOIN region_sanitaria r ON (p.region_sanitaria_id=r.id)

@@ -26,3 +26,5 @@ Route::get('/instituciones/region-sanitaria/{region}',"ApiController@institucion
 Route::post('/instituciones',"ApiController@store");
 
 Route::put('/instituciones/{id}',"ApiController@update");
+
+Route::get('/tipo-instituciones',"ApiController@tiposDeInstituciones");

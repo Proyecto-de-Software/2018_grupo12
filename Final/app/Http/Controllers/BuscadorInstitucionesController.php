@@ -13,6 +13,7 @@ class BuscadorInstitucionesController extends Controller
     {
         $datos["descripcion"] = $repoConfiguracion->getDescripcion();
         $datos["limite"] = $repoConfiguracion->getLimite();
+        $datos["logueado"] = (session("id")) ? true : false;
 
         if (session("id")) {
             $id = session("id");
@@ -24,6 +25,7 @@ class BuscadorInstitucionesController extends Controller
         }else {
             $datos["pagina"] = 'inicio';
         }
+        $datos["permisos"] = ["index", "update"];
         return view('buscadorInstituciones', $datos);
     }
 }
