@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-      /*  if ($request->ajax()) {
+        if ($request->ajax()) {
             return response()->json(
                 [
                     'estado' => "error",
@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
                 ,500
             );
         }
-        return view('paginaError');*/
+        return view('paginaError');
         return parent::render($request, $exception);
     }
 }

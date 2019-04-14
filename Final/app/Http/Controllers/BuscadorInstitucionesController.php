@@ -22,10 +22,11 @@ class BuscadorInstitucionesController extends Controller
             $datos["modulosAdministracion"] = $repoPermiso->modulos_id_usuario_admin($id,1);
             $datos["username"] = session("username");
             $datos["pagina"] = 'layoutLogueado';
+            $datos["permisos"] = $repoPermiso->permisos_id_usuario_modulo($id,"institucion");
         }else {
             $datos["pagina"] = 'inicio';
+            $datos["permisos"] = ["index"];
         }
-        $datos["permisos"] = ["index", "update"];
         return view('buscadorInstituciones', $datos);
     }
 }

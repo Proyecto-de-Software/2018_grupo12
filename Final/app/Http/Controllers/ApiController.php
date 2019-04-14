@@ -36,8 +36,8 @@ class ApiController extends Controller
     {
         return Validator::make($request->all(),
             [
-                'nombre' => 'required | regex:/^[a-zA-Z ]+$/',
-                'director' => 'required | regex:/^[a-zA-Z ]+$/',
+                'nombre' => 'required',
+                'director' => 'required',
                 'direccion' => 'required',
                 'telefono' => 'required',
                 'localidad_id' => 'required | numeric',
@@ -67,18 +67,18 @@ class ApiController extends Controller
         institucion a actualizar en url*/
         $val = $this->validar($request);
         if ($val->fails()) {
-            return response()->json(["error" => "campos incorrectos"], 400);
+            return response()->json(["error" => "Campos incorrectos"], 400);
         }
         if (!$this->repositorio->localidadExiste($request->input('localidad_id'))) {
-            return response()->json(["error" => "la localidad de la institucion no existe"], 400);
+            return response()->json(["error" => "La localidad de la institucion no existe"], 400);
         }
         if (!$this->repositorio->tipoInstitucionExiste($request->input('tipo_institucion_id'))) {
-            return response()->json(["error" => "el tipo de institucion no existe"], 400);
+            return response()->json(["error" => "El tipo de institucion no existe"], 400);
         }
         $institucion = new Institucion($id, $request->input('nombre'), $request->input('director'), $request->input('direccion'),
             $request->input('telefono'), $request->input('localidad_id'), $request->input('tipo_institucion_id'));
         $this->repositorio->actualizarInstitucion($institucion);
-        return response()->json(["success" => "institucion actualizada correctamente"], 200);
+        return response()->json(["success" => "Institucion actualizada correctamente"], 200);
     }
     public function tiposDeInstituciones()
     {
