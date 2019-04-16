@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
-     */
+     *//*
     public function render($request, Exception $exception)
     {
         if ($request->ajax()) {
@@ -57,5 +57,5 @@ class Handler extends ExceptionHandler
         }
         return view('paginaError');
         return parent::render($request, $exception);
-    }
+    }*/
 }
