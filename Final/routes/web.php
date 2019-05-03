@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::prefix('/Final/public')->group(function () {
+Route::prefix('/grupo12/Final/public')->group(function () {
     // Inicio/Home y login
     Route::get('/', 'InicioController@mostrarInicio')
         ->name('inicio');
@@ -83,4 +83,4 @@ Route::prefix('/Final/public')->group(function () {
 
 });
 
-Route::fallback('InicioController@mostrarInicio');
+//Route::fallback('InicioController@mostrarInicio');
