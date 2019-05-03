@@ -26,6 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Passport::routes(null, ['prefix' => 'grupo12/final/public/oauth']);
+        Passport::routes(null, ['prefix' => 'grupo12/Final/public/oauth']);
     }
 }
