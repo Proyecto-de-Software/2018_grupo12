@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-row justify-content-center">
-                    <button type="submit" id="btnAgregarInstitucion" class="btn btn-primary" v-on:click="agregarInstitucion">Modificar Institución</button>
+                    <button type="submit" id="btnAgregarInstitucion" class="btn btn-primary" v-on:click="agregarInstitucion">Agregar Institución</button>
                 </div>
             </form>
         </div>
