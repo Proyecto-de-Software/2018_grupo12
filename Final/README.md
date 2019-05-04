@@ -5,7 +5,7 @@ Usuarios para ingresar al sistema:
 
 ++Administrador (rol administrador):
 
--Nombre de usuario: admin
+-Nombre de usuario: admin \n
 -Contraseña: 12345678
 
 ++Equipo de guardia (rol equipo de guardia):
