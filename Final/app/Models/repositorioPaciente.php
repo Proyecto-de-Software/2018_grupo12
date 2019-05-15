@@ -151,6 +151,7 @@ class RepositorioPaciente
     {
         $ok = false;
         try {
+            $ok = DB::update("UPDATE consulta SET borrado=1 WHERE paciente_id=:id", [":id" => $id]);
             $ok = DB::update("UPDATE paciente SET borrado=1 WHERE id=:id", [":id" => $id]);
         } catch (\Illuminate\Database\QueryException | PDOException $e) {
             throw new Exception("error eliminar_paciente");
@@ -208,7 +209,7 @@ class RepositorioPaciente
         }
         return $paciente;
     }
-    
+
     public function existe_historia_clinica($num)
     {
         $paciente = array();
