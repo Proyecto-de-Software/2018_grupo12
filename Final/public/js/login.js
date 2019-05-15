@@ -32,7 +32,7 @@ function validarDatos() {
         case "success":
             $.ajax({
                 url: 'oauth/token',
-                data: { client_secret: "flhDgCqpm41KXRRCCjnW9JzpRo9vjsMUQEk4kw2U", grant_type: "password", client_id: 2,
+                data: { client_secret: "8NerETlYAm7SwwXsaDQSW1YAsjli1MFkL6QdO9wl", grant_type: "password", client_id: 2,
                         username: usuario, password: contrasena },
                 type: 'POST',
                 dataType: 'json',

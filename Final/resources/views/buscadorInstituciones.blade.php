@@ -55,11 +55,13 @@
                 institucionSeleccionada: {},
                 //Variables del formulario de alta
                 institucionNueva: {},
-                localidades_n: []
+                localidades_n: [],
+                urlBase: 'https://grupo12.proyecto2018.linti.unlp.edu.ar/Final/public/api/'
+                //urlBase: 'http://localhost/grupo12/Final/public/api/' //Es para local
             },
             created() {
                 //Cargo lista de tipos de intitucion
-                axios.get('http://localhost/grupo12/final/public/api/tipo-instituciones')
+                axios.get(this.urlBase + 'tipo-instituciones')
                 .then(response => {
                     this.tiposInstituciones = response.data
                 })
@@ -82,7 +84,7 @@
                     axios.get('https://api-referencias.proyecto2018.linti.unlp.edu.ar/region-sanitaria/' + regId)
                     .then(response => {
                         this.nombreRegionSanitaria = response.data.nombre;
-                        axios.get('http://localhost/grupo12/final/public/api/instituciones/region-sanitaria/' + this.nombreRegionSanitaria.split(" ")[1])
+                        axios.get(this.urlBase + 'instituciones/region-sanitaria/' + this.nombreRegionSanitaria.split(" ")[1])
                             .then(response => {
                                 $("#anterior").attr('class', 'page-item disabled');
                                 $("#siguiente").attr('class', 'page-item disabled');
@@ -156,7 +158,7 @@
                 modificarInstitucion: function(){
                     var id = this.institucionSeleccionada.id;
                     axios.put(
-                        'http://localhost/grupo12/final/public/api/instituciones/' + this.institucionSeleccionada.id,
+                        this.urlBase + 'instituciones/' + this.institucionSeleccionada.id,
                         {
                             nombre: this.institucionSeleccionada.nombre,
                             director: this.institucionSeleccionada.director,
@@ -190,7 +192,7 @@
                 },
                 agregarInstitucion: function(){
                     axios.post(
-                        'http://localhost/grupo12/final/public/api/instituciones',
+                        this.urlBase + 'instituciones',
                         {
                             nombre: this.institucionNueva.nombre,
                             director: this.institucionNueva.director,
